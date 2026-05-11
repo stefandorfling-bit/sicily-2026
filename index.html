@@ -826,6 +826,44 @@
     }
     footer .ft-sub { color: rgba(247,231,206,0.4); }
 
+    /* ─── Scroll animations ──────────────────────────────────── */
+    .anim {
+      opacity: 0;
+      will-change: opacity, transform;
+      transition:
+        opacity  0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .anim-up    { transform: translateY(48px); }
+    .anim-up-sm { transform: translateY(24px); }
+    .anim-scale { transform: scale(0.93) translateY(28px); }
+    .anim-left  { transform: translateX(-36px); }
+    .anim-right { transform: translateX(36px); }
+    .anim-pop   { transform: scale(0.8); }
+
+    .anim.in-view {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    /* stagger helpers — set via JS data-delay */
+    .anim[data-delay="1"] { transition-delay: 0.08s; }
+    .anim[data-delay="2"] { transition-delay: 0.16s; }
+    .anim[data-delay="3"] { transition-delay: 0.24s; }
+    .anim[data-delay="4"] { transition-delay: 0.32s; }
+    .anim[data-delay="5"] { transition-delay: 0.40s; }
+    .anim[data-delay="6"] { transition-delay: 0.48s; }
+    .anim[data-delay="7"] { transition-delay: 0.56s; }
+    .anim[data-delay="8"] { transition-delay: 0.64s; }
+
+    /* Parallax hero overlay */
+    .hero-parallax-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
     /* ─── Fixed bg div — desktop: hidden ────────────────────── */
     .page-bg-fixed { display: none; }
 
@@ -928,6 +966,7 @@
   <!-- ── HERO ────────────────────────────────────────────────── -->
   <section class="hero">
     <div class="hero-bg" role="img" aria-label="Stefan and Nimrod in Sicily"></div>
+    <div class="hero-parallax-layer" id="hero-parallax"></div>
     <div class="hero-content">
       <p class="hero-eyebrow">Stefan &amp; Nimrod &bull; Siracusa, Sicily</p>
       <h1 class="hero-title">Picture it…<br>Sicily 2026</h1>
@@ -1352,6 +1391,132 @@
         localStorage.setItem(KEY, JSON.stringify(out));
       };
     })();
+  </script>
+
+  <!-- ── SCROLL ANIMATIONS + PARALLAX ───────────────────────── -->
+  <script>
+  (function () {
+
+    /* ── 1. Tag every element we want to animate ───────────── */
+    function tag(selector, animClass, stagger) {
+      document.querySelectorAll(selector).forEach(function (el, i) {
+        el.classList.add('anim', animClass);
+        if (stagger) el.dataset.delay = Math.min(i + 1, 8);
+      });
+    }
+
+    /* Labels */
+    tag('.t-label',                                      'anim-up-sm', false);
+    /* Headings */
+    tag('.t-h2',                                         'anim-up',    false);
+    tag('.t-italic',                                     'anim-up-sm', false);
+    /* Hero chips */
+    tag('.hero-chip',                                    'anim-up',    true);
+    /* Traveller circles */
+    tag('.traveller-oval-wrap',                          'anim-scale', true);
+    tag('.tp-label',                                     'anim-up-sm', true);
+    /* Date blocks */
+    tag('.date-block',                                   'anim-scale', true);
+    tag('.stefan-note',                                  'anim-up',    false);
+    /* Stay card */
+    tag('.stay-card',                                    'anim-scale', false);
+    /* Flight cards */
+    tag('.flight-card, .placeholder-box',                'anim-up',    true);
+    /* Itinerary rows — alternate left/right */
+    document.querySelectorAll('.day-row').forEach(function (el, i) {
+      el.classList.add('anim', i % 2 === 0 ? 'anim-left' : 'anim-right');
+      el.dataset.delay = Math.min((i % 3) + 1, 4);
+    });
+    /* Food pills */
+    tag('.must-eat-pill',                                'anim-pop',   true);
+    /* Resto cards */
+    tag('.resto-card',                                   'anim-scale', true);
+    /* Packing groups */
+    tag('.pack-group',                                   'anim-up',    true);
+    /* Section dividers */
+    tag('.section-divider',                              'anim-up-sm', false);
+    /* Footer quote */
+    tag('.ft-quote',                                     'anim-up',    false);
+
+    /* ── 2. Intersection Observer ───────────────────────────── */
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+
+    document.querySelectorAll('.anim').forEach(function (el) {
+      io.observe(el);
+    });
+
+    /* ── 3. Hero elements fade in on load ───────────────────── */
+    var heroEls = document.querySelectorAll('.hero-eyebrow, .hero-title, .hero-ornament, .hero-chips, .hero-scroll');
+    heroEls.forEach(function (el, i) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(32px)';
+      el.style.transition = 'opacity 1s cubic-bezier(0.22,1,0.36,1), transform 1s cubic-bezier(0.22,1,0.36,1)';
+      el.style.transitionDelay = (0.3 + i * 0.15) + 's';
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+      });
+    });
+
+    /* ── 4. Parallax — hero background shifts on scroll ─────── */
+    var heroBg = document.querySelector('.hero-bg');
+    var heroEl = document.querySelector('.hero');
+    var ticking = false;
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }
+
+    function updateParallax() {
+      var scrollY = window.scrollY;
+      var heroH   = heroEl ? heroEl.offsetHeight : window.innerHeight;
+
+      /* Slow the hero background — moves at 35% of scroll speed */
+      if (heroBg && scrollY < heroH * 1.5) {
+        var shift = scrollY * 0.35;
+        /* Preserve the existing pan animation by adding translateY via a CSS var */
+        heroBg.style.setProperty('--parallax-y', shift + 'px');
+        heroBg.style.transform = 'translateY(var(--parallax-y, 0px))';
+        /* Re-apply the pan animation on top via wrapper trick doesn't work cleanly;
+           instead just move the background-position */
+        heroBg.style.backgroundPositionY = 'calc(center + ' + (scrollY * 0.25) + 'px)';
+      }
+
+      /* Floating section cards — subtle lift on scroll (desktop only) */
+      if (window.innerWidth > 600) {
+        document.querySelectorAll(
+          '.travellers-section, .trip-section, .stay-section, .flights-section, .itinerary-section, .food-section, .packing-section'
+        ).forEach(function (sec) {
+          var rect  = sec.getBoundingClientRect();
+          var center = rect.top + rect.height / 2 - window.innerHeight / 2;
+          var nudge  = center * 0.03;
+          sec.style.transform = 'translateY(' + nudge + 'px)';
+        });
+      }
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* Disable pan CSS animation on hero-bg since we're driving it via scroll */
+    if (heroBg) {
+      heroBg.style.animation = 'panRightToLeft 20s linear infinite alternate';
+    }
+
+  })();
   </script>
 
 </body>
