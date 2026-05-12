@@ -734,6 +734,153 @@
       margin-right: 4px;
     }
 
+    /* ─── INSPIRATION STORIES ───────────────────────────────── */
+    .stories-section {
+      background: var(--stone);
+      padding: 80px 0 90px;
+      border-bottom: 1px solid var(--border);
+    }
+    .stories-container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .stories-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .stories-viewer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    .stories-phone {
+      position: relative;
+      width: 300px;
+      flex-shrink: 0;
+      height: 534px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 24px 64px rgba(0,60,80,0.25), 0 4px 16px rgba(0,60,80,0.15);
+    }
+    .stories-phone iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    /* Progress bars */
+    .stories-progress {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      display: flex;
+      gap: 4px;
+      z-index: 10;
+    }
+    .sp-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(255,255,255,0.35);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    .sp-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      transform: scaleX(0);
+      transform-origin: left;
+      border-radius: 2px;
+    }
+    .sp-bar.done::after  { transform: scaleX(1); }
+    .sp-bar.active::after {
+      transform: scaleX(1);
+      animation: sp-fill var(--sp-dur, 30s) linear forwards;
+    }
+    @keyframes sp-fill {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    /* Tap zones */
+    .stories-tap {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 40%;
+      z-index: 9;
+      cursor: pointer;
+    }
+    .stories-tap-prev { left: 0; }
+    .stories-tap-next { right: 0; }
+    /* Attribution */
+    .stories-attr {
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.75);
+      z-index: 10;
+      pointer-events: none;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+    /* Arrow buttons */
+    .stories-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: rgba(255,255,255,0.6);
+      color: var(--teal);
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+    .stories-btn:hover { background: rgba(255,255,255,0.9); }
+    .stories-btn:active { transform: scale(0.93); }
+    .stories-btn:disabled { opacity: 0.3; cursor: default; }
+    /* Dot indicators */
+    .stories-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 24px;
+    }
+    .stories-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(0,95,115,0.25);
+      transition: background 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .stories-dot.active {
+      background: var(--teal);
+      transform: scale(1.3);
+    }
+    /* Mobile */
+    @media (max-width: 600px) {
+      .stories-phone { width: 260px; height: 462px; }
+      .stories-btn { display: none; }
+      .stories-progress { width: 244px; }
+    }
+
     /* ─── PACKING — dark teal ────────────────────────────────── */
     .packing-section {
       background: var(--teal-dark);
@@ -959,6 +1106,7 @@
       <li><a href="#flights">Flights</a></li>
       <li><a href="#itinerary">Itinerary</a></li>
       <li><a href="#food">Food</a></li>
+      <li><a href="#inspiration">Inspo</a></li>
       <li><a href="#packing">Packing</a></li>
     </ul>
   </nav>
@@ -1291,6 +1439,49 @@
     </div>
   </section>
 
+  <!-- ── INSPIRATION STORIES ────────────────────────────────── -->
+  <section class="stories-section" id="inspiration">
+    <div class="stories-container">
+      <div class="stories-header">
+        <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
+        <span class="t-label" style="color:var(--terra);">TikTok</span>
+        <h2 class="t-h2" style="color:var(--teal);">Inspiration &amp; Imagination</h2>
+      </div>
+
+      <!-- Phone viewer -->
+      <div class="stories-viewer">
+        <!-- Progress bars -->
+        <div class="stories-progress" id="stories-progress"></div>
+
+        <!-- Video frame -->
+        <div class="stories-phone">
+          <iframe
+            id="stories-iframe"
+            src=""
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            frameborder="0"
+            scrolling="no"
+          ></iframe>
+
+          <!-- Tap zones -->
+          <div class="stories-tap stories-tap-prev" id="stories-tap-prev" aria-label="Previous"></div>
+          <div class="stories-tap stories-tap-next" id="stories-tap-next" aria-label="Next"></div>
+
+          <!-- Attribution -->
+          <div class="stories-attr" id="stories-attr"></div>
+        </div>
+
+        <!-- Arrow buttons (desktop) -->
+        <button class="stories-btn stories-btn-prev" id="stories-btn-prev" aria-label="Previous">‹</button>
+        <button class="stories-btn stories-btn-next" id="stories-btn-next" aria-label="Next">›</button>
+      </div>
+
+      <!-- Dot indicators -->
+      <div class="stories-dots" id="stories-dots"></div>
+    </div>
+  </section>
+
   <!-- ── PACKING ──────────────────────────────────────────────── -->
   <section class="packing-section" id="packing">
     <div class="packing-inner">
@@ -1391,6 +1582,104 @@
         localStorage.setItem(KEY, JSON.stringify(out));
       };
     })();
+  </script>
+
+  <!-- ── STORIES PLAYER ─────────────────────────────────────── -->
+  <script>
+  (function () {
+    var videos = [
+      { id: '7541025818387057943', user: '@travelmusediary' },
+      { id: '7105016242968317189', user: '@terplanet' },
+      { id: '7392298348553817376', user: '@simonaaffinito' },
+      { id: '7372197384362773792', user: '@kat_cf' },
+      { id: '7245203304651803930', user: '@lene_gouws' },
+      { id: '7619059691812883734', user: '@travelexperiencewithbi' },
+      { id: '7532886944917769494', user: '@crushonthego' }
+    ];
+
+    var DURATION = 30000; /* ms per story */
+    var current = 0;
+    var timer   = null;
+
+    var iframe   = document.getElementById('stories-iframe');
+    var progress = document.getElementById('stories-progress');
+    var dotsWrap = document.getElementById('stories-dots');
+    var attr     = document.getElementById('stories-attr');
+    var btnPrev  = document.getElementById('stories-btn-prev');
+    var btnNext  = document.getElementById('stories-btn-next');
+    var tapPrev  = document.getElementById('stories-tap-prev');
+    var tapNext  = document.getElementById('stories-tap-next');
+
+    if (!iframe) return;
+
+    /* Build progress bars */
+    videos.forEach(function () {
+      var bar = document.createElement('div');
+      bar.className = 'sp-bar';
+      progress.appendChild(bar);
+    });
+
+    /* Build dots */
+    videos.forEach(function (_, i) {
+      var dot = document.createElement('div');
+      dot.className = 'stories-dot';
+      dot.addEventListener('click', function () { goTo(i); });
+      dotsWrap.appendChild(dot);
+    });
+
+    function bars() { return progress.querySelectorAll('.sp-bar'); }
+    function dots() { return dotsWrap.querySelectorAll('.stories-dot'); }
+
+    function goTo(index) {
+      clearTimeout(timer);
+      current = (index + videos.length) % videos.length;
+      var v = videos[current];
+
+      /* Swap iframe src */
+      iframe.src = 'https://www.tiktok.com/embed/v2/' + v.id + '?autoplay=1';
+
+      /* Attribution */
+      attr.textContent = v.user + ' · TikTok';
+
+      /* Progress bars */
+      bars().forEach(function (b, i) {
+        b.style.setProperty('--sp-dur', DURATION + 'ms');
+        b.className = 'sp-bar' + (i < current ? ' done' : i === current ? ' active' : '');
+      });
+
+      /* Dots */
+      dots().forEach(function (d, i) {
+        d.className = 'stories-dot' + (i === current ? ' active' : '');
+      });
+
+      /* Buttons */
+      if (btnPrev) btnPrev.disabled = current === 0;
+      if (btnNext) btnNext.disabled = current === videos.length - 1;
+
+      /* Auto-advance */
+      timer = setTimeout(function () {
+        if (current < videos.length - 1) goTo(current + 1);
+      }, DURATION);
+    }
+
+    /* Controls */
+    if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1); });
+    if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1); });
+    if (tapPrev) tapPrev.addEventListener('click', function () { goTo(current - 1); });
+    if (tapNext) tapNext.addEventListener('click', function () { goTo(current + 1); });
+
+    /* Start on first video when section enters view */
+    var started = false;
+    var startObserver = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !started) {
+        started = true;
+        goTo(0);
+      }
+    }, { threshold: 0.3 });
+    var storiesSection = document.getElementById('inspiration');
+    if (storiesSection) startObserver.observe(storiesSection);
+
+  })();
   </script>
 
   <!-- ── SCROLL ANIMATIONS + PARALLAX ───────────────────────── -->
