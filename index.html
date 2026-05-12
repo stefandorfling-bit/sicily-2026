@@ -836,6 +836,29 @@
       pointer-events: none;
       text-shadow: 0 1px 4px rgba(0,0,0,0.5);
     }
+    /* Mute button */
+    .stories-mute {
+      position: absolute;
+      bottom: 52px;
+      right: 12px;
+      z-index: 10;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+      backdrop-filter: blur(4px);
+    }
+    .stories-mute:hover  { background: rgba(0,0,0,0.65); }
+    .stories-mute:active { transform: scale(0.9); }
+
     /* Arrow buttons */
     .stories-btn {
       width: 44px;
@@ -1456,6 +1479,11 @@
 
           <!-- Attribution -->
           <div class="stories-attr" id="stories-attr"></div>
+
+          <!-- Mute toggle -->
+          <button class="stories-mute" id="stories-mute" aria-label="Toggle mute">
+            <span id="stories-mute-icon">🔇</span>
+          </button>
         </div>
         </div><!-- end .stories-phone-col -->
 
@@ -1580,17 +1608,19 @@
     ];
 
     var DURATION = 30000; /* ms per story */
-    var current = 0;
-    var timer   = null;
+    var current  = 0;
+    var isMuted  = true;
+    var timer    = null;
 
-    var iframe   = document.getElementById('stories-iframe');
-    var progress = document.getElementById('stories-progress');
-    var dotsWrap = null;
-    var attr     = document.getElementById('stories-attr');
-    var btnPrev  = document.getElementById('stories-btn-prev');
-    var btnNext  = document.getElementById('stories-btn-next');
-    var tapPrev  = document.getElementById('stories-tap-prev');
-    var tapNext  = document.getElementById('stories-tap-next');
+    var iframe    = document.getElementById('stories-iframe');
+    var progress  = document.getElementById('stories-progress');
+    var attr      = document.getElementById('stories-attr');
+    var btnPrev   = document.getElementById('stories-btn-prev');
+    var btnNext   = document.getElementById('stories-btn-next');
+    var tapPrev   = document.getElementById('stories-tap-prev');
+    var tapNext   = document.getElementById('stories-tap-next');
+    var muteBtn   = document.getElementById('stories-mute');
+    var muteIcon  = document.getElementById('stories-mute-icon');
 
     if (!iframe) return;
 
@@ -1601,37 +1631,33 @@
       progress.appendChild(bar);
     });
 
-    /* Build dots */
-    videos.forEach(function (_, i) {
-      var dot = document.createElement('div');
-      dot.className = 'stories-dot';
-      dot.addEventListener('click', function () { goTo(i); });
-      dotsWrap.appendChild(dot);
-    });
-
     function bars() { return progress.querySelectorAll('.sp-bar'); }
-    function dots() { return dotsWrap.querySelectorAll('.stories-dot'); }
+
+    function buildSrc(id) {
+      /* muted=1 tells TikTok to start silent; autoplay=1 plays on load */
+      return 'https://www.tiktok.com/embed/v2/' + id
+        + '?autoplay=1'
+        + (isMuted ? '&muted=1' : '');
+    }
 
     function goTo(index) {
       clearTimeout(timer);
       current = (index + videos.length) % videos.length;
       var v = videos[current];
 
-      /* Swap iframe src */
-      iframe.src = 'https://www.tiktok.com/embed/v2/' + v.id + '?autoplay=1&muted=1';
+      /* Load the video — force a clean reload by blanking first */
+      iframe.src = 'about:blank';
+      requestAnimationFrame(function () {
+        iframe.src = buildSrc(v.id);
+      });
 
       /* Attribution */
-      attr.textContent = v.user + ' · TikTok';
+      if (attr) attr.textContent = v.user + ' · TikTok';
 
       /* Progress bars */
       bars().forEach(function (b, i) {
         b.style.setProperty('--sp-dur', DURATION + 'ms');
         b.className = 'sp-bar' + (i < current ? ' done' : i === current ? ' active' : '');
-      });
-
-      /* Dots */
-      dots().forEach(function (d, i) {
-        d.className = 'stories-dot' + (i === current ? ' active' : '');
       });
 
       /* Buttons */
@@ -1644,7 +1670,21 @@
       }, DURATION);
     }
 
-    /* Controls */
+    /* Mute toggle */
+    if (muteBtn) {
+      muteBtn.addEventListener('click', function () {
+        isMuted = !isMuted;
+        if (muteIcon) muteIcon.textContent = isMuted ? '🔇' : '🔊';
+        /* Reload current video with new mute state */
+        var v = videos[current];
+        iframe.src = 'about:blank';
+        requestAnimationFrame(function () {
+          iframe.src = buildSrc(v.id);
+        });
+      });
+    }
+
+    /* Navigation controls */
     if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1); });
     if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1); });
     if (tapPrev) tapPrev.addEventListener('click', function () { goTo(current - 1); });
