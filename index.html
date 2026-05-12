@@ -1592,10 +1592,11 @@
       { id: '7532886944917769494', user: '@crushonthego' }
     ];
 
-    var DURATION = 30000;
-    var current  = 0;
-    var isMuted  = true;
-    var timer    = null;
+    var DURATION   = 30000;
+    var current    = 0;
+    var isMuted    = true;
+    var isPlaying  = false; /* tracks whether user has started playback */
+    var timer      = null;
 
     var iframe   = document.getElementById('stories-iframe');
     var progress = document.getElementById('stories-progress');
@@ -1616,16 +1617,25 @@
 
     function bars() { return progress.querySelectorAll('.sp-bar'); }
 
-    /* TikTok Player v1 supports autoplay + muted params reliably */
+    /* autoplay=1 only if user has already started watching */
     function buildSrc(id) {
-      return 'https://www.tiktok.com/player/v1/' + id
-        + '?autoplay=1&loop=1'
-        + (isMuted ? '&muted=1' : '');
+      var src = 'https://www.tiktok.com/player/v1/' + id + '?loop=1';
+      if (isPlaying) src += '&autoplay=1';
+      if (isMuted)   src += '&muted=1';
+      return src;
     }
 
-    /* Replace the iframe element entirely on every load.
-       A brand-new element created inside a click handler is the only
-       fully reliable way to satisfy browser autoplay policy. */
+    function startTimer() {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        if (isPlaying && current < videos.length - 1) goTo(current + 1);
+      }, DURATION);
+    }
+
+    function stopTimer() {
+      clearTimeout(timer);
+    }
+
     function loadVideo(id) {
       var phone = document.querySelector('.stories-phone');
       var old   = document.getElementById('stories-iframe');
@@ -1639,33 +1649,47 @@
       f.frameBorder = '0';
       f.scrolling   = 'no';
       f.style.cssText = 'width:100%;height:100%;border:none;display:block;';
-
       phone.insertBefore(f, phone.firstChild);
-
-      /* Keep outer reference in sync */
       iframe = f;
     }
 
-    function goTo(index) {
-      clearTimeout(timer);
-      current = (index + videos.length) % videos.length;
-      var v   = videos[current];
-
-      loadVideo(v.id);
-      if (attr) attr.textContent = v.user + ' · TikTok';
-
+    function updateBars() {
       bars().forEach(function (b, i) {
         b.style.setProperty('--sp-dur', DURATION + 'ms');
         b.className = 'sp-bar' + (i < current ? ' done' : i === current ? ' active' : '');
       });
+    }
 
+    function goTo(index) {
+      stopTimer();
+      current = (index + videos.length) % videos.length;
+      loadVideo(videos[current].id);
+      if (attr) attr.textContent = videos[current].user + ' · TikTok';
+      updateBars();
       if (btnPrev) btnPrev.disabled = current === 0;
       if (btnNext) btnNext.disabled = current === videos.length - 1;
-
-      timer = setTimeout(function () {
-        if (current < videos.length - 1) goTo(current + 1);
-      }, DURATION);
+      /* Only start timer if user is actively watching */
+      if (isPlaying) startTimer();
     }
+
+    /* Listen for TikTok player events via postMessage */
+    window.addEventListener('message', function (e) {
+      if (!e.data) return;
+      var data = (typeof e.data === 'string') ? (function(){ try { return JSON.parse(e.data); } catch(e){ return {}; } })() : e.data;
+      var ev   = data.event || data.type || '';
+
+      if (ev === 'onPlay' || ev === 'play') {
+        isPlaying = true;
+        startTimer();
+        /* Pause the progress bar animation — let it run only when playing */
+        bars().forEach(function(b){ b.style.animationPlayState = 'running'; });
+      }
+      if (ev === 'onPause' || ev === 'pause') {
+        isPlaying = false;
+        stopTimer();
+        bars().forEach(function(b){ b.style.animationPlayState = 'paused'; });
+      }
+    });
 
     /* Mute toggle */
     if (muteBtn) {
@@ -1677,16 +1701,19 @@
       });
     }
 
-    /* Navigation */
-    if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1); });
-    if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1); });
+    /* Navigation — clicking next/prev counts as intent to play */
+    if (btnPrev) btnPrev.addEventListener('click', function () { isPlaying = true; goTo(current - 1); });
+    if (btnNext) btnNext.addEventListener('click', function () { isPlaying = true; goTo(current + 1); });
 
-    /* Start on first video when section enters view */
-    var started = false;
+    /* Load first video without autoplay when section enters view */
+    var sectionLoaded = false;
     var startObserver = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting && !started) {
-        started = true;
-        goTo(0);
+      if (entries[0].isIntersecting && !sectionLoaded) {
+        sectionLoaded = true;
+        loadVideo(videos[0].id);
+        if (attr) attr.textContent = videos[0].user + ' · TikTok';
+        updateBars();
+        if (btnPrev) btnPrev.disabled = true;
       }
     }, { threshold: 0.3 });
     var storiesSection = document.getElementById('inspiration');
