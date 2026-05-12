@@ -1633,16 +1633,36 @@
 
     function bars() { return progress.querySelectorAll('.sp-bar'); }
 
+    /* TikTok Player v1 supports autoplay + muted params reliably */
     function buildSrc(id) {
-      /* silence=1 + muted=1 covers both TikTok param variants */
-      var base = 'https://www.tiktok.com/embed/v2/' + id + '?autoplay=1';
-      return isMuted ? base + '&muted=1&silence=1' : base;
+      return 'https://www.tiktok.com/player/v1/' + id
+        + '?autoplay=1&loop=1'
+        + (isMuted ? '&muted=1' : '');
     }
 
+    /* Replace the iframe element entirely on every load.
+       A brand-new element created inside a click handler is the only
+       fully reliable way to satisfy browser autoplay policy. */
     function loadVideo(id) {
-      /* Direct src swap — preserves the user-gesture context so autoplay fires.
-         Never go via about:blank; that drops the gesture and blocks autoplay. */
-      iframe.src = buildSrc(id);
+      var phone = document.querySelector('.stories-phone');
+      var old   = document.getElementById('stories-iframe');
+      if (old) old.remove();
+
+      var f = document.createElement('iframe');
+      f.id          = 'stories-iframe';
+      f.src         = buildSrc(id);
+      f.allow       = 'autoplay; fullscreen';
+      f.allowFullscreen = true;
+      f.frameBorder = '0';
+      f.scrolling   = 'no';
+      f.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+
+      /* Insert before tap zones so they stay on top */
+      var firstTap = phone.querySelector('.stories-tap-prev');
+      phone.insertBefore(f, firstTap || null);
+
+      /* Keep outer reference in sync */
+      iframe = f;
     }
 
     function goTo(index) {
@@ -1666,9 +1686,7 @@
       }, DURATION);
     }
 
-    /* Mute toggle — must reload iframe (browser cross-origin security prevents
-       controlling another origin's audio any other way). Video restarts,
-       but this is the only correct approach. */
+    /* Mute toggle */
     if (muteBtn) {
       muteBtn.addEventListener('click', function (e) {
         e.stopPropagation();
