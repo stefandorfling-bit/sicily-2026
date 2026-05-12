@@ -1607,20 +1607,20 @@
       { id: '7532886944917769494', user: '@crushonthego' }
     ];
 
-    var DURATION = 30000; /* ms per story */
+    var DURATION = 30000;
     var current  = 0;
     var isMuted  = true;
     var timer    = null;
 
-    var iframe    = document.getElementById('stories-iframe');
-    var progress  = document.getElementById('stories-progress');
-    var attr      = document.getElementById('stories-attr');
-    var btnPrev   = document.getElementById('stories-btn-prev');
-    var btnNext   = document.getElementById('stories-btn-next');
-    var tapPrev   = document.getElementById('stories-tap-prev');
-    var tapNext   = document.getElementById('stories-tap-next');
-    var muteBtn   = document.getElementById('stories-mute');
-    var muteIcon  = document.getElementById('stories-mute-icon');
+    var iframe   = document.getElementById('stories-iframe');
+    var progress = document.getElementById('stories-progress');
+    var attr     = document.getElementById('stories-attr');
+    var btnPrev  = document.getElementById('stories-btn-prev');
+    var btnNext  = document.getElementById('stories-btn-next');
+    var tapPrev  = document.getElementById('stories-tap-prev');
+    var tapNext  = document.getElementById('stories-tap-next');
+    var muteBtn  = document.getElementById('stories-mute');
+    var muteIcon = document.getElementById('stories-mute-icon');
 
     if (!iframe) return;
 
@@ -1634,57 +1634,51 @@
     function bars() { return progress.querySelectorAll('.sp-bar'); }
 
     function buildSrc(id) {
-      /* muted=1 tells TikTok to start silent; autoplay=1 plays on load */
-      return 'https://www.tiktok.com/embed/v2/' + id
-        + '?autoplay=1'
-        + (isMuted ? '&muted=1' : '');
+      /* silence=1 + muted=1 covers both TikTok param variants */
+      var base = 'https://www.tiktok.com/embed/v2/' + id + '?autoplay=1';
+      return isMuted ? base + '&muted=1&silence=1' : base;
+    }
+
+    function loadVideo(id) {
+      /* Direct src swap — preserves the user-gesture context so autoplay fires.
+         Never go via about:blank; that drops the gesture and blocks autoplay. */
+      iframe.src = buildSrc(id);
     }
 
     function goTo(index) {
       clearTimeout(timer);
       current = (index + videos.length) % videos.length;
-      var v = videos[current];
+      var v   = videos[current];
 
-      /* Load the video — force a clean reload by blanking first */
-      iframe.src = 'about:blank';
-      requestAnimationFrame(function () {
-        iframe.src = buildSrc(v.id);
-      });
-
-      /* Attribution */
+      loadVideo(v.id);
       if (attr) attr.textContent = v.user + ' · TikTok';
 
-      /* Progress bars */
       bars().forEach(function (b, i) {
         b.style.setProperty('--sp-dur', DURATION + 'ms');
         b.className = 'sp-bar' + (i < current ? ' done' : i === current ? ' active' : '');
       });
 
-      /* Buttons */
       if (btnPrev) btnPrev.disabled = current === 0;
       if (btnNext) btnNext.disabled = current === videos.length - 1;
 
-      /* Auto-advance */
       timer = setTimeout(function () {
         if (current < videos.length - 1) goTo(current + 1);
       }, DURATION);
     }
 
-    /* Mute toggle */
+    /* Mute toggle — must reload iframe (browser cross-origin security prevents
+       controlling another origin's audio any other way). Video restarts,
+       but this is the only correct approach. */
     if (muteBtn) {
-      muteBtn.addEventListener('click', function () {
+      muteBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
         isMuted = !isMuted;
         if (muteIcon) muteIcon.textContent = isMuted ? '🔇' : '🔊';
-        /* Reload current video with new mute state */
-        var v = videos[current];
-        iframe.src = 'about:blank';
-        requestAnimationFrame(function () {
-          iframe.src = buildSrc(v.id);
-        });
+        loadVideo(videos[current].id);
       });
     }
 
-    /* Navigation controls */
+    /* Navigation */
     if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1); });
     if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1); });
     if (tapPrev) tapPrev.addEventListener('click', function () { goTo(current - 1); });
