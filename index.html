@@ -856,25 +856,6 @@
     .stories-btn:hover { background: rgba(255,255,255,0.9); }
     .stories-btn:active { transform: scale(0.93); }
     .stories-btn:disabled { opacity: 0.3; cursor: default; }
-    /* Dot indicators */
-    .stories-dots {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 24px;
-    }
-    .stories-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(0,95,115,0.25);
-      transition: background 0.2s, transform 0.2s;
-      cursor: pointer;
-    }
-    .stories-dot.active {
-      background: var(--teal);
-      transform: scale(1.3);
-    }
     /* Mobile */
     @media (max-width: 600px) {
       .stories-phone { width: 260px; height: 462px; }
@@ -1451,6 +1432,8 @@
 
       <!-- Phone viewer -->
       <div class="stories-viewer">
+        <button class="stories-btn stories-btn-prev" id="stories-btn-prev" aria-label="Previous">‹</button>
+
         <!-- Phone + progress stacked in a column -->
         <div class="stories-phone-col">
           <!-- Progress bars above the phone -->
@@ -1476,13 +1459,8 @@
         </div>
         </div><!-- end .stories-phone-col -->
 
-        <!-- Arrow buttons (desktop) -->
-        <button class="stories-btn stories-btn-prev" id="stories-btn-prev" aria-label="Previous">‹</button>
         <button class="stories-btn stories-btn-next" id="stories-btn-next" aria-label="Next">›</button>
       </div>
-
-      <!-- Dot indicators -->
-      <div class="stories-dots" id="stories-dots"></div>
     </div>
   </section>
 
@@ -1607,7 +1585,7 @@
 
     var iframe   = document.getElementById('stories-iframe');
     var progress = document.getElementById('stories-progress');
-    var dotsWrap = document.getElementById('stories-dots');
+    var dotsWrap = null;
     var attr     = document.getElementById('stories-attr');
     var btnPrev  = document.getElementById('stories-btn-prev');
     var btnNext  = document.getElementById('stories-btn-next');
