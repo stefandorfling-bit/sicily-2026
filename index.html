@@ -810,17 +810,6 @@
       from { transform: scaleX(0); }
       to   { transform: scaleX(1); }
     }
-    /* Tap zones */
-    .stories-tap {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 40%;
-      z-index: 9;
-      cursor: pointer;
-    }
-    .stories-tap-prev { left: 0; }
-    .stories-tap-next { right: 0; }
     /* Attribution */
     .stories-attr {
       position: absolute;
@@ -881,9 +870,9 @@
     .stories-btn:disabled { opacity: 0.3; cursor: default; }
     /* Mobile */
     @media (max-width: 600px) {
-      .stories-phone { width: 260px; height: 462px; }
-      .stories-btn { display: none; }
-      .stories-progress { width: 260px; }
+      .stories-phone { width: 240px; height: 427px; }
+      .stories-btn { width: 36px; height: 36px; font-size: 20px; }
+      .stories-progress { width: 240px; }
     }
 
     /* ─── PACKING — dark teal ────────────────────────────────── */
@@ -1473,10 +1462,6 @@
             scrolling="no"
           ></iframe>
 
-          <!-- Tap zones -->
-          <div class="stories-tap stories-tap-prev" id="stories-tap-prev" aria-label="Previous"></div>
-          <div class="stories-tap stories-tap-next" id="stories-tap-next" aria-label="Next"></div>
-
           <!-- Attribution -->
           <div class="stories-attr" id="stories-attr"></div>
 
@@ -1617,8 +1602,6 @@
     var attr     = document.getElementById('stories-attr');
     var btnPrev  = document.getElementById('stories-btn-prev');
     var btnNext  = document.getElementById('stories-btn-next');
-    var tapPrev  = document.getElementById('stories-tap-prev');
-    var tapNext  = document.getElementById('stories-tap-next');
     var muteBtn  = document.getElementById('stories-mute');
     var muteIcon = document.getElementById('stories-mute-icon');
 
@@ -1657,9 +1640,7 @@
       f.scrolling   = 'no';
       f.style.cssText = 'width:100%;height:100%;border:none;display:block;';
 
-      /* Insert before tap zones so they stay on top */
-      var firstTap = phone.querySelector('.stories-tap-prev');
-      phone.insertBefore(f, firstTap || null);
+      phone.insertBefore(f, phone.firstChild);
 
       /* Keep outer reference in sync */
       iframe = f;
@@ -1699,8 +1680,6 @@
     /* Navigation */
     if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1); });
     if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1); });
-    if (tapPrev) tapPrev.addEventListener('click', function () { goTo(current - 1); });
-    if (tapNext) tapNext.addEventListener('click', function () { goTo(current + 1); });
 
     /* Start on first video when section enters view */
     var started = false;
