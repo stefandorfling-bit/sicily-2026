@@ -756,6 +756,11 @@
       justify-content: center;
       gap: 24px;
     }
+    .stories-phone-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .stories-phone {
       position: relative;
       width: 300px;
@@ -772,16 +777,12 @@
       border: none;
       display: block;
     }
-    /* Progress bars */
+    /* Progress bars — sit above the phone, not inside it */
     .stories-progress {
-      position: absolute;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 280px;
       display: flex;
-      gap: 4px;
-      z-index: 10;
+      gap: 5px;
+      width: 300px;
+      margin: 0 auto 10px;
     }
     .sp-bar {
       flex: 1;
@@ -878,7 +879,7 @@
     @media (max-width: 600px) {
       .stories-phone { width: 260px; height: 462px; }
       .stories-btn { display: none; }
-      .stories-progress { width: 244px; }
+      .stories-progress { width: 260px; }
     }
 
     /* ─── PACKING — dark teal ────────────────────────────────── */
@@ -1450,11 +1451,13 @@
 
       <!-- Phone viewer -->
       <div class="stories-viewer">
-        <!-- Progress bars -->
-        <div class="stories-progress" id="stories-progress"></div>
+        <!-- Phone + progress stacked in a column -->
+        <div class="stories-phone-col">
+          <!-- Progress bars above the phone -->
+          <div class="stories-progress" id="stories-progress"></div>
 
-        <!-- Video frame -->
-        <div class="stories-phone">
+          <!-- Video frame -->
+          <div class="stories-phone">
           <iframe
             id="stories-iframe"
             src=""
@@ -1471,6 +1474,7 @@
           <!-- Attribution -->
           <div class="stories-attr" id="stories-attr"></div>
         </div>
+        </div><!-- end .stories-phone-col -->
 
         <!-- Arrow buttons (desktop) -->
         <button class="stories-btn stories-btn-prev" id="stories-btn-prev" aria-label="Previous">‹</button>
@@ -1636,7 +1640,7 @@
       var v = videos[current];
 
       /* Swap iframe src */
-      iframe.src = 'https://www.tiktok.com/embed/v2/' + v.id + '?autoplay=1';
+      iframe.src = 'https://www.tiktok.com/embed/v2/' + v.id + '?autoplay=1&muted=1';
 
       /* Attribution */
       attr.textContent = v.user + ' · TikTok';
