@@ -1555,15 +1555,6 @@
         <h2 class="t-h2">Dates &amp; Overview</h2>
         <span class="t-italic">four days on the oldest island in the Mediterranean</span>
 
-        <!-- Countdown inside the card -->
-        <div style="display:flex;align-items:baseline;gap:10px;margin:8px 0 4px;padding:14px 0;border-top:1px solid rgba(0,95,115,0.1);border-bottom:1px solid rgba(0,95,115,0.1);">
-          <span id="js-countdown" style="font-family:'Italiana',serif;font-size:52px;color:var(--teal);line-height:1;">…</span>
-          <div>
-            <div style="font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--terra);">Days until Sicily</div>
-            <div id="js-countdown-sub" style="font-size:10px;color:rgba(0,95,115,0.5);letter-spacing:0.08em;"></div>
-          </div>
-        </div>
-
         <div class="dates-row">
           <div class="date-block">
             <div class="db-month">July 2026</div>
@@ -1585,7 +1576,14 @@
     </section>
   </div>
 
-
+  <!-- ── COUNTDOWN ───────────────────────────────────────────── -->
+  <div class="countdown-strip" role="status">
+    <div class="cs-divider"></div>
+    <span class="t-label" style="color:rgba(247,231,206,0.5); letter-spacing:0.18em;">Days until Sicily</span>
+    <span class="cs-num" id="js-countdown">…</span>
+    <span class="t-label" style="color:rgba(247,231,206,0.5); letter-spacing:0.18em;" id="js-countdown-sub">to go</span>
+    <div class="cs-divider"></div>
+  </div>
 
   <!-- ── ACCOMMODATION ───────────────────────────────────────── -->
   <section class="stay-section" id="stay">

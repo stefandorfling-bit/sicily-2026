@@ -291,6 +291,21 @@
     .sd-teal  { color: var(--terra); }
 
     /* ─── TRAVELLERS — dark teal, split layout ───────────────── */
+    /* ─── ANCIENT ISLAND ──────────────────────────────────── */
+    .ancient-island-section {
+      background: var(--stone);
+      padding: 80px 0;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .ai-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .ai-inner .t-italic { display: block; margin-top: 8px; }
+
+    /* ─── TRAVELLERS ─────────────────────────────────────── */
     .travellers-section {
       background: var(--teal-dark);
       padding: 80px 0 0;
@@ -1549,6 +1564,16 @@
     <div class="cs-divider"></div>
   </div>
 
+  <!-- ── ANCIENT ISLAND ─────────────────────────────────────── -->
+  <section class="ancient-island-section" id="ancient-island">
+    <div class="ai-inner">
+      <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
+      <span class="t-label" style="color:var(--terra);">Ortygia · Siracusa</span>
+      <h2 class="t-h2" style="color:var(--teal);">The Ancient Island</h2>
+      <p class="t-italic" style="color:rgba(0,95,115,0.55);">one of the oldest continuously inhabited cities in the world</p>
+    </div>
+  </section>
+
   <!-- ── TRAVELLERS ──────────────────────────────────────────── -->
   <section class="travellers-section" id="travellers">
     <div class="travellers-header">
@@ -1737,17 +1762,6 @@
     </div>
   </section>
 
-  <!-- ── IMAGE BREAK — Ortygia ──────────────────────────────── -->
-  <div class="image-break">
-    <div class="image-break-placeholder">🌊</div>
-    <div class="image-break-overlay">
-      <div class="image-break-text">
-        <span class="t-label">Ortygia · Siracusa</span>
-        <h2 class="t-h2">The Ancient Island</h2>
-      </div>
-    </div>
-  </div>
-
   <!-- ── EXPLORE ────────────────────────────────────────────── -->
   <section class="explore-section" id="explore">
     <div class="explore-inner">
@@ -1831,6 +1845,8 @@
       </div>
     </div>
   </section>
+
+
 
   <!-- ── FOOTER ──────────────────────────────────────────────── -->
   <footer>
