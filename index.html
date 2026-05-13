@@ -878,177 +878,185 @@
     /* ─── EXPLORE ───────────────────────────────────────────── */
     .explore-section {
       background: var(--teal-dark);
-      padding: 72px 0 90px;
+      padding: 72px 0 80px;
       border-bottom: 1px solid rgba(247,231,206,0.08);
     }
-    .explore-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
+    .explore-inner { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
     .explore-header { text-align: center; margin-bottom: 32px; }
     .explore-header .t-label { color: var(--terra); display: block; margin-bottom: 8px; }
     .explore-header .t-h2    { color: var(--stone); }
 
     /* Folder tabs */
-    .explore-tabs-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      position: relative;
-      z-index: 2;
-    }
+    .explore-tabs-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: relative; z-index: 2; }
     .explore-tabs-wrap::-webkit-scrollbar { display: none; }
-    .explore-tabs {
-      display: flex;
-      gap: 0;
-      white-space: nowrap;
-      border-bottom: 1.5px solid rgba(212,163,115,0.3);
-    }
+    .explore-tabs { display: flex; gap: 0; white-space: nowrap; border-bottom: 1.5px solid rgba(212,163,115,0.28); }
     .etab {
       padding: 10px 22px 11px;
       border-radius: 10px 10px 0 0;
-      border: 1.5px solid rgba(212,163,115,0.18);
+      border: 1.5px solid rgba(212,163,115,0.16);
       border-bottom: none;
       background: rgba(0,30,40,0.4);
       color: rgba(247,231,206,0.38);
       font-family: 'Montserrat', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      margin-right: 4px;
-      position: relative;
-      z-index: 1;
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
-      white-space: nowrap;
-      flex-shrink: 0;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      cursor: pointer; margin-right: 4px; position: relative; z-index: 1;
+      transition: background 0.15s, color 0.15s; white-space: nowrap; flex-shrink: 0;
     }
     .etab:hover:not(.active) { background: rgba(0,30,40,0.6); color: rgba(247,231,206,0.65); }
     .etab.active {
-      background: var(--teal-dark);
-      color: var(--terra);
-      border-color: rgba(212,163,115,0.3);
-      z-index: 3;
-      margin-bottom: -1.5px;
-      padding-bottom: 12.5px;
+      background: var(--teal-dark); color: var(--terra);
+      border-color: rgba(212,163,115,0.28); z-index: 3;
+      margin-bottom: -1.5px; padding-bottom: 12.5px;
     }
 
-    /* Stack wrapper */
-    .explore-stack-wrap {
-      overflow: hidden;
-      border-radius: 0 14px 14px 14px;
-      border: 1.5px solid rgba(212,163,115,0.3);
-      border-top: none;
-      padding: 28px 0 28px 28px;
-    }
-
-    /* Fan stack container */
-    .explore-stack {
+    /* Stage — no outer border; cards float on the dark bg */
+    .explore-stack-wrap { padding: 32px 0 0 0; overflow: visible; }
+    .explore-stage {
       position: relative;
-      height: 310px;
+      height: 420px; /* card 300px + 120px headroom for rotated tops */
+      overflow: visible;
     }
 
-    /* Each card — Behance fan style */
+    /* Individual card — full-bleed vivid color */
     .ec {
       position: absolute;
-      top: 65px;
+      bottom: 0;
       left: 0;
-      height: 245px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(247,231,206,0.14);
-      border-radius: 18px;
-      display: flex;
+      width: calc(100% - 16px);
+      max-width: 900px;
+      height: 300px;
+      border-radius: 22px;
       overflow: hidden;
       cursor: pointer;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.28);
       transform-origin: bottom left;
-      transition: transform 0.55s cubic-bezier(0.22,1,0.36,1),
-                  opacity  0.45s cubic-bezier(0.22,1,0.36,1),
+      transition: transform 0.58s cubic-bezier(0.22,1,0.36,1),
+                  opacity  0.5s  cubic-bezier(0.22,1,0.36,1),
                   box-shadow 0.2s;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.35);
       will-change: transform, opacity;
     }
-    .ec.ec-active { cursor: default; box-shadow: 0 16px 56px rgba(0,0,0,0.4); }
-    .ec:not(.ec-active):hover { box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
-
-    /* Image panel */
-    .ec-img {
-      width: 260px;
-      min-width: 260px;
-      overflow: hidden;
-      flex-shrink: 0;
+    .ec:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.45); }
+    .ec-inner {
       position: relative;
+      width: 100%; height: 100%;
+      padding: 28px 36px;
+      display: flex; flex-direction: column; gap: 10px;
+      color: rgba(255,255,255,0.92);
+      box-sizing: border-box;
     }
-    .ec-img-inner {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 56px;
-    }
-
-    /* Content panel */
-    .ec-body {
-      flex: 1;
-      padding: 22px 26px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      min-width: 0;
-      overflow: hidden;
+    .ec-cat {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; opacity: 0.65;
     }
     .ec-heading {
       font-family: 'Italiana', serif;
-      font-size: 22px;
-      color: var(--stone);
-      line-height: 1.2;
+      font-size: 38px; line-height: 1.1;
+      color: #fff;
+      margin: 0;
     }
     .ec-tags { display: flex; gap: 6px; flex-wrap: wrap; }
     .ec-tag {
-      background: rgba(212,163,115,0.15);
-      border: 1px solid rgba(212,163,115,0.3);
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
       border-radius: 100px;
       padding: 3px 11px;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      color: var(--terra);
-      white-space: nowrap;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.9);
     }
     .ec-text {
-      font-size: 13.5px;
-      color: rgba(247,231,206,0.6);
-      line-height: 1.6;
-      flex: 1;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
+      font-size: 13.5px; color: rgba(255,255,255,0.72); line-height: 1.6;
+      flex: 1; overflow: hidden;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
     }
     .ec-address {
-      font-size: 11.5px;
-      color: rgba(247,231,206,0.35);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      font-size: 12px; color: rgba(255,255,255,0.5);
+      text-decoration: none; display: flex; align-items: center; gap: 5px;
       transition: color 0.15s;
     }
-    .ec-address:hover { color: var(--terra); }
-    .ec-peek-hint { display: none; }
+    .ec-address:hover { color: rgba(255,255,255,0.85); }
+    .ec-deco {
+      position: absolute; bottom: 22px; right: 28px;
+      width: 84px; height: 84px; border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 38px;
+    }
+
+    /* Navigation */
+    .ec-nav {
+      display: flex; align-items: center; justify-content: center;
+      gap: 20px; margin-top: 28px; padding-bottom: 4px;
+    }
+    .ec-nav-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1.5px solid rgba(247,231,206,0.22);
+      background: transparent; color: rgba(247,231,206,0.6);
+      font-size: 24px; cursor: pointer; line-height: 1;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ec-nav-btn:hover { background: rgba(247,231,206,0.1); border-color: rgba(247,231,206,0.5); color: var(--stone); }
+    .ec-counter { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: rgba(247,231,206,0.35); min-width: 36px; text-align: center; }
+
+    /* Modal overlay */
+    .ec-modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,20,30,0.82);
+      z-index: 500;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s;
+    }
+    .ec-modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    /* Modal */
+    .ec-modal {
+      position: fixed; inset: 0; z-index: 501;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s, transform 0.35s cubic-bezier(0.22,1,0.36,1);
+      transform: scale(0.94);
+    }
+    .ec-modal.open { opacity: 1; pointer-events: all; transform: scale(1); }
+
+    .ec-modal-wrap {
+      position: relative;
+      width: 100%; max-width: 720px;
+    }
+    .ec-modal-close {
+      position: absolute; top: -14px; right: -14px; z-index: 2;
+      width: 38px; height: 38px; border-radius: 50%;
+      border: none; background: var(--stone); color: var(--teal);
+      font-size: 20px; cursor: pointer; font-weight: 400;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s, background 0.15s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .ec-modal-close:hover { transform: scale(1.12); background: #fff; }
+    .ec-modal-card {
+      border-radius: 22px; overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.55);
+    }
+    .ecm-inner {
+      padding: 38px 44px 44px;
+      display: flex; flex-direction: column; gap: 12px;
+      color: rgba(255,255,255,0.92);
+      position: relative; min-height: 380px;
+    }
 
     @media (max-width: 600px) {
       .explore-inner { padding: 0 16px; }
-      .explore-stack { height: 280px; }
-      .ec { height: 215px; top: 65px; }
-      .ec-img { width: 130px; min-width: 130px; }
-      .ec-img-inner { font-size: 36px; }
-      .ec-heading { font-size: 17px; }
+      .explore-stage { height: 360px; }
+      .ec { height: 250px; border-radius: 18px; }
+      .ec-heading { font-size: 28px; }
+      .ec-deco { width: 60px; height: 60px; font-size: 28px; bottom: 16px; right: 16px; }
       .etab { padding: 8px 14px 9px; font-size: 10px; }
+      .ec-modal { padding: 16px; }
+      .ecm-inner { padding: 28px 28px 32px; }
     }
 
     /* ─── PACKING — dark teal ────────────────────────────────── */
+        /* ─── PACKING — dark teal ────────────────────────────────── */
     .packing-section {
       background: var(--teal-dark);
       padding: 90px 0;
@@ -1616,7 +1624,7 @@
         <h2 class="t-h2">Explore</h2>
       </div>
 
-      <div class="explore-tabs-wrap" style="margin-bottom:0;">
+      <div class="explore-tabs-wrap">
         <div class="explore-tabs" id="explore-tabs">
           <button class="etab active" data-topic="0">🏊 Swim Spots</button>
           <button class="etab" data-topic="1">🥙 Street Food</button>
@@ -1628,10 +1636,24 @@
       </div>
 
       <div class="explore-stack-wrap">
-        <div class="explore-stack" id="explore-stack"></div>
+        <div class="explore-stage" id="explore-stage"></div>
+        <div class="ec-nav">
+          <button class="ec-nav-btn" id="ec-prev" aria-label="Previous">‹</button>
+          <span class="ec-counter" id="ec-counter">1 / 5</span>
+          <button class="ec-nav-btn" id="ec-next" aria-label="Next">›</button>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- Card detail modal -->
+  <div class="ec-modal-overlay" id="ec-modal-overlay"></div>
+  <div class="ec-modal" id="ec-modal" role="dialog" aria-modal="true">
+    <div class="ec-modal-wrap">
+      <button class="ec-modal-close" id="ec-modal-close" aria-label="Close">×</button>
+      <div class="ec-modal-card" id="ec-modal-card"></div>
+    </div>
+  </div>
 
   <!-- ── INSPIRATION STORIES ────────────────────────────────── -->
   <section class="stories-section" id="inspiration">
@@ -1780,6 +1802,362 @@
   </script>
 
   <!-- ── STORIES PLAYER ─────────────────────────────────────── -->
+  <script>
+  (function () {
+    var videos = [
+      { id: '7541025818387057943', user: '@travelmusediary' },
+      { id: '7105016242968317189', user: '@terplanet' },
+      { id: '7392298348553817376', user: '@simonaaffinito' },
+      { id: '7372197384362773792', user: '@kat_cf' },
+      { id: '7245203304651803930', user: '@lene_gouws' },
+      { id: '7619059691812883734', user: '@travelexperiencewithbi' },
+      { id: '7532886944917769494', user: '@crushonthego' }
+    ];
+
+    var DURATION   = 30000;
+    var current    = 0;
+    var isMuted    = true;
+    var isPlaying  = false; /* tracks whether user has started playback */
+    var timer      = null;
+
+    var iframe   = document.getElementById('stories-iframe');
+    var progress = document.getElementById('stories-progress');
+    var attr     = document.getElementById('stories-attr');
+    var btnPrev  = document.getElementById('stories-btn-prev');
+    var btnNext  = document.getElementById('stories-btn-next');
+    var muteBtn  = document.getElementById('stories-mute');
+    var muteIcon = document.getElementById('stories-mute-icon');
+
+    if (!iframe) return;
+
+    /* Build progress bars */
+    videos.forEach(function () {
+      var bar = document.createElement('div');
+      bar.className = 'sp-bar';
+      progress.appendChild(bar);
+    });
+
+    function bars() { return progress.querySelectorAll('.sp-bar'); }
+
+    /* autoplay=1 only if user has already started watching */
+    function buildSrc(id) {
+      var src = 'https://www.tiktok.com/player/v1/' + id + '?loop=1';
+      if (isPlaying) src += '&autoplay=1';
+      if (isMuted)   src += '&muted=1';
+      return src;
+    }
+
+    function startTimer() {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        if (isPlaying && current < videos.length - 1) goTo(current + 1);
+      }, DURATION);
+    }
+
+    function stopTimer() {
+      clearTimeout(timer);
+    }
+
+    function loadVideo(id) {
+      var phone = document.querySelector('.stories-phone');
+      var old   = document.getElementById('stories-iframe');
+      if (old) old.remove();
+
+      var f = document.createElement('iframe');
+      f.id          = 'stories-iframe';
+      f.src         = buildSrc(id);
+      f.allow       = 'autoplay; fullscreen';
+      f.allowFullscreen = true;
+      f.frameBorder = '0';
+      f.scrolling   = 'no';
+      f.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+      phone.insertBefore(f, phone.firstChild);
+      iframe = f;
+    }
+
+    function updateBars() {
+      bars().forEach(function (b, i) {
+        b.style.setProperty('--sp-dur', DURATION + 'ms');
+        b.className = 'sp-bar' + (i < current ? ' done' : i === current ? ' active' : '');
+      });
+    }
+
+    function goTo(index) {
+      stopTimer();
+      current = (index + videos.length) % videos.length;
+      loadVideo(videos[current].id);
+      if (attr) attr.textContent = videos[current].user + ' · TikTok';
+      updateBars();
+      if (btnPrev) btnPrev.disabled = current === 0;
+      if (btnNext) btnNext.disabled = current === videos.length - 1;
+      /* Only start timer if user is actively watching */
+      if (isPlaying) startTimer();
+    }
+
+    /* Listen for TikTok player events via postMessage */
+    window.addEventListener('message', function (e) {
+      if (!e.data) return;
+      var data = (typeof e.data === 'string') ? (function(){ try { return JSON.parse(e.data); } catch(e){ return {}; } })() : e.data;
+      var ev   = data.event || data.type || '';
+
+      if (ev === 'onPlay' || ev === 'play') {
+        isPlaying = true;
+        startTimer();
+        /* Pause the progress bar animation — let it run only when playing */
+        bars().forEach(function(b){ b.style.animationPlayState = 'running'; });
+      }
+      if (ev === 'onPause' || ev === 'pause') {
+        isPlaying = false;
+        stopTimer();
+        bars().forEach(function(b){ b.style.animationPlayState = 'paused'; });
+      }
+    });
+
+    /* Mute toggle */
+    if (muteBtn) {
+      muteBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        isMuted = !isMuted;
+        if (muteIcon) muteIcon.textContent = isMuted ? '🔇' : '🔊';
+        loadVideo(videos[current].id);
+      });
+    }
+
+    /* Navigation — clicking next/prev counts as intent to play */
+    if (btnPrev) btnPrev.addEventListener('click', function () { isPlaying = true; goTo(current - 1); });
+    if (btnNext) btnNext.addEventListener('click', function () { isPlaying = true; goTo(current + 1); });
+
+    /* Load first video without autoplay when section enters view */
+    var sectionLoaded = false;
+    var startObserver = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !sectionLoaded) {
+        sectionLoaded = true;
+        loadVideo(videos[0].id);
+        if (attr) attr.textContent = videos[0].user + ' · TikTok';
+        updateBars();
+        if (btnPrev) btnPrev.disabled = true;
+      }
+    }, { threshold: 0.3 });
+    var storiesSection = document.getElementById('inspiration');
+    if (storiesSection) startObserver.observe(storiesSection);
+
+  })();
+  </script>
+
+  <!-- ── EXPLORE CARD STACK ─────────────────────────────────── -->
+  <script>
+  (function () {
+
+    var CARD_COLORS = [
+      '#B85C2A', '#1A7D91', '#B88A18',
+      '#3D7C5E', '#7A3A8C', '#3A6AA8',
+      '#A33A50', '#2E6A7A'
+    ];
+
+    var topics = [
+      {
+        name: 'Swim Spots', emoji: '🏊',
+        cards: [
+          { heading:'Heading', tags:['Crystal Clear','Free Entry'],   text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Rocky Shore','Snorkelling'],    text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sandy Beach','Facilities'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Secluded','Boat Access'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Natural Pool','Caves'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Street Food', emoji: '🥙',
+        cards: [
+          { heading:'Heading', tags:['Arancini','Local Favourite'],   text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Granita','Morning'],            text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Panino','Open Late'],           text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Pastry','Breakfast'],           text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cannolo','Dessert'],            text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Fish','Market'],                text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Restaurants', emoji: '🍝',
+        cards: [
+          { heading:'Heading', tags:['Seafood','Book Ahead'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sicilian','Romantic'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Terrace','Sunset View'],        text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Pasta','Family Run'],           text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Tasting Menu','Upscale'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Bars', emoji: '🍹',
+        cards: [
+          { heading:'Heading', tags:['Aperitivo','Waterfront'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cocktails','Rooftop'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Wine Bar','Natural Wine'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['LGBTQ+','Friendly'],            text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Live Music','Late Night'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Tourist Attractions', emoji: '🏛',
+        cards: [
+          { heading:'Heading', tags:['Greek Theatre','UNESCO'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Archaeological','Museum'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cathedral','Baroque'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Ortygia','Island'],             text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Fountain','Mythology'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Walking Exploration', emoji: '🚶',
+        cards: [
+          { heading:'Heading', tags:['Morning Walk','Seafront'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Market','Local Life'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Old Town','Cobblestones'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sunset','Promenade'],           text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Hidden Lanes','Discovery'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      }
+    ];
+
+    var stage     = document.getElementById('explore-stage');
+    var tabsEl    = document.getElementById('explore-tabs');
+    var prevBtn   = document.getElementById('ec-prev');
+    var nextBtn   = document.getElementById('ec-next');
+    var counter   = document.getElementById('ec-counter');
+    var overlay   = document.getElementById('ec-modal-overlay');
+    var modal     = document.getElementById('ec-modal');
+    var modalCard = document.getElementById('ec-modal-card');
+    var modalClose= document.getElementById('ec-modal-close');
+
+    if (!stage || !tabsEl) return;
+
+    var currentTopic = 0;
+    var activeCard   = 0;
+    var topicData    = topics[0];
+
+    /* ── Fan position transforms ──────────────────────────────── */
+    function applyFan() {
+      var cards = stage.querySelectorAll('.ec');
+      var n     = cards.length;
+      cards.forEach(function (card, i) {
+        var offset = ((i - activeCard) % n + n) % n;
+        /* Show max 5 behind; rest hidden */
+        if (offset === 0) {
+          card.style.transform  = 'rotate(0deg)';
+          card.style.opacity    = '1';
+          card.style.zIndex     = '10';
+          card.style.pointerEvents = 'auto';
+        } else if (offset <= 5) {
+          var deg   = offset * 7;
+          var fade  = Math.max(0.32, 1 - offset * 0.16);
+          card.style.transform  = 'rotate(' + deg + 'deg)';
+          card.style.opacity    = String(fade);
+          card.style.zIndex     = String(10 - offset);
+          card.style.pointerEvents = 'auto';
+        } else {
+          /* Hidden behind: stacked at max rotation, invisible */
+          card.style.transform  = 'rotate(38deg)';
+          card.style.opacity    = '0';
+          card.style.zIndex     = '0';
+          card.style.pointerEvents = 'none';
+        }
+      });
+      if (counter) counter.textContent = (activeCard + 1) + ' / ' + n;
+    }
+
+    /* ── Build card inner HTML ────────────────────────────────── */
+    function cardHTML(c, t) {
+      var tags = c.tags.map(function (tag) {
+        return '<span class="ec-tag">' + tag + '</span>';
+      }).join('');
+      return '<div class="ec-inner">' +
+        '<p class="ec-cat">' + t.name + '</p>' +
+        '<h3 class="ec-heading">' + c.heading + '</h3>' +
+        '<div class="ec-tags">' + tags + '</div>' +
+        '<p class="ec-text">' + c.text + '</p>' +
+        '<a class="ec-address" href="https://maps.google.com/?q=' + encodeURIComponent(c.address) + '" target="_blank" rel="noopener">📍 ' + c.address + '</a>' +
+        '<div class="ec-deco">' + t.emoji + '</div>' +
+      '</div>';
+    }
+
+    /* ── Render cards for a topic ─────────────────────────────── */
+    function renderTopic(topicIdx) {
+      topicData    = topics[topicIdx];
+      activeCard   = 0;
+      stage.innerHTML = '';
+      topicData.cards.forEach(function (c, i) {
+        var el = document.createElement('div');
+        el.className = 'ec';
+        el.style.background = CARD_COLORS[i % CARD_COLORS.length];
+        el.dataset.index    = i;
+        el.innerHTML        = cardHTML(c, topicData);
+        el.addEventListener('click', function () { openModal(i); });
+        stage.appendChild(el);
+      });
+      applyFan();
+    }
+
+    /* ── Navigate ─────────────────────────────────────────────── */
+    function navigate(dir) {
+      var n = topicData.cards.length;
+      activeCard = ((activeCard + dir) % n + n) % n;
+      applyFan();
+    }
+
+    /* ── Modal ────────────────────────────────────────────────── */
+    function openModal(idx) {
+      var c     = topicData.cards[idx];
+      var t     = topicData;
+      var color = CARD_COLORS[idx % CARD_COLORS.length];
+      var tags  = c.tags.map(function (tag) {
+        return '<span class="ec-tag">' + tag + '</span>';
+      }).join('');
+      modalCard.innerHTML =
+        '<div class="ecm-inner" style="background:' + color + ';">' +
+          '<p class="ec-cat">' + t.name + '</p>' +
+          '<h3 class="ec-heading" style="font-size:46px; margin-bottom:6px;">' + c.heading + '</h3>' +
+          '<div class="ec-tags" style="margin-bottom:8px;">' + tags + '</div>' +
+          '<p class="ec-text" style="-webkit-line-clamp:8; opacity:0.78;">' + c.text + '</p>' +
+          '<a class="ec-address" href="https://maps.google.com/?q=' + encodeURIComponent(c.address) + '" target="_blank" rel="noopener" style="margin-top:auto; padding-top:12px;">📍 ' + c.address + '</a>' +
+          '<div class="ec-deco" style="font-size:52px; width:100px; height:100px; bottom:28px; right:28px;">' + t.emoji + '</div>' +
+        '</div>';
+      overlay.classList.add('open');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ── Event listeners ──────────────────────────────────────── */
+    if (prevBtn)   prevBtn.addEventListener('click',   function () { navigate(-1); });
+    if (nextBtn)   nextBtn.addEventListener('click',   function () { navigate(1);  });
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (overlay)   overlay.addEventListener('click',   closeModal);
+
+    /* Close on Escape */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    tabsEl.querySelectorAll('.etab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabsEl.querySelectorAll('.etab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        currentTopic = parseInt(tab.dataset.topic);
+        renderTopic(currentTopic);
+      });
+    });
+
+    renderTopic(0);
+    window.addEventListener('resize', applyFan);
+
+  })();
+  </script>
+
+    <!-- ── STORIES PLAYER ─────────────────────────────────────── -->
   <script>
   (function () {
     var videos = [
