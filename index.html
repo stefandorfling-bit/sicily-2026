@@ -335,42 +335,34 @@
 
     /* ── FRONT: full-bleed photo card ───────────────────────── */
     .tp-front-face {
-      overflow: hidden;  /* clips the photo to rounded corners */
+      overflow: hidden;
+      background: var(--teal-dark); /* opaque fallback — also blocks back-face bleed */
     }
+    /* The photo fills the entire card — no transforms, just object-fit crop */
     .tp-front-face img.front-photo {
       position: absolute;
       inset: 0;
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      object-position: center 15%;
       display: block;
-    }
-    /* Stefan zoom override for front */
-    .tp-front-face img.stefan-zoom {
-      transform: scale(1.9);
-      transform-origin: center 72%;
-    }
-    /* Nimrod crop for front */
-    .tp-front-face img.nimrod-img {
-      transform: scale(1.8);
-      transform-origin: center 42%;
     }
     /* gradient overlay so name/role is readable */
     .tp-face-overlay {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      padding: 48px 22px 18px;
-      background: linear-gradient(to top, rgba(0,10,20,0.78) 0%, transparent 100%);
+      padding: 56px 22px 20px;
+      background: linear-gradient(to top, rgba(0,10,20,0.82) 0%, rgba(0,10,20,0.1) 70%, transparent 100%);
       z-index: 2;
     }
     .tp-face-overlay .tp-name {
       font-family: 'Italiana', serif; font-size: 34px;
-      color: #fff; line-height: 1; margin-bottom: 4px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      color: #fff; line-height: 1; margin-bottom: 5px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
     }
     .tp-face-overlay .tp-role {
       font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
-      text-transform: uppercase; color: rgba(255,255,255,0.6);
+      text-transform: uppercase; color: rgba(255,255,255,0.65);
     }
     /* tap-to-flip hint */
     .tp-front-face::after {
@@ -1573,8 +1565,9 @@
 
             <!-- FRONT: full-bleed photo card (default) -->
             <div class="tp-front-face">
-              <img src="images/stefan.jpeg" alt="Stefan" class="front-photo stefan-zoom"
-                onerror="this.style.opacity='0';"/>
+              <img src="images/stefan.jpeg" alt="Stefan" class="front-photo"
+                style="object-position: center 55%;"
+                onerror="this.style.display='none';"/>
               <div class="tp-face-overlay">
                 <div class="tp-name">Stefan</div>
                 <div class="tp-role">Arriving 30 July &bull; The Pioneer</div>
@@ -1622,8 +1615,9 @@
 
             <!-- FRONT: full-bleed photo card (default) -->
             <div class="tp-front-face">
-              <img src="images/nimrod.jpeg" alt="Nimrod" class="front-photo nimrod-img"
-                onerror="this.style.opacity='0';"/>
+              <img src="images/nimrod.jpeg" alt="Nimrod" class="front-photo"
+                style="object-position: center 18%;"
+                onerror="this.style.display='none';"/>
               <div class="tp-face-overlay">
                 <div class="tp-name">Nimrod</div>
                 <div class="tp-role">Arriving 31 July &bull; The Co-Conspirator</div>
