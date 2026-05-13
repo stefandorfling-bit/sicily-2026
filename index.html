@@ -81,7 +81,6 @@
       background: rgba(0, 64, 80, 0.75);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      transition: background 0.4s ease, backdrop-filter 0.4s ease;
     }
     .nav-inner {
       display: flex;
@@ -113,12 +112,6 @@
     .nav-links a:hover {
       color: var(--stone);
       background: rgba(247,231,206,0.1);
-    }
-
-    nav.nav-transparent {
-      background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
     }
 
     /* ─── HERO — full bleed + text overlay ──────────────────── */
@@ -3166,24 +3159,6 @@
     }
     window.addEventListener('scroll', update, { passive: true });
     update();
-  })();
-  </script>
-
-  <script>
-  (function () {
-    var nav = document.querySelector('nav');
-    if (!nav) return;
-    function updateNav() {
-      var scrollY = window.scrollY || window.pageYOffset;
-      var vh = window.innerHeight;
-      if (scrollY > vh * 0.65) {
-        nav.classList.add('nav-transparent');
-      } else {
-        nav.classList.remove('nav-transparent');
-      }
-    }
-    window.addEventListener('scroll', updateNav, { passive: true });
-    updateNav();
   })();
   </script>
 
