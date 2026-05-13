@@ -573,6 +573,59 @@
     }
 
     /* ─── TRIP DATES — light stone section ───────────────────── */
+    /* ─── LOGISTICS HERO ───────────────────────────────────── */
+    .logistics-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .logistics-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/best-beaches-sicily-syracuse-min.jpg');
+      background-size: cover;
+      background-position: center;
+      animation: panRightToLeft 20s linear infinite alternate;
+      will-change: transform;
+    }
+    .logistics-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,30,40,0.55) 0%,
+        rgba(0,30,40,0.45) 60%,
+        rgba(0,30,40,0.62) 100%
+      );
+    }
+    /* Dates card — semi-transparent beige on top of hero */
+    .trip-section-on-hero {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 100px 0 80px;
+    }
+    .dates-glass-card {
+      background: rgba(247, 231, 206, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(247, 231, 206, 0.5);
+      border-radius: 22px;
+      padding: 44px 48px;
+      max-width: 640px;
+      margin: 0 auto;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.22);
+    }
+    .dates-glass-card .section-divider-stone::before,
+    .dates-glass-card .section-divider-stone::after { background: rgba(0,95,115,0.2); }
+    .dates-glass-card .t-label  { color: var(--terra-dark); }
+    .dates-glass-card .t-h2     { color: var(--teal); }
+    .dates-glass-card .t-italic { color: rgba(0,95,115,0.55); margin-bottom: 36px; display: block; }
+    /* Override dark Ortygia image-break so it looks good after the hero */
+    .image-break-after-hero { margin-top: 0; }
+
     .trip-section {
       background: var(--stone);
       padding: 90px 0;
@@ -1491,33 +1544,38 @@
     </div>
   </nav>
 
-  <!-- ── TRIP DATES ───────────────────────────────────────────── -->
-  <section class="trip-section" id="trip">
-    <div class="trip-inner">
-      <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
-      <span class="t-label">The Trip</span>
-      <h2 class="t-h2">Dates &amp; Overview</h2>
-      <span class="t-italic">four days on the oldest island in the Mediterranean</span>
+  <!-- ── HERO + TRIP DATES ─────────────────────────────────────── -->
+  <div class="logistics-hero">
+    <div class="logistics-hero-bg" role="img" aria-label="Syracuse beach"></div>
+    <div class="logistics-hero-overlay"></div>
 
-      <div class="dates-row">
-        <div class="date-block">
-          <div class="db-month">July 2026</div>
-          <div class="db-num">31</div>
-          <div class="db-day">Friday — Trip Begins</div>
+    <section class="trip-section-on-hero" id="trip">
+      <div class="dates-glass-card">
+        <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
+        <span class="t-label">The Trip</span>
+        <h2 class="t-h2">Dates &amp; Overview</h2>
+        <span class="t-italic">four days on the oldest island in the Mediterranean</span>
+
+        <div class="dates-row">
+          <div class="date-block">
+            <div class="db-month">July 2026</div>
+            <div class="db-num">31</div>
+            <div class="db-day">Friday — Trip Begins</div>
+          </div>
+          <div class="dates-arrow">→</div>
+          <div class="date-block">
+            <div class="db-month">August 2026</div>
+            <div class="db-num">3</div>
+            <div class="db-day">Monday — Trip Ends</div>
+          </div>
         </div>
-        <div class="dates-arrow">→</div>
-        <div class="date-block">
-          <div class="db-month">August 2026</div>
-          <div class="db-num">3</div>
-          <div class="db-day">Monday — Trip Ends</div>
+
+        <div class="stefan-note">
+          <strong>Stefan arrives 30 July</strong> — a full day early to check in, discover the piazza, and find the best aperitivo before Nimrod lands.
         </div>
       </div>
-
-      <div class="stefan-note">
-        <strong>Stefan arrives 30 July</strong> — a full day early to check in, discover the piazza, and find the best aperitivo before Nimrod lands.
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
 
   <!-- ── IMAGE BREAK — Sicily / Ortygia placeholder ────────── -->
