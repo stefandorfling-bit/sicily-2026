@@ -78,10 +78,15 @@
       height: 56px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       background: rgba(0, 64, 80, 0.75);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
     }
     .nav-logo {
       font-family: 'Italiana', serif;
@@ -1478,18 +1483,19 @@
 
   <!-- ── NAV ─────────────────────────────────────────────────── -->
   <nav>
-    <span class="nav-logo">Sicily 2026</span>
-    <ul class="nav-links">
-      <li><a href="#travellers">Who</a></li>
-      <li><a href="#trip">Dates</a></li>
-      <li><a href="#stay">Stay</a></li>
-      <li><a href="#flights">Flights</a></li>
-      <li><a href="#itinerary">Itinerary</a></li>
-      <li><a href="#food">Food</a></li>
-      <li><a href="#explore">Explore</a></li>
-      <li><a href="#inspiration">Inspo</a></li>
-      <li><a href="#packing">Packing</a></li>
-    </ul>
+    <div class="nav-inner">
+      <a class="nav-logo" href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
+        <img src="images/favicon-source.png" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+        <span>Sicily 2026</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#travellers">Who</a></li>
+        <li><a href="#itinerary">Itinerary</a></li>
+        <li><a href="#explore">Explore</a></li>
+        <li><a href="#inspiration">Inspo</a></li>
+        <li><a href="logistics.html" style="color:var(--terra);">The Plan ↗</a></li>
+      </ul>
+    </div>
   </nav>
 
   <!-- ── HERO ────────────────────────────────────────────────── -->
@@ -1631,127 +1637,6 @@
     </div>
   </section>
 
-  <!-- ── TRIP DATES ───────────────────────────────────────────── -->
-  <section class="trip-section" id="trip">
-    <div class="trip-inner">
-      <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
-      <span class="t-label">The Trip</span>
-      <h2 class="t-h2">Dates &amp; Overview</h2>
-      <span class="t-italic">four days on the oldest island in the Mediterranean</span>
-
-      <div class="dates-row">
-        <div class="date-block">
-          <div class="db-month">July 2026</div>
-          <div class="db-num">31</div>
-          <div class="db-day">Friday — Trip Begins</div>
-        </div>
-        <div class="dates-arrow">→</div>
-        <div class="date-block">
-          <div class="db-month">August 2026</div>
-          <div class="db-num">3</div>
-          <div class="db-day">Monday — Trip Ends</div>
-        </div>
-      </div>
-
-      <div class="stefan-note">
-        <strong>Stefan arrives 30 July</strong> — a full day early to check in, discover the piazza, and find the best aperitivo before Nimrod lands.
-      </div>
-    </div>
-  </section>
-
-  <!-- ── IMAGE BREAK — Sicily / Ortygia placeholder ────────── -->
-  <div class="image-break">
-    <div class="image-break-placeholder">🌊</div>
-    <div class="image-break-overlay">
-      <div class="image-break-text">
-        <span class="t-label">Ortygia · Siracusa</span>
-        <h2 class="t-h2">The Ancient Island</h2>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── ACCOMMODATION ───────────────────────────────────────── -->
-  <section class="stay-section" id="stay">
-    <div class="stay-inner">
-      <div class="stay-header">
-        <div class="section-divider section-divider-teal"><span class="sd-diamond sd-teal">✦</span></div>
-        <span class="t-label">Where We Sleep</span>
-        <h2 class="t-h2">Accommodation</h2>
-        <p class="t-italic">B&amp;B L'Infiorescenza New, Piazza Santa Lucia</p>
-      </div>
-
-      <div class="stay-card">
-        <table class="stay-table">
-          <tbody>
-            <tr>
-              <td class="stl">Property</td>
-              <td style="font-family:'Italiana',serif; font-size:22px; color:var(--stone);">B&amp;B L'Infiorescenza New</td>
-            </tr>
-            <tr>
-              <td class="stl">Address</td>
-              <td>Piazza Santa Lucia 14, 96100 Siracusa, Sicily, Italy</td>
-            </tr>
-            <tr>
-              <td class="stl">Check-in</td>
-              <td>
-                Wednesday, 30 July 2026
-                <span class="early-tag">Stefan only</span>
-              </td>
-            </tr>
-            <tr>
-              <td class="stl">Check-out</td>
-              <td>Monday, 3 August 2026 at 10:00</td>
-            </tr>
-            <tr>
-              <td class="stl">Duration</td>
-              <td>4 nights (Stefan) · 3 nights (Nimrod)</td>
-            </tr>
-            <tr>
-              <td class="stl">Included</td>
-              <td><span class="badge-stay">☀&nbsp; Breakfast daily</span></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="stay-cta">
-          <a class="btn-teal" href="https://maps.google.com/?q=Piazza+Santa+Lucia+14,+96100+Siracusa,+Italy" target="_blank" rel="noopener">
-            📍&nbsp; View on Google Maps
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FLIGHTS ──────────────────────────────────────────────── -->
-  <section class="flights-section" id="flights">
-    <div class="flights-inner">
-      <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
-      <span class="t-label">Getting There</span>
-      <h2 class="t-h2">Flights</h2>
-      <span class="t-italic">nearest airport: Catania Fontanarossa (CTA), ~60 min from Siracusa</span>
-
-      <div class="flight-card">
-        <div class="flight-card-head">
-          <span>Return · Stefan &amp; Nimrod</span>
-          <strong>CTA → BER</strong>
-        </div>
-        <table class="fc-table">
-          <tr><td class="fcl">Date</td>        <td>Monday, 3 August 2026</td></tr>
-          <tr><td class="fcl">Route</td>       <td>Catania (CTA) → Berlin (BER)</td></tr>
-          <tr><td class="fcl">Airline</td>     <td>EasyJet</td></tr>
-          <tr><td class="fcl">Flight</td>      <td>EJU 5078</td></tr>
-          <tr><td class="fcl">Departure</td>   <td>18:45 · Catania (CTA)</td></tr>
-          <tr><td class="fcl">Arrival</td>     <td>21:35 · Berlin (BER)</td></tr>
-          <tr><td class="fcl">Passengers</td>  <td>Stefan &amp; Nimrod</td></tr>
-        </table>
-      </div>
-
-      <div class="placeholder-box" style="margin-top:14px;">
-        <div class="ph-icon">✈</div>
-        <p>Outbound flight details still to be added — Berlin → Catania.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- ── ITINERARY ────────────────────────────────────────────── -->
   <section class="itinerary-section" id="itinerary">
     <div class="itinerary-inner">
@@ -1830,57 +1715,6 @@
         </div>
       </div>
 
-    </div>
-  </section>
-
-  <!-- ── IMAGE BREAK 2 ───────────────────────────────────────── -->
-  <div class="image-break" style="height:320px;">
-    <div class="image-break-placeholder" style="font-size:48px;">🍋</div>
-    <div class="image-break-overlay" style="background:rgba(0,40,50,0.4);">
-      <div class="image-break-text">
-        <span class="t-label">The Flavours</span>
-        <h2 class="t-h2" style="font-size:clamp(28px,5vw,46px);">Mangia, mangia.</h2>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── FOOD ────────────────────────────────────────────────── -->
-  <section class="food-section" id="food">
-    <div class="food-inner">
-      <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
-      <span class="t-label">Where to Eat</span>
-      <h2 class="t-h2">Restaurants &amp; Food</h2>
-      <span class="t-italic">the freshest seafood on the Ionian Sea awaits</span>
-
-      <!-- ✏️  Add restaurant cards here (template below) -->
-      <div class="placeholder-box">
-        <div class="ph-icon">🍝</div>
-        <p>Add your restaurant picks here — arancini spots, seafood trattorias, granita bars.</p>
-      </div>
-
-      <!--
-        RESTAURANT CARD TEMPLATE:
-        Remove the placeholder-box above, paste this, duplicate for more:
-
-        <div class="resto-grid-wrap">
-          <div class="resto-card">
-            <h4>Restaurant Name</h4>
-            <p>Short description — vibe, what to order, why you love it.</p>
-            <span class="resto-tag">Seafood</span>
-            <span class="resto-tag">Book ahead</span>
-          </div>
-        </div>
-      -->
-
-      <div class="must-eat-row">
-        <span class="must-eat-pill">Arancini</span>
-        <span class="must-eat-pill">Pasta alla Norma</span>
-        <span class="must-eat-pill">Granita al caffè</span>
-        <span class="must-eat-pill">Caponata</span>
-        <span class="must-eat-pill">Swordfish</span>
-        <span class="must-eat-pill">Cannolo</span>
-        <span class="must-eat-pill">Brioche col tuppo</span>
-      </div>
     </div>
   </section>
 
@@ -1965,62 +1799,6 @@
 
         <button class="stories-btn stories-btn-next" id="stories-btn-next" aria-label="Next">›</button>
       </div>
-    </div>
-  </section>
-
-  <!-- ── PACKING ──────────────────────────────────────────────── -->
-  <section class="packing-section" id="packing">
-    <div class="packing-inner">
-      <div class="packing-header">
-        <div class="section-divider section-divider-teal"><span class="sd-diamond sd-teal">✦</span></div>
-        <span class="t-label">Don't Forget</span>
-        <h2 class="t-h2">Packing List</h2>
-        <p class="t-italic">Sicily in August is very, very sunny</p>
-      </div>
-
-      <div class="packing-cols">
-        <div class="pack-group">
-          <h5>Documents</h5>
-          <ul>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Passport</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Flight confirmation</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">B&amp;B confirmation</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">EU health card</span></li>
-          </ul>
-        </div>
-        <div class="pack-group">
-          <h5>Clothes &amp; Beach</h5>
-          <ul>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Linen / light shirts</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Swimwear</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Sun hat</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Sunglasses</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Walking shoes</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Dinner outfit</span></li>
-          </ul>
-        </div>
-        <div class="pack-group">
-          <h5>Health &amp; Sun</h5>
-          <ul>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">SPF 50+ sunscreen</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">After-sun lotion</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Antihistamines</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">First-aid kit</span></li>
-          </ul>
-        </div>
-        <div class="pack-group">
-          <h5>Tech &amp; Extras</h5>
-          <ul>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Phone + charger</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Power bank</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Camera</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Water bottle</span></li>
-            <li onclick="togglePack(this)"><span class="chk"></span><span class="il">Day-bag / tote</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <p class="packing-hint">Tap to check items off — saved in your browser.</p>
     </div>
   </section>
 
