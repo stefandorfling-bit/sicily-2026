@@ -293,10 +293,10 @@
     /* ─── TRAVELLERS — dark teal, split layout ───────────────── */
     /* ─── ANCIENT ISLAND ──────────────────────────────────── */
     .ancient-island-section {
-      background: var(--stone);
+      background: var(--teal-dark);
       padding: 80px 0;
       text-align: center;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(247,231,206,0.08);
     }
     .ai-inner {
       max-width: 780px;
@@ -307,7 +307,7 @@
 
     /* ─── TRAVELLERS ─────────────────────────────────────── */
     .travellers-section {
-      background: var(--teal-dark);
+      background: var(--stone);
       padding: 80px 0 0;
     }
     .travellers-header {
@@ -464,32 +464,94 @@
     .tp-map-list-name { font-size: 9.5px; font-weight: 600; color: rgba(255,255,255,0.9); }
     .tp-map-list-sub  { font-size: 8px; color: rgba(255,255,255,0.5); margin-top: 1px; }
     .tp-aperol-img {
-      position: absolute; top: -40px; right: -20px;
-      width: 160px; height: 160px; object-fit: contain;
-      transform: translateZ(56px) rotate(15deg);
+      position: absolute; top: -40px; right: -38px;
+      width: 120px; height: 120px; object-fit: contain;
+      transform: translateZ(30px) rotate(15deg);
       filter: drop-shadow(0 12px 28px rgba(0,0,0,0.4));
-      z-index: 6; pointer-events: none;
+      z-index: 2; pointer-events: none;
     }
 
     @media (max-width: 600px) {
       .tp-flipper-outer { width: 145px; height: 185px; }
-      .tp-layer-name { font-size: 20px; bottom: 14px; left: 12px; }
-      .tp-layer-role { bottom: 2px; left: 13px; font-size: 7px; }
-      .tp-big-emoji { font-size: 28px; top: 8px; right: 8px; }
-      .tp-pill { top: 12px; left: 8px; }
-      .tp-pill-icon { padding: 4px 6px; font-size: 11px; }
-      .tp-pill-text { padding: 4px 8px; font-size: 8.5px; }
+      /* Hide name/role inside both card faces on mobile */
+      .tp-face-overlay { display: none; }
+      .tp-layer-name, .tp-layer-role { display: none; }
+      /* Mobile name shown outside card */
+      .tp-mobile-label { display: block !important; }
+      /* Shrink back-card elements on mobile */
+      .tp-big-emoji { font-size: 22px; top: 6px; right: 6px; }
+      .tp-aperol-img { width: 72px; height: 72px; top: -18px; right: -28px; }
+      .tp-pill { top: 10px; left: 6px; }
+      .tp-pill-icon { padding: 4px 6px; font-size: 10px; }
+      .tp-pill-text { padding: 4px 8px; font-size: 8px; }
       .tp-map-card { display: none; }
-      .tp-map-list { top: 56%; left: -8px; width: 150px; }
-      .tp-map-list-img { width: 32px; height: 32px; font-size: 13px; }
-      .tp-map-list-name { font-size: 8px; }
+      .tp-map-list { top: 54%; left: -6px; width: 140px; }
+      .tp-map-list-img { width: 28px; height: 28px; font-size: 12px; }
+      .tp-map-list-name { font-size: 7.5px; }
       .tp-map-list-sub  { font-size: 7px; }
+    }
+
+    /* Mobile label — hidden on desktop, shown on mobile */
+    .tp-mobile-label { display: none; text-align: center; margin-top: 8px; }
+    .tp-mobile-label .tp-name {
+      font-family: 'Italiana', serif; font-size: 22px;
+      color: var(--teal); line-height: 1; margin-bottom: 2px;
+    }
+    .tp-mobile-label .tp-role {
+      font-size: 8px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--terra-dark);
+    }
+
+    /* Burger menu */
+    .nav-burger {
+      display: none;
+      background: none; border: none;
+      color: var(--stone); font-size: 22px;
+      cursor: pointer; padding: 4px 8px;
+      line-height: 1;
+    }
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 56px; right: 0;
+      width: 40vw; max-width: 220px;
+      max-height: 50vh;
+      overflow-y: auto;
+      background: rgba(0, 40, 50, 0.90);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 0 0 0 16px;
+      border-left: 1px solid rgba(247,231,206,0.12);
+      border-bottom: 1px solid rgba(247,231,206,0.12);
+      z-index: 300;
+      padding: 12px 0;
+    }
+    .nav-mobile-menu.open { display: block; }
+    .nav-mobile-menu ul { list-style: none; padding: 0; margin: 0; }
+    .nav-mobile-menu ul li a {
+      display: block;
+      padding: 11px 20px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(247,231,206,0.8);
+      border-bottom: 1px solid rgba(247,231,206,0.07);
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-mobile-menu ul li:last-child a { border-bottom: none; }
+    .nav-mobile-menu ul li a:hover {
+      background: rgba(247,231,206,0.08);
+      color: var(--stone);
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .nav-burger { display: block; }
     }
 
 
     /* ─── TRAVELLERS ─────────────────────────────────────── */
     .travellers-section {
-      background: var(--teal-dark);
+      background: var(--stone);
       padding: 80px 0 0;
     }
     .travellers-header {
@@ -639,9 +701,9 @@
       top: -40px; right: -20px;
       width: 160px; height: 160px;
       object-fit: contain;
-      transform: translateZ(56px) rotate(15deg);
+      transform: translateZ(30px) rotate(15deg);
       filter: drop-shadow(0 12px 28px rgba(0,0,0,0.4));
-      z-index: 6;
+      z-index: 2;
       pointer-events: none;
     }
     .tp-pill {
@@ -775,7 +837,7 @@
       font-family: 'Italiana', serif;
       font-style: italic;
       font-size: 14.5px;
-      color: rgba(247,231,206,0.58);
+      color: rgba(0,95,115,0.55);
       line-height: 1.55;
       margin-top: 10px;
       max-width: 240px;
@@ -1148,7 +1210,7 @@
 
     /* ─── INSPIRATION STORIES ───────────────────────────────── */
     .stories-section {
-      background: var(--stone);
+      background: var(--teal-dark);
       padding: 80px 0 90px;
       border-bottom: 1px solid var(--border);
     }
@@ -1657,7 +1719,7 @@
 
       /* Slightly transparent — readable but lets the beach breathe through */
       .countdown-strip    { background: rgba(0,  95, 115, 0.93); }
-      .travellers-section { background: rgba(0,  40,  50, 0.93); }
+      .travellers-section { background: rgba(247,231,206, 0.93); }
       .trip-section       { background: rgba(247,231,206, 0.93); }
       .stay-section       { background: rgba(0,  40,  50, 0.93); }
       .flights-section    { background: rgba(247,231,206, 0.93); }
@@ -1715,8 +1777,19 @@
         <li><a href="#inspiration">Inspo</a></li>
         <li><a href="logistics.html" style="color:var(--terra);">The Plan ↗</a></li>
       </ul>
+      <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false">☰</button>
     </div>
   </nav>
+  <!-- Mobile dropdown menu -->
+  <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+    <ul>
+      <li><a href="#travellers" onclick="closeMobileMenu()">Who</a></li>
+      <li><a href="#itinerary" onclick="closeMobileMenu()">Itinerary</a></li>
+      <li><a href="#explore" onclick="closeMobileMenu()">Explore</a></li>
+      <li><a href="#inspiration" onclick="closeMobileMenu()">Inspo</a></li>
+      <li><a href="logistics.html">The Plan ↗</a></li>
+    </ul>
+  </div>
 
   <!-- ── HERO ────────────────────────────────────────────────── -->
   <section class="hero">
@@ -1749,10 +1822,10 @@
   <!-- ── ANCIENT ISLAND ─────────────────────────────────────── -->
   <section class="ancient-island-section" id="ancient-island">
     <div class="ai-inner">
-      <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
+      <div class="section-divider section-divider-teal"><span class="sd-diamond sd-teal">✦</span></div>
       <span class="t-label" style="color:var(--terra);">Ortygia · Siracusa</span>
-      <h2 class="t-h2" style="color:var(--teal);">The Ancient Island</h2>
-      <p class="t-italic" style="color:rgba(0,95,115,0.55);">one of the oldest continuously inhabited cities in the world</p>
+      <h2 class="t-h2" style="color:var(--stone);">The Ancient Island</h2>
+      <p class="t-italic" style="color:rgba(247,231,206,0.55);">one of the oldest continuously inhabited cities in the world</p>
     </div>
   </section>
 
@@ -1805,7 +1878,11 @@
             </div>
 
         </div>
-        <div class="tp-label" style="margin-top:16px;">
+        <div class="tp-label" style="margin-top:10px;">
+          <div class="tp-mobile-label">
+            <div class="tp-name">Stefan</div>
+            <div class="tp-role">Arriving 30 July &bull; The Pioneer</div>
+          </div>
           <div class="tp-quote">"I don't wanna go to Etna on Sunday ⛰️. I wanna show off our brown summer bodies"</div>
         </div>
       </div>
@@ -1850,95 +1927,16 @@
             </div>
 
         </div>
-        <div class="tp-label" style="margin-top:16px;">
+        <div class="tp-label" style="margin-top:10px;">
+          <div class="tp-mobile-label">
+            <div class="tp-name">Nimrod</div>
+            <div class="tp-role">Arriving 31 July &bull; The Co-Conspirator</div>
+          </div>
           <div class="tp-quote">"Beach, sun, walking the place, LGBTQ+ parties &amp; places, try local food ❤️"</div>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- ── ITINERARY ────────────────────────────────────────────── -->
-  <section class="itinerary-section" id="itinerary">
-    <div class="itinerary-inner">
-      <div class="itinerary-header">
-        <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
-        <span class="t-label">Day by Day</span>
-        <h2 class="t-h2">Itinerary</h2>
-        <p class="t-italic">four days in the oldest continuously inhabited city in the world</p>
-      </div>
-
-      <div class="day-row">
-        <div class="dr-date"><div class="dr-num">30</div><div class="dr-month">July</div></div>
-        <div class="dr-content">
-          <h4>Stefan Arrives — Ortygia at Dusk</h4>
-          <ul>
-            <li>Check in at B&amp;B L'Infiorescenza New, Piazza Santa Lucia</li>
-            <li>Explore the island of Ortygia on foot — Fontana di Aretusa, Piazza del Duomo</li>
-            <li>Find the best aperitivo on the waterfront</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="day-row">
-        <div class="dr-date"><div class="dr-num">31</div><div class="dr-month">July</div></div>
-        <div class="dr-content">
-          <h4>Friday — The Gang's All Here</h4>
-          <ul>
-            <li>Nimrod arrives · reunite at the B&amp;B</li>
-            <li>Breakfast at the B&amp;B (included)</li>
-            <li><em>Add daytime activities here…</em></li>
-            <li>
-              🎂 <strong style="color:var(--stone);">Bartek's 40th Birthday Party</strong>
-              <span style="display:block; margin-top:5px; padding-left:2px; font-size:13px;">
-                <a href="https://maps.google.com/?q=Viale+dei+Lidi+533+Syracuse+Italy+96100" target="_blank" rel="noopener" style="color:var(--terra); text-decoration:underline; text-decoration-color:rgba(212,163,115,0.4);">Viale dei Lidi 533, Fontane Bianche, Syracuse</a>
-                &nbsp;·&nbsp;
-                <a href="https://www.instagram.com/macara_2025/" target="_blank" rel="noopener" style="color:var(--terra); text-decoration:underline; text-decoration-color:rgba(212,163,115,0.4);">@macara_2025 ↗</a>
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="day-row">
-        <div class="dr-date"><div class="dr-num">1</div><div class="dr-month">Aug</div></div>
-        <div class="dr-content">
-          <h4>Saturday — Ancient Greece &amp; the Sea</h4>
-          <ul>
-            <li>Breakfast at the B&amp;B</li>
-            <li><em>Add activities here…</em></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="day-row">
-        <div class="dr-date"><div class="dr-num">2</div><div class="dr-month">Aug</div></div>
-        <div class="dr-content">
-          <h4>Sunday — Noto &amp; Last Sunsets</h4>
-          <ul>
-            <li>Breakfast at the B&amp;B</li>
-            <li><em>Add activities here…</em></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="day-row">
-        <div class="dr-date"><div class="dr-num">3</div><div class="dr-month">Aug</div></div>
-        <div class="dr-content">
-          <h4>Monday — Check-out &amp; Arrivederci</h4>
-          <ul>
-            <li>Check out by 10:00</li>
-            <li>Last granita al caffè before the drive to Catania</li>
-            <li>🚗 <strong style="color:var(--stone);">Leave for airport at 15:30</strong> — ~1 hour drive to Catania (CTA)</li>
-            <li>Arrive airport by 17:00 · Boarding 18:00</li>
-            <li>✈️ EJU5078 departs 18:45 · arrives Berlin 21:35</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── EXPLORE ────────────────────────────────────────────── -->
+  </section>  <!-- ── EXPLORE ────────────────────────────────────────────── -->
   <section class="explore-section" id="explore">
     <div class="explore-inner">
       <div class="explore-header">
@@ -1978,13 +1976,92 @@
     </div>
   </div>
 
-  <!-- ── INSPIRATION STORIES ────────────────────────────────── -->
+  <!-- ── ITINERARY ────────────────────────────────────────────── -->
+  <section class="itinerary-section" id="itinerary">
+    <div class="itinerary-inner">
+      <div class="itinerary-header">
+        <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
+        <span class="t-label">Day by Day</span>
+        <h2 class="t-h2">Itinerary</h2>
+        <p class="t-italic">four days in the oldest continuously inhabited city in the world</p>
+      </div>
+
+      <div class="day-row">
+        <div class="dr-date"><div class="dr-num">30</div><div class="dr-month">July</div></div>
+        <div class="dr-content">
+          <h4>Stefan Arrives — Ortygia at Dusk</h4>
+          <ul>
+            <li>Check in at B&amp;B L'Infiorescenza New, Piazza Santa Lucia</li>
+            <li>Explore the island of Ortygia on foot — Fontana di Aretusa, Piazza del Duomo</li>
+            <li>Find the best aperitivo on the waterfront</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="dr-date"><div class="dr-num">31</div><div class="dr-month">July</div></div>
+        <div class="dr-content">
+          <h4>Friday — The Gang's All Here</h4>
+          <ul>
+            <li>Nimrod arrives · reunite at the B&amp;B</li>
+            <li>Breakfast at the B&amp;B (included)</li>
+            <li><em>Add daytime activities here…</em></li>
+            <li>
+              🎂 <strong style="color:var(--teal);font-weight:700;">Bartek's 40th Birthday Party</strong>
+              <span style="display:block; margin-top:5px; padding-left:2px; font-size:13px;">
+                <a href="https://maps.google.com/?q=Viale+dei+Lidi+533+Syracuse+Italy+96100" target="_blank" rel="noopener" style="color:var(--terra); text-decoration:underline; text-decoration-color:rgba(212,163,115,0.4);">Viale dei Lidi 533, Fontane Bianche, Syracuse</a>
+                &nbsp;·&nbsp;
+                <a href="https://www.instagram.com/macara_2025/" target="_blank" rel="noopener" style="color:var(--terra); text-decoration:underline; text-decoration-color:rgba(212,163,115,0.4);">@macara_2025 ↗</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="dr-date"><div class="dr-num">1</div><div class="dr-month">Aug</div></div>
+        <div class="dr-content">
+          <h4>Saturday — Ancient Greece &amp; the Sea</h4>
+          <ul>
+            <li>Breakfast at the B&amp;B</li>
+            <li><em>Add activities here…</em></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="dr-date"><div class="dr-num">2</div><div class="dr-month">Aug</div></div>
+        <div class="dr-content">
+          <h4>Sunday — Noto &amp; Last Sunsets</h4>
+          <ul>
+            <li>Breakfast at the B&amp;B</li>
+            <li><em>Add activities here…</em></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="dr-date"><div class="dr-num">3</div><div class="dr-month">Aug</div></div>
+        <div class="dr-content">
+          <h4>Monday — Check-out &amp; Arrivederci</h4>
+          <ul>
+            <li>Check out by 10:00</li>
+            <li>Last granita al caffè before the drive to Catania</li>
+            <li>🚗 <strong style="color:var(--teal);font-weight:700;">Leave for airport at 15:30</strong> — ~1 hour drive to Catania (CTA)</li>
+            <li>Arrive airport by 17:00 · Boarding 18:00</li>
+            <li>✈️ EJU5078 departs 18:45 · arrives Berlin 21:35</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>  <!-- ── INSPIRATION STORIES ────────────────────────────────── -->
   <section class="stories-section" id="inspiration">
     <div class="stories-container">
       <div class="stories-header">
-        <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
+        <div class="section-divider section-divider-teal"><span class="sd-diamond sd-teal">✦</span></div>
         <span class="t-label" style="color:var(--terra);">TikTok</span>
-        <h2 class="t-h2" style="color:var(--teal);">Inspiration &amp; Imagination</h2>
+        <h2 class="t-h2" style="color:var(--stone);">Inspiration &amp; Imagination</h2>
       </div>
 
       <!-- Phone viewer -->
@@ -2096,6 +2173,33 @@
         outer.addEventListener('touchend',   onLeave);
       });
     })();
+
+    /* Burger menu */
+    (function() {
+      var burger = document.getElementById('nav-burger');
+      var menu   = document.getElementById('nav-mobile-menu');
+      if (!burger || !menu) return;
+      burger.addEventListener('click', function() {
+        var open = menu.classList.toggle('open');
+        burger.textContent = open ? '✕' : '☰';
+        burger.setAttribute('aria-expanded', open);
+        menu.setAttribute('aria-hidden', !open);
+      });
+      /* Close when clicking outside */
+      document.addEventListener('click', function(e) {
+        if (!burger.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.remove('open');
+          burger.textContent = '☰';
+          burger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+    window.closeMobileMenu = function() {
+      var menu = document.getElementById('nav-mobile-menu');
+      var burger = document.getElementById('nav-burger');
+      if (menu) menu.classList.remove('open');
+      if (burger) { burger.textContent = '☰'; burger.setAttribute('aria-expanded','false'); }
+    };
 
     /* Packing persist */
     (function () {
@@ -2489,6 +2593,40 @@
 
     renderTopic(0);
     window.addEventListener('resize', applyFan);
+
+    /* ── Swipe & trackpad drag on the stage ────────────────── */
+    var stageEl   = stage;
+    var swipeX    = 0;
+    var dragging  = false;
+    var dragX     = 0;
+    var THRESH    = 45; /* min px to count as swipe */
+
+    /* Touch */
+    stageEl.addEventListener('touchstart', function(e) {
+      swipeX = e.touches[0].clientX;
+    }, { passive: true });
+    stageEl.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].clientX - swipeX;
+      if (Math.abs(dx) > THRESH) navigate(dx > 0 ? -1 : 1);
+    }, { passive: true });
+
+    /* Mouse drag (trackpad two-finger swipe on desktop) */
+    stageEl.style.cursor = 'grab';
+    stageEl.addEventListener('mousedown', function(e) {
+      dragging = true; dragX = e.clientX;
+      stageEl.style.cursor = 'grabbing';
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', function(e) {
+      if (!dragging) return;
+    });
+    window.addEventListener('mouseup', function(e) {
+      if (!dragging) return;
+      dragging = false;
+      stageEl.style.cursor = 'grab';
+      var dx = e.clientX - dragX;
+      if (Math.abs(dx) > THRESH) navigate(dx > 0 ? -1 : 1);
+    });
 
   })();
   </script>
