@@ -233,6 +233,17 @@
     }
 
     /* ─── Countdown strip ────────────────────────────────────── */
+    /* Sections stack above the sticky hero */
+    .countdown-strip,
+    .trip-section-on-hero,
+    .stay-section,
+    .flights-section,
+    .packing-section,
+    footer {
+      position: relative;
+      z-index: 2;
+    }
+
     .countdown-strip {
       background: var(--teal);
       color: var(--stone);
@@ -575,11 +586,15 @@
     /* ─── TRIP DATES — light stone section ───────────────────── */
     /* ─── LOGISTICS HERO ───────────────────────────────────── */
     .logistics-hero {
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 0;
       min-height: 100vh;
       display: flex;
       align-items: center;
       overflow: hidden;
+      transition: opacity 0.1s ease-out;
+      will-change: opacity;
     }
     .logistics-hero-bg {
       position: absolute;
@@ -1789,6 +1804,23 @@
       }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
       document.querySelectorAll('.anim').forEach(function (el) { io.observe(el); });
     })();
+  </script>
+
+  <!-- ── HERO FADE ON SCROLL ─────────────────────────────────── -->
+  <script>
+  (function () {
+    var hero = document.querySelector('.logistics-hero');
+    if (!hero) return;
+    function update() {
+      var scrollY = window.scrollY || window.pageYOffset;
+      var vh = window.innerHeight;
+      var opacity = 1 - Math.min(1, Math.max(0, (scrollY - vh * 0.25) / (vh * 0.4)));
+      hero.style.opacity = opacity;
+      hero.style.pointerEvents = opacity < 0.05 ? 'none' : 'auto';
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
   </script>
 
 </body>
