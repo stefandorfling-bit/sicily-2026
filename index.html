@@ -1076,33 +1076,37 @@
       margin-bottom: -1.5px; padding-bottom: 12.5px;
     }
 
-    /* Stage — no outer border; cards float on the dark bg */
-    .explore-stack-wrap { padding: 32px 0 0 0; overflow: visible; }
+    /* Coverflow carousel wrapper */
+    .explore-stack-wrap {
+      padding: 24px 0 0 0;
+      overflow: hidden;
+    }
     .explore-stage {
       position: relative;
-      height: 420px; /* card 300px + 120px headroom for rotated tops */
-      overflow: visible;
+      height: 320px;
+      overflow: hidden;
+      perspective: 1400px;
+      perspective-origin: 50% 50%;
     }
 
-    /* Individual card — full-bleed vivid color */
+    /* Individual card — full-bleed vivid color, centered */
     .ec {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: calc(100% - 16px);
-      max-width: 900px;
+      left: 50%;
+      top: 10px;
+      width: 480px;
       height: 300px;
       border-radius: 22px;
       overflow: hidden;
       cursor: pointer;
-      transform-origin: bottom left;
-      transition: transform 0.58s cubic-bezier(0.22,1,0.36,1),
-                  opacity  0.5s  cubic-bezier(0.22,1,0.36,1),
-                  box-shadow 0.2s;
-      box-shadow: 0 12px 48px rgba(0,0,0,0.35);
+      transform-origin: center center;
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity  0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.25s;
+      box-shadow: 0 16px 52px rgba(0,0,0,0.4);
       will-change: transform, opacity;
     }
-    .ec:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.45); }
+    .ec.ec-active { box-shadow: 0 24px 72px rgba(0,0,0,0.55); }
     .ec-inner {
       position: relative;
       width: 100%; height: 100%;
@@ -2291,32 +2295,38 @@
     var activeCard   = 0;
     var topicData    = topics[0];
 
-    /* ── Fan position transforms ──────────────────────────────── */
+    /* ── Coverflow carousel positions ─────────────────────────── */
     function applyFan() {
-      var cards = stage.querySelectorAll('.ec');
-      var n     = cards.length;
+      var cards  = stage.querySelectorAll('.ec');
+      var n      = cards.length;
+      /* Responsive card offset based on container width */
+      var sw     = stage.offsetWidth || 800;
+      var cardW  = Math.min(480, sw * 0.85);
+      var gap    = Math.round(cardW * 1.05); /* distance between card centres */
+
       cards.forEach(function (card, i) {
-        var offset = ((i - activeCard) % n + n) % n;
-        /* Show max 5 behind; rest hidden */
-        if (offset === 0) {
-          card.style.transform  = 'rotate(0deg)';
-          card.style.opacity    = '1';
-          card.style.zIndex     = '10';
-          card.style.pointerEvents = 'auto';
-        } else if (offset <= 5) {
-          var deg   = offset * 7;
-          var fade  = Math.max(0.32, 1 - offset * 0.16);
-          card.style.transform  = 'rotate(' + deg + 'deg)';
-          card.style.opacity    = String(fade);
-          card.style.zIndex     = String(10 - offset);
-          card.style.pointerEvents = 'auto';
-        } else {
-          /* Hidden behind: stacked at max rotation, invisible */
-          card.style.transform  = 'rotate(38deg)';
-          card.style.opacity    = '0';
-          card.style.zIndex     = '0';
-          card.style.pointerEvents = 'none';
+        var offset  = ((i - activeCard) % n + n) % n;
+        /* Convert to signed: 0=centre, +1=right, -1=left, etc. */
+        var sig = offset <= Math.floor(n / 2) ? offset : offset - n;
+        var tx, sc, ry, op, zi, pe;
+
+        switch (sig) {
+          case  0: tx = 0;           sc = 1;    ry =  0;  op = 1;    zi = 10; pe = 'auto'; break;
+          case  1: tx =  gap;        sc = 0.82; ry = -20; op = 0.6;  zi = 7;  pe = 'auto'; break;
+          case -1: tx = -gap;        sc = 0.82; ry =  20; op = 0.6;  zi = 7;  pe = 'auto'; break;
+          case  2: tx =  gap * 1.7;  sc = 0.65; ry = -32; op = 0.22; zi = 4;  pe = 'auto'; break;
+          case -2: tx = -gap * 1.7;  sc = 0.65; ry =  32; op = 0.22; zi = 4;  pe = 'auto'; break;
+          default:
+            tx = sig > 0 ? sw : -sw; sc = 0.5; ry = 0; op = 0; zi = 0; pe = 'none';
         }
+
+        card.style.width        = cardW + 'px';
+        card.style.transform    =
+          'translateX(-50%) translateX(' + tx + 'px) scale(' + sc + ') rotateY(' + ry + 'deg)';
+        card.style.opacity      = String(op);
+        card.style.zIndex       = String(zi);
+        card.style.pointerEvents = pe;
+        card.classList.toggle('ec-active', sig === 0);
       });
       if (counter) counter.textContent = (activeCard + 1) + ' / ' + n;
     }
@@ -2347,7 +2357,18 @@
         el.style.background = CARD_COLORS[i % CARD_COLORS.length];
         el.dataset.index    = i;
         el.innerHTML        = cardHTML(c, topicData);
-        el.addEventListener('click', function () { openModal(i); });
+        el.addEventListener('click', function () {
+          var sig = (function() {
+            var n   = topicData.cards.length;
+            var off = ((i - activeCard) % n + n) % n;
+            return off <= Math.floor(n / 2) ? off : off - n;
+          })();
+          if (sig === 0) {
+            openModal(i);           /* centre card → open modal */
+          } else {
+            navigate(sig);          /* side card → slide to it  */
+          }
+        });
         stage.appendChild(el);
       });
       applyFan();
