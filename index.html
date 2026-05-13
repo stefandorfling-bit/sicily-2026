@@ -297,6 +297,105 @@
     .travellers-header .t-label { color: var(--terra); margin-bottom: 12px; display: block; }
     .travellers-header .t-h2 { color: var(--stone); margin-bottom: 10px; }
     .travellers-header .t-italic { color: rgba(247,231,206,0.55); }
+
+    /* ─── TRAVELLER FLIP CARDS ───────────────────────────────── */
+    .tp-flip {
+      width: 260px; height: 320px;
+      perspective: 900px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .tp-flip-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tp-flip:hover .tp-flip-inner,
+    .tp-flip.flipped .tp-flip-inner { transform: rotateY(180deg); }
+    .tp-flip-front, .tp-flip-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      border-radius: 20px; overflow: hidden;
+    }
+    .tp-flip-front {
+      background: var(--teal-dark);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tp-flip-back { transform: rotateY(180deg); transform-style: preserve-3d; }
+    .tp-back-card { width:100%; height:100%; position:relative; transform-style:preserve-3d; overflow:hidden; }
+    .tp-back-name {
+      position:absolute; top:20px; left:22px;
+      font-family:'Italiana',serif; font-size:30px;
+      color:rgba(255,255,255,0.95); text-shadow:0 2px 8px rgba(0,0,0,0.18);
+      transform:translateZ(4px); z-index:2;
+    }
+    .tp-back-role {
+      position:absolute; top:60px; left:23px;
+      font-size:9px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase;
+      color:rgba(255,255,255,0.5); transform:translateZ(4px); z-index:2;
+    }
+    .tp-big-emoji {
+      position:absolute; top:8px; right:14px;
+      font-size:52px; line-height:1;
+      transform:translateZ(24px) rotate(10deg);
+      filter:drop-shadow(0 8px 18px rgba(0,0,0,0.35)); z-index:5;
+    }
+    .tp-pill {
+      position:absolute; top:104px; left:18px;
+      display:inline-flex; align-items:center;
+      border-radius:100px; overflow:hidden;
+      border:1px solid rgba(255,255,255,0.28);
+      box-shadow:0 6px 20px rgba(0,0,0,0.22);
+      transform:translateZ(18px) rotate(-2.5deg); z-index:4;
+    }
+    .tp-pill-icon { background:rgba(255,255,255,0.28); padding:7px 10px; font-size:15px; line-height:1; flex-shrink:0; }
+    .tp-pill-text { background:rgba(255,255,255,0.12); padding:7px 13px; font-size:11px; font-weight:600; letter-spacing:0.04em; color:rgba(255,255,255,0.92); white-space:nowrap; }
+    .tp-map-card {
+      position:absolute; bottom:76px; right:16px; width:118px;
+      border-radius:12px; overflow:hidden;
+      border:1px solid rgba(255,255,255,0.2);
+      box-shadow:0 10px 28px rgba(0,0,0,0.3);
+      transform:translateZ(22px) rotate(3deg); z-index:4;
+    }
+    .tp-map-card-img {
+      height:72px;
+      background:linear-gradient(135deg,#4A90D9 0%,#5BA89E 45%,#76A874 100%);
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px; position:relative;
+    }
+    .tp-map-card-img::after {
+      content:''; position:absolute; inset:0;
+      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' opacity='0.12'%3E%3Cpath d='M0 20h60M0 40h60M20 0v60M40 0v60' stroke='white' stroke-width='1'/%3E%3C/svg%3E");
+    }
+    .tp-map-card-dot { position:absolute; width:10px; height:10px; background:#EA4335; border-radius:50%; border:2px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.3); z-index:1; }
+    .tp-map-card-info { background:rgba(255,255,255,0.12); padding:6px 9px 7px; }
+    .tp-map-card-name { font-size:10px; font-weight:600; color:rgba(255,255,255,0.9); line-height:1.3; }
+    .tp-map-card-sub  { font-size:8.5px; color:rgba(255,255,255,0.5); margin-top:1px; }
+    .tp-map-list {
+      position:absolute; bottom:18px; left:14px; right:14px;
+      display:flex; align-items:center;
+      border-radius:10px; overflow:hidden;
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow:0 6px 20px rgba(0,0,0,0.22);
+      transform:translateZ(12px) rotate(-1.5deg); z-index:3;
+    }
+    .tp-map-list-img { width:46px; height:46px; flex-shrink:0; background:linear-gradient(135deg,#4A90D9,#76A874); display:flex; align-items:center; justify-content:center; font-size:18px; }
+    .tp-map-list-info { background:rgba(255,255,255,0.1); flex:1; padding:6px 10px; }
+    .tp-map-list-name { font-size:10px; font-weight:600; color:rgba(255,255,255,0.9); }
+    .tp-map-list-sub  { font-size:8.5px; color:rgba(255,255,255,0.5); margin-top:1px; }
+    @media (max-width:600px) {
+      .tp-flip { width:130px; height:160px; }
+      .tp-big-emoji { font-size:30px; top:5px; right:8px; }
+      .tp-back-name { font-size:18px; top:10px; left:10px; }
+      .tp-back-role { top:34px; left:11px; font-size:7px; }
+      .tp-pill { top:60px; left:8px; }
+      .tp-pill-icon { padding:4px 6px; font-size:11px; }
+      .tp-pill-text { padding:4px 8px; font-size:9px; }
+      .tp-map-card { display:none; }
+      .tp-map-list { bottom:8px; left:6px; right:6px; }
+      .tp-map-list-img { width:32px; height:32px; font-size:13px; }
+      .tp-map-list-name { font-size:8px; } .tp-map-list-sub { font-size:7px; }
+    }
+
     .travellers-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1326,14 +1425,54 @@
     <div class="travellers-grid">
       <!-- Stefan -->
       <div class="traveller-panel">
-        <div class="traveller-oval-wrap">
-          <img
-            src="images/stefan.jpeg"
-            alt="Stefan"
-            class="stefan-zoom"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          />
-          <div class="tp-placeholder" style="display:none;">🏖</div>
+        <div class="tp-flip" id="tp-flip-stefan" tabindex="0" aria-label="Flip Stefan card">
+          <div class="tp-flip-inner">
+            <!-- FRONT -->
+            <div class="tp-flip-front">
+              <div class="traveller-oval-wrap">
+                <img
+                  src="images/stefan.jpeg"
+                  alt="Stefan"
+                  class="stefan-zoom"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div class="tp-placeholder" style="display:none;">🏖</div>
+              </div>
+            </div>
+            <!-- BACK -->
+            <div class="tp-flip-back">
+              <div class="tp-back-card" style="background:linear-gradient(145deg,#C0662A 0%,#7A3A18 100%);">
+                <div class="tp-back-name">Stefan</div>
+                <div class="tp-back-role">The Pioneer · 30 July</div>
+                <!-- 1. Aperol Spritz emoji -->
+                <div class="tp-big-emoji">🍹</div>
+                <!-- 2. Pill with emoji button -->
+                <div class="tp-pill">
+                  <span class="tp-pill-icon">✈️</span>
+                  <span class="tp-pill-text">Arriving early</span>
+                </div>
+                <!-- 3. Google Maps card -->
+                <div class="tp-map-card">
+                  <div class="tp-map-card-img">
+                    🗺️
+                    <div class="tp-map-card-dot" style="top:52%;left:48%;"></div>
+                  </div>
+                  <div class="tp-map-card-info">
+                    <div class="tp-map-card-name">Piazza Santa Lucia</div>
+                    <div class="tp-map-card-sub">Siracusa, Sicily</div>
+                  </div>
+                </div>
+                <!-- 4. Google Maps list item -->
+                <div class="tp-map-list">
+                  <div class="tp-map-list-img">🏨</div>
+                  <div class="tp-map-list-info">
+                    <div class="tp-map-list-name">B&amp;B L'Infiorescenza</div>
+                    <div class="tp-map-list-sub">Piazza Santa Lucia 14</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="tp-label">
           <div class="tp-name">Stefan</div>
@@ -1344,14 +1483,54 @@
 
       <!-- Nimrod -->
       <div class="traveller-panel">
-        <div class="traveller-oval-wrap">
-          <img
-            src="images/nimrod.jpeg"
-            alt="Nimrod"
-            class="nimrod-img"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          />
-          <div class="tp-placeholder" style="display:none;">🕶</div>
+        <div class="tp-flip" id="tp-flip-nimrod" tabindex="0" aria-label="Flip Nimrod card">
+          <div class="tp-flip-inner">
+            <!-- FRONT -->
+            <div class="tp-flip-front">
+              <div class="traveller-oval-wrap">
+                <img
+                  src="images/nimrod.jpeg"
+                  alt="Nimrod"
+                  class="nimrod-img"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div class="tp-placeholder" style="display:none;">🕶</div>
+              </div>
+            </div>
+            <!-- BACK -->
+            <div class="tp-flip-back">
+              <div class="tp-back-card" style="background:linear-gradient(145deg,#1A6B8A 0%,#0A3A50 100%);">
+                <div class="tp-back-name">Nimrod</div>
+                <div class="tp-back-role">The Co-Conspirator · 31 July</div>
+                <!-- 1. Beach umbrella emoji -->
+                <div class="tp-big-emoji">⛱️</div>
+                <!-- 2. Pill with emoji button -->
+                <div class="tp-pill">
+                  <span class="tp-pill-icon">🌊</span>
+                  <span class="tp-pill-text">Beach mode</span>
+                </div>
+                <!-- 3. Google Maps card -->
+                <div class="tp-map-card">
+                  <div class="tp-map-card-img">
+                    🗺️
+                    <div class="tp-map-card-dot" style="top:50%;left:50%;"></div>
+                  </div>
+                  <div class="tp-map-card-info">
+                    <div class="tp-map-card-name">Fontane Bianche</div>
+                    <div class="tp-map-card-sub">Viale dei Lidi 533</div>
+                  </div>
+                </div>
+                <!-- 4. Google Maps list item -->
+                <div class="tp-map-list">
+                  <div class="tp-map-list-img">🎂</div>
+                  <div class="tp-map-list-info">
+                    <div class="tp-map-list-name">Bartek's 40th — Macara</div>
+                    <div class="tp-map-list-sub">Viale dei Lidi 533, Syracuse</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="tp-label">
           <div class="tp-name">Nimrod</div>
@@ -1782,6 +1961,18 @@
       tick();
       setInterval(tick, 60000);
     })();
+
+    /* Traveller card flip — tap on mobile */
+    document.querySelectorAll('.tp-flip').forEach(function (card) {
+      card.addEventListener('click', function () {
+        if (window.matchMedia('(hover: none)').matches) {
+          card.classList.toggle('flipped');
+        }
+      });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') card.classList.toggle('flipped');
+      });
+    });
 
     /* Packing persist */
     (function () {
