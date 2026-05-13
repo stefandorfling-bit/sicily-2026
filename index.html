@@ -319,6 +319,188 @@
     .travellers-header .t-italic { color: rgba(247,231,206,0.55); }
 
 
+    /* ─── TRAVELLER FLIP CARDS (no preserve-3d on wrapper) ─── */
+    .tp-flipper-outer {
+      position: relative;
+      width: 270px; height: 340px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Both faces: absolute fill, individual perspective transforms */
+    .tp-front-face,
+    .tp-back-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    /* ── FRONT — photo, visible by default ─────────────────── */
+    .tp-front-face {
+      overflow: hidden;
+      z-index: 2;
+      transform: perspective(900px) rotateY(0deg);
+    }
+    .tp-flipper-outer.flipped .tp-front-face {
+      transform: perspective(900px) rotateY(180deg);
+      pointer-events: none;
+    }
+
+    /* gradient overlay so name/role is readable */
+    .tp-face-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 56px 22px 20px;
+      background: linear-gradient(to top, rgba(0,10,20,0.82) 0%, rgba(0,10,20,0.1) 70%, transparent 100%);
+      z-index: 2;
+    }
+    .tp-face-overlay .tp-name {
+      font-family: 'Italiana', serif; font-size: 34px;
+      color: #fff; line-height: 1; margin-bottom: 5px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+    .tp-face-overlay .tp-role {
+      font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.65);
+    }
+    .tp-front-face::after {
+      content: 'tap to flip';
+      position: absolute; top: 12px; right: 14px;
+      font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+      z-index: 3; transition: color 0.2s;
+    }
+    .tp-flipper-outer:hover .tp-front-face::after { color: rgba(255,255,255,0.6); }
+
+    /* ── BACK — tilt card, hidden by default ───────────────── */
+    .tp-back-face {
+      transform: perspective(900px) rotateY(-180deg);
+      pointer-events: none;
+      z-index: 1;
+      overflow: visible;
+    }
+    .tp-flipper-outer.flipped .tp-back-face {
+      transform: perspective(900px) rotateY(0deg);
+      pointer-events: auto;
+    }
+
+    /* Inner back card — has its OWN preserve-3d for floating elements */
+    .tp-tilt-inner-back {
+      width: 100%; height: 100%;
+      position: relative;
+      border-radius: 22px;
+      transform-style: preserve-3d;
+      transition: transform 0.12s ease-out, box-shadow 0.3s;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      overflow: visible;
+    }
+    .tp-tilt-inner-back::before {
+      content: ''; position: absolute; inset: 0;
+      border-radius: 22px; background: inherit; z-index: 0;
+    }
+
+    /* Name / role on back card */
+    .tp-layer-name {
+      position: absolute; bottom: 20px; left: 22px;
+      font-family: 'Italiana', serif; font-size: 30px;
+      color: rgba(255,255,255,0.95); transform: translateZ(24px);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.25); z-index: 6; line-height: 1;
+    }
+    .tp-layer-role {
+      position: absolute; bottom: 3px; left: 24px;
+      font-size: 9px; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      transform: translateZ(20px); z-index: 6;
+    }
+    .tp-big-emoji {
+      position: absolute; top: 16px; right: 18px;
+      font-size: 46px; line-height: 1;
+      transform: translateZ(52px) rotate(10deg);
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35)); z-index: 5;
+    }
+    .tp-pill {
+      position: absolute; top: 26px; left: 18px;
+      display: inline-flex; align-items: center;
+      border-radius: 100px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      transform: translateZ(38px) rotate(-3deg); z-index: 5;
+    }
+    .tp-pill-icon { background: rgba(255,255,255,0.3); padding: 7px 10px; font-size: 14px; line-height: 1; flex-shrink: 0; }
+    .tp-pill-text { background: rgba(255,255,255,0.12); padding: 7px 13px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; color: rgba(255,255,255,0.92); white-space: nowrap; }
+    .tp-map-card {
+      position: absolute; top: 48%; right: -18px; width: 120px;
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+      transform: translateZ(46px) rotate(5deg); z-index: 5;
+    }
+    .tp-map-card-img {
+      height: 68px;
+      background: linear-gradient(135deg,#3A8FD9 0%,#5BAEAD 50%,#6AAF7A 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; position: relative;
+    }
+    .tp-map-card-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' opacity='0.15'%3E%3Cpath d='M0 13h40M0 26h40M13 0v40M26 0v40' stroke='white' stroke-width='0.8'/%3E%3C/svg%3E");
+    }
+    .tp-map-card-dot { position: absolute; width: 9px; height: 9px; background: #EA4335; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.4); z-index: 1; top: 52%; left: 46%; }
+    .tp-map-card-info { background: rgba(0,0,0,0.45); padding: 6px 9px 7px; }
+    .tp-map-card-name { font-size: 9.5px; font-weight: 600; color: rgba(255,255,255,0.92); line-height: 1.3; }
+    .tp-map-card-sub  { font-size: 8px; color: rgba(255,255,255,0.5); margin-top: 1px; }
+    .tp-map-list {
+      position: absolute; top: 58%; left: -18px; width: 190px;
+      display: flex; align-items: center;
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      transform: translateZ(30px) rotate(-4deg); z-index: 4;
+    }
+    .tp-map-list-img { width: 44px; height: 44px; flex-shrink: 0; background: linear-gradient(135deg,#3A8FD9,#6AAF7A); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .tp-map-list-info { background: rgba(0,0,0,0.4); flex: 1; padding: 6px 10px; }
+    .tp-map-list-name { font-size: 9.5px; font-weight: 600; color: rgba(255,255,255,0.9); }
+    .tp-map-list-sub  { font-size: 8px; color: rgba(255,255,255,0.5); margin-top: 1px; }
+    .tp-aperol-img {
+      position: absolute; top: -40px; right: -20px;
+      width: 160px; height: 160px; object-fit: contain;
+      transform: translateZ(56px) rotate(15deg);
+      filter: drop-shadow(0 12px 28px rgba(0,0,0,0.4));
+      z-index: 6; pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      .tp-flipper-outer { width: 145px; height: 185px; }
+      .tp-layer-name { font-size: 20px; bottom: 14px; left: 12px; }
+      .tp-layer-role { bottom: 2px; left: 13px; font-size: 7px; }
+      .tp-big-emoji { font-size: 28px; top: 8px; right: 8px; }
+      .tp-pill { top: 12px; left: 8px; }
+      .tp-pill-icon { padding: 4px 6px; font-size: 11px; }
+      .tp-pill-text { padding: 4px 8px; font-size: 8.5px; }
+      .tp-map-card { display: none; }
+      .tp-map-list { top: 56%; left: -8px; width: 150px; }
+      .tp-map-list-img { width: 32px; height: 32px; font-size: 13px; }
+      .tp-map-list-name { font-size: 8px; }
+      .tp-map-list-sub  { font-size: 7px; }
+    }
+
+
+    /* ─── TRAVELLERS ─────────────────────────────────────── */
+    .travellers-section {
+      background: var(--teal-dark);
+      padding: 80px 0 0;
+    }
+    .travellers-header {
+      text-align: center;
+      padding: 0 24px 60px;
+    }
+    .travellers-header .t-label { color: var(--terra); margin-bottom: 12px; display: block; }
+    .travellers-header .t-h2 { color: var(--stone); margin-bottom: 10px; }
+    .travellers-header .t-italic { color: rgba(247,231,206,0.55); }
+
+
     /* ─── TRAVELLER FLIP + TILT CARDS ───────────────────────── */
 
     /* Outer container — perspective + flip trigger */
@@ -1586,8 +1768,6 @@
       <!-- Stefan -->
       <div class="traveller-panel">
         <div class="tp-flipper-outer" id="tp-flipper-stefan">
-          <div class="tp-flipper-inner">
-
             <!-- FRONT: full-bleed photo card (default) -->
             <div class="tp-front-face"
               style="background-image:url('images/stefan.jpeg');background-size:cover;background-position:center 55%;">
@@ -1624,7 +1804,6 @@
               </div>
             </div>
 
-          </div>
         </div>
         <div class="tp-label" style="margin-top:16px;">
           <div class="tp-quote">"I don't wanna go to Etna on Sunday ⛰️. I wanna show off our brown summer bodies"</div>
@@ -1634,8 +1813,6 @@
       <!-- Nimrod -->
       <div class="traveller-panel">
         <div class="tp-flipper-outer" id="tp-flipper-nimrod">
-          <div class="tp-flipper-inner">
-
             <!-- FRONT: full-bleed photo card (default) -->
             <div class="tp-front-face"
               style="background-image:url('images/nimrod.jpeg');background-size:cover;background-position:center 18%;">
@@ -1672,7 +1849,6 @@
               </div>
             </div>
 
-          </div>
         </div>
         <div class="tp-label" style="margin-top:16px;">
           <div class="tp-quote">"Beach, sun, walking the place, LGBTQ+ parties &amp; places, try local food ❤️"</div>
@@ -1876,14 +2052,15 @@
       setInterval(tick, 60000);
     })();
 
-    /* Traveller cards — click to flip, tilt only on back face */
+    /* Traveller cards — click to flip, tilt on back face */
     (function () {
       var MAX_TILT = 13;
 
       document.querySelectorAll('.tp-flipper-outer').forEach(function (outer) {
         var tiltEl = outer.querySelector('.tp-tilt-inner-back');
 
-        /* ── Click = toggle flip ─────────────────────────────── */
+        /* Click = toggle flip */
+        outer.setAttribute('tabindex', '0');
         outer.addEventListener('click', function () {
           outer.classList.toggle('flipped');
           if (!outer.classList.contains('flipped') && tiltEl) {
@@ -1891,42 +2068,32 @@
             tiltEl.style.boxShadow = '';
           }
         });
+        outer.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault(); outer.classList.toggle('flipped');
+          }
+        });
 
-        /* ── Tilt — only active when showing back face ────────── */
+        /* Tilt on back face */
         function onMove(e) {
           if (!outer.classList.contains('flipped') || !tiltEl) return;
           var rect = outer.getBoundingClientRect();
-          var x    = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-          var y    = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-          var cx   = rect.width  / 2;
-          var cy   = rect.height / 2;
-          var rotX = ((y - cy) / cy) * -MAX_TILT;
-          var rotY = ((x - cx) / cx) *  MAX_TILT;
+          var x  = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+          var y  = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+          var rX = ((y - rect.height/2) / (rect.height/2)) * -MAX_TILT;
+          var rY = ((x - rect.width/2)  / (rect.width/2))  *  MAX_TILT;
           tiltEl.style.transform =
-            'perspective(900px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg)';
-          tiltEl.style.boxShadow =
-            rotY * 1.5 + 'px ' + (-rotX * 1.5 + 20) + 'px 56px rgba(0,0,0,0.5)';
+            'perspective(900px) rotateX(' + rX.toFixed(2) + 'deg) rotateY(' + rY.toFixed(2) + 'deg)';
         }
 
         function onLeave() {
-          if (!tiltEl) return;
-          tiltEl.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
-          tiltEl.style.boxShadow = '0 20px 60px rgba(0,0,0,0.35)';
+          if (tiltEl) tiltEl.style.transform = '';
         }
 
         outer.addEventListener('mousemove',  onMove);
         outer.addEventListener('mouseleave', onLeave);
         outer.addEventListener('touchmove',  function(e){ e.preventDefault(); onMove(e); }, { passive: false });
         outer.addEventListener('touchend',   onLeave);
-
-        /* Keyboard accessibility */
-        outer.setAttribute('tabindex', '0');
-        outer.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            outer.classList.toggle('flipped');
-          }
-        });
       });
     })();
 
