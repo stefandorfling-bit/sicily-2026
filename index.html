@@ -2086,3 +2086,1084 @@
     </div>
   </section>
 
+
+  <!-- ── INSPIRATION STORIES ────────────────────────────────── -->
+  <section class="stories-section" id="inspiration">
+    <div class="stories-container">
+      <div class="stories-header">
+        <div class="section-divider section-divider-teal"><span class="sd-diamond sd-teal">✦</span></div>
+        <span class="t-label" style="color:var(--terra);">TikTok</span>
+        <h2 class="t-h2" style="color:var(--stone);">Inspiration &amp; Imagination</h2>
+      </div>
+
+      <!-- Phone viewer -->
+      <div class="stories-viewer">
+        <button class="stories-btn stories-btn-prev" id="stories-btn-prev" aria-label="Previous">‹</button>
+
+        <!-- Phone + progress stacked in a column -->
+        <div class="stories-phone-col">
+          <!-- Progress bars above the phone -->
+          <div class="stories-progress" id="stories-progress"></div>
+
+          <!-- Video frame -->
+          <div class="stories-phone">
+          <iframe
+            id="stories-iframe"
+            src=""
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            frameborder="0"
+            scrolling="no"
+          ></iframe>
+
+          <!-- Attribution -->
+          <div class="stories-attr" id="stories-attr"></div>
+
+          <!-- Mute toggle -->
+          <button class="stories-mute" id="stories-mute" aria-label="Toggle mute">
+            <span id="stories-mute-icon">🔇</span>
+          </button>
+        </div>
+        </div><!-- end .stories-phone-col -->
+
+        <button class="stories-btn stories-btn-next" id="stories-btn-next" aria-label="Next">›</button>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ── FOOTER ──────────────────────────────────────────────── -->
+  <footer>
+    <span class="ft-quote">La vita è bella.</span>
+    <span class="ft-sub">Siracusa, Sicily · 31 July – 3 August 2026</span><br><br>
+    Made with love &amp; a little Golden Girls energy ✦
+  </footer>
+
+  <!-- ── SCRIPTS ─────────────────────────────────────────────── -->
+  <script>
+    /* Countdown */
+    (function () {
+      const dep = new Date('2026-07-31T00:00:00');
+      function tick() {
+        const diff = Math.ceil((dep - new Date()) / 86400000);
+        const el = document.getElementById('js-countdown');
+        const sub = document.getElementById('js-countdown-sub');
+        if (!el) return;
+        if (diff <= 0) {
+          el.textContent = '🎉';
+          if (sub) sub.textContent = 'We\'re in Sicily!';
+        } else {
+          el.textContent = diff;
+        }
+      }
+      tick();
+      setInterval(tick, 60000);
+    })();
+
+    /* Traveller cards — click to flip, tilt on back face */
+    (function () {
+      var MAX_TILT = 13;
+
+      document.querySelectorAll('.tp-flipper-outer').forEach(function (outer) {
+        var tiltEl = outer.querySelector('.tp-tilt-inner-back');
+
+        /* Click = toggle flip */
+        outer.setAttribute('tabindex', '0');
+        outer.addEventListener('click', function () {
+          outer.classList.toggle('flipped');
+          if (!outer.classList.contains('flipped') && tiltEl) {
+            tiltEl.style.transform = '';
+            tiltEl.style.boxShadow = '';
+          }
+        });
+        outer.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault(); outer.classList.toggle('flipped');
+          }
+        });
+
+        /* Tilt on back face */
+        function onMove(e) {
+          if (!outer.classList.contains('flipped') || !tiltEl) return;
+          var rect = outer.getBoundingClientRect();
+          var x  = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+          var y  = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+          var rX = ((y - rect.height/2) / (rect.height/2)) * -MAX_TILT;
+          var rY = ((x - rect.width/2)  / (rect.width/2))  *  MAX_TILT;
+          tiltEl.style.transform =
+            'perspective(900px) rotateX(' + rX.toFixed(2) + 'deg) rotateY(' + rY.toFixed(2) + 'deg)';
+        }
+
+        function onLeave() {
+          if (tiltEl) tiltEl.style.transform = '';
+        }
+
+        outer.addEventListener('mousemove',  onMove);
+        outer.addEventListener('mouseleave', onLeave);
+        outer.addEventListener('touchmove',  function(e){ e.preventDefault(); onMove(e); }, { passive: false });
+        outer.addEventListener('touchend',   onLeave);
+      });
+    })();
+
+    /* Burger menu */
+    (function() {
+      var burger = document.getElementById('nav-burger');
+      var menu   = document.getElementById('nav-mobile-menu');
+      if (!burger || !menu) return;
+      burger.addEventListener('click', function() {
+        var open = menu.classList.toggle('open');
+        burger.textContent = open ? '✕' : '☰';
+        burger.setAttribute('aria-expanded', open);
+        menu.setAttribute('aria-hidden', !open);
+      });
+      /* Close when clicking outside */
+      document.addEventListener('click', function(e) {
+        if (!burger.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.remove('open');
+          burger.textContent = '☰';
+          burger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+    window.closeMobileMenu = function() {
+      var menu = document.getElementById('nav-mobile-menu');
+      var burger = document.getElementById('nav-burger');
+      if (menu) menu.classList.remove('open');
+      if (burger) { burger.textContent = '☰'; burger.setAttribute('aria-expanded','false'); }
+    };
+
+    /* Packing persist */
+    (function () {
+      const KEY = 'sicily2026_pack';
+      const saved = JSON.parse(localStorage.getItem(KEY) || '[]');
+      document.querySelectorAll('.pack-group li').forEach((li, i) => {
+        if (saved.includes(i)) li.classList.add('packed');
+      });
+      window.togglePack = function (li) {
+        li.classList.toggle('packed');
+        const out = [];
+        document.querySelectorAll('.pack-group li').forEach((x, i) => {
+          if (x.classList.contains('packed')) out.push(i);
+        });
+        localStorage.setItem(KEY, JSON.stringify(out));
+      };
+    })();
+  </script>
+
+  <!-- ── STORIES PLAYER ─────────────────────────────────────── -->
+  <script>
+  (function () {
+    var videos = [
+      { id: '7541025818387057943', user: '@travelmusediary' },
+      { id: '7105016242968317189', user: '@terplanet' },
+      { id: '7392298348553817376', user: '@simonaaffinito' },
+      { id: '7372197384362773792', user: '@kat_cf' },
+      { id: '7245203304651803930', user: '@lene_gouws' },
+      { id: '7619059691812883734', user: '@travelexperiencewithbi' },
+      { id: '7532886944917769494', user: '@crushonthego' }
+    ];
+
+    var DURATION   = 30000;
+    var current    = 0;
+    var isMuted    = true;
+    var isPlaying  = false; /* tracks whether user has started playback */
+    var timer      = null;
+
+    var iframe   = document.getElementById('stories-iframe');
+    var progress = document.getElementById('stories-progress');
+    var attr     = document.getElementById('stories-attr');
+    var btnPrev  = document.getElementById('stories-btn-prev');
+    var btnNext  = document.getElementById('stories-btn-next');
+    var muteBtn  = document.getElementById('stories-mute');
+    var muteIcon = document.getElementById('stories-mute-icon');
+
+    if (!iframe) return;
+
+    /* Build progress bars */
+    videos.forEach(function () {
+      var bar = document.createElement('div');
+      bar.className = 'sp-bar';
+      progress.appendChild(bar);
+    });
+
+    function bars() { return progress.querySelectorAll('.sp-bar'); }
+
+    /* autoplay=1 only if user has already started watching */
+    function buildSrc(id) {
+      var src = 'https://www.tiktok.com/player/v1/' + id + '?loop=1';
+      if (isPlaying) src += '&autoplay=1';
+      if (isMuted)   src += '&muted=1';
+      return src;
+    }
+
+    function startTimer() {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        if (isPlaying && current < videos.length - 1) goTo(current + 1);
+      }, DURATION);
+    }
+
+    function stopTimer() {
+      clearTimeout(timer);
+    }
+
+    function loadVideo(id) {
+      var phone = document.querySelector('.stories-phone');
+      var old   = document.getElementById('stories-iframe');
+      if (old) old.remove();
+
+      var f = document.createElement('iframe');
+      f.id          = 'stories-iframe';
+      f.src         = buildSrc(id);
+      f.allow       = 'autoplay; fullscreen';
+      f.allowFullscreen = true;
+      f.frameBorder = '0';
+      f.scrolling   = 'no';
+      f.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+      phone.insertBefore(f, phone.firstChild);
+      iframe = f;
+    }
+
+    function updateBars() {
+      bars().forEach(function (b, i) {
+        b.style.setProperty('--sp-dur', DURATION + 'ms');
+        b.className = 'sp-bar' + (i < current ? ' done' : i === current ? ' active' : '');
+      });
+    }
+
+    function goTo(index) {
+      stopTimer();
+      current = (index + videos.length) % videos.length;
+      loadVideo(videos[current].id);
+      if (attr) attr.textContent = videos[current].user + ' · TikTok';
+      updateBars();
+      if (btnPrev) btnPrev.disabled = current === 0;
+      if (btnNext) btnNext.disabled = current === videos.length - 1;
+      /* Only start timer if user is actively watching */
+      if (isPlaying) startTimer();
+    }
+
+    /* Listen for TikTok player events via postMessage */
+    window.addEventListener('message', function (e) {
+      if (!e.data) return;
+      var data = (typeof e.data === 'string') ? (function(){ try { return JSON.parse(e.data); } catch(e){ return {}; } })() : e.data;
+      var ev   = data.event || data.type || '';
+
+      if (ev === 'onPlay' || ev === 'play') {
+        isPlaying = true;
+        startTimer();
+        /* Pause the progress bar animation — let it run only when playing */
+        bars().forEach(function(b){ b.style.animationPlayState = 'running'; });
+      }
+      if (ev === 'onPause' || ev === 'pause') {
+        isPlaying = false;
+        stopTimer();
+        bars().forEach(function(b){ b.style.animationPlayState = 'paused'; });
+      }
+    });
+
+    /* Mute toggle */
+    if (muteBtn) {
+      muteBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        isMuted = !isMuted;
+        if (muteIcon) muteIcon.textContent = isMuted ? '🔇' : '🔊';
+        loadVideo(videos[current].id);
+      });
+    }
+
+    /* Navigation — clicking next/prev counts as intent to play */
+    if (btnPrev) btnPrev.addEventListener('click', function () { isPlaying = true; goTo(current - 1); });
+    if (btnNext) btnNext.addEventListener('click', function () { isPlaying = true; goTo(current + 1); });
+
+    /* Load first video without autoplay when section enters view */
+    var sectionLoaded = false;
+    var startObserver = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !sectionLoaded) {
+        sectionLoaded = true;
+        loadVideo(videos[0].id);
+        if (attr) attr.textContent = videos[0].user + ' · TikTok';
+        updateBars();
+        if (btnPrev) btnPrev.disabled = true;
+      }
+    }, { threshold: 0.3 });
+    var storiesSection = document.getElementById('inspiration');
+    if (storiesSection) startObserver.observe(storiesSection);
+
+  })();
+  </script>
+
+  <!-- ── EXPLORE CARD STACK ─────────────────────────────────── -->
+  <script>
+  (function () {
+
+    var CARD_COLORS = [
+      '#B85C2A', '#1A7D91', '#B88A18',
+      '#3D7C5E', '#7A3A8C', '#3A6AA8',
+      '#A33A50', '#2E6A7A'
+    ];
+
+    var topics = [
+      {
+        name: 'Swim Spots', emoji: '🏊',
+        cards: [
+          { heading:'Minaret Beach', tags:['Sandy Beach','Between the Rocks'], image:'images/Swimspot1.jpg',
+            text:'Small sandy beach tucked between the rocks. A quiet local favourite.',
+            address:'Traversa Sant\'Agostino, 96100 Siracusa SR, Italy' },
+          { heading:'Fontane Bianche', tags:['Big Beach','Sun Beds','Umbrellas'], image:'images/Swimspot2.jpg',
+            text:'Big beach with gentle slopes and plenty of beach chairs and umbrellas for hire.',
+            address:'Viale dei Lidi, 96100 Fontane Bianche, Siracusa SR, Italy' },
+          { heading:'Cave of Pillirina', tags:['Hidden Gem','Wild Swimming','Wear Good Shoes'], image:'images/Swimspot3.jpg',
+            text:'A hidden gem with gorgeous, untouched water. Wear outdoor shoes — it is quite a walk to get there.',
+            address:'28C8+PX Syracuse, Free Municipal Consortium of Syracuse, Italy' }
+        ]
+      },
+      {
+        name: 'Street Food', emoji: '🥙',
+        cards: [
+          { heading:'Heading', tags:['Arancini','Local Favourite'],   text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Granita','Morning'],            text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Panino','Open Late'],           text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Pastry','Breakfast'],           text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cannolo','Dessert'],            text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Fish','Market'],                text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Restaurants', emoji: '🍝',
+        cards: [
+          { heading:'Heading', tags:['Seafood','Book Ahead'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sicilian','Romantic'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Terrace','Sunset View'],        text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Pasta','Family Run'],           text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Tasting Menu','Upscale'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Bars', emoji: '🍹',
+        cards: [
+          { heading:'Heading', tags:['Aperitivo','Waterfront'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cocktails','Rooftop'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Wine Bar','Natural Wine'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['LGBTQ+','Friendly'],            text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Live Music','Late Night'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Tourist Attractions', emoji: '🏛',
+        cards: [
+          { heading:'Heading', tags:['Greek Theatre','UNESCO'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Archaeological','Museum'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cathedral','Baroque'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Ortygia','Island'],             text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Fountain','Mythology'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Walking Exploration', emoji: '🚶',
+        cards: [
+          { heading:'Heading', tags:['Morning Walk','Seafront'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Market','Local Life'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Old Town','Cobblestones'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sunset','Promenade'],           text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Hidden Lanes','Discovery'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      }
+    ];
+
+    var stage     = document.getElementById('explore-stage');
+    var tabsEl    = document.getElementById('explore-tabs');
+    var prevBtn   = document.getElementById('ec-prev');
+    var nextBtn   = document.getElementById('ec-next');
+    var counter   = document.getElementById('ec-counter');
+    var overlay   = document.getElementById('ec-modal-overlay');
+    var modal     = document.getElementById('ec-modal');
+    var modalCard = document.getElementById('ec-modal-card');
+    var modalClose= document.getElementById('ec-modal-close');
+
+    if (!stage || !tabsEl) return;
+
+    var currentTopic = 0;
+    var activeCard   = 0;
+    var topicData    = topics[0];
+
+    /* ── Coverflow carousel positions ─────────────────────────── */
+    function applyFan() {
+      var cards  = stage.querySelectorAll('.ec');
+      var n      = cards.length;
+      /* Responsive card offset based on container width */
+      var sw     = stage.offsetWidth || 800;
+      var cardW  = Math.min(480, sw * 0.85);
+      var gap    = Math.round(cardW * 1.05); /* distance between card centres */
+
+      cards.forEach(function (card, i) {
+        var offset  = ((i - activeCard) % n + n) % n;
+        /* Convert to signed: 0=centre, +1=right, -1=left, etc. */
+        var sig = offset <= Math.floor(n / 2) ? offset : offset - n;
+        var tx, sc, ry, op, zi, pe;
+
+        switch (sig) {
+          case  0: tx = 0;           sc = 1;    ry =  0;  op = 1;    zi = 10; pe = 'auto'; break;
+          case  1: tx =  gap;        sc = 0.82; ry = -20; op = 0.6;  zi = 7;  pe = 'auto'; break;
+          case -1: tx = -gap;        sc = 0.82; ry =  20; op = 0.6;  zi = 7;  pe = 'auto'; break;
+          case  2: tx =  gap * 1.7;  sc = 0.65; ry = -32; op = 0.22; zi = 4;  pe = 'auto'; break;
+          case -2: tx = -gap * 1.7;  sc = 0.65; ry =  32; op = 0.22; zi = 4;  pe = 'auto'; break;
+          default:
+            tx = sig > 0 ? sw : -sw; sc = 0.5; ry = 0; op = 0; zi = 0; pe = 'none';
+        }
+
+        card.style.width        = cardW + 'px';
+        card.style.transform    =
+          'translateX(-50%) translateX(' + tx + 'px) scale(' + sc + ') rotateY(' + ry + 'deg)';
+        card.style.opacity      = String(op);
+        card.style.zIndex       = String(zi);
+        card.style.pointerEvents = pe;
+        card.classList.toggle('ec-active', sig === 0);
+      });
+      if (counter) counter.textContent = (activeCard + 1) + ' / ' + n;
+    }
+
+    /* ── Build card inner HTML — image panel left, content right ─ */
+    function cardHTML(c, t) {
+      var tags = c.tags.map(function (tag) {
+        return '<span class="ec-tag">' + tag + '</span>';
+      }).join('');
+      var imgPanel = c.image
+        ? '<div class="ec-image-panel"><img src="' + c.image + '" alt="' + c.heading + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="lazy"/></div>'
+        : '<div class="ec-image-panel">' + t.emoji + '</div>';
+      return '<div class="ec-layout">' +
+        imgPanel +
+        '<div class="ec-content-panel">' +
+          '<h3 class="ec-heading">' + c.heading + '</h3>' +
+          '<div class="ec-tags">' + tags + '</div>' +
+          '<p class="ec-text">' + c.text + '</p>' +
+          '<a class="ec-address" href="https://maps.google.com/?q=' + encodeURIComponent(c.address) + '" target="_blank" rel="noopener">📍 ' + c.address + '</a>' +
+        '</div>' +
+      '</div>';
+    }
+
+    /* ── Render cards for a topic ─────────────────────────────── */
+    function renderTopic(topicIdx) {
+      topicData    = topics[topicIdx];
+      activeCard   = 0;
+      stage.innerHTML = '';
+      topicData.cards.forEach(function (c, i) {
+        var el = document.createElement('div');
+        el.className = 'ec';
+        el.style.background = CARD_COLORS[i % CARD_COLORS.length];
+        el.dataset.index    = i;
+        el.innerHTML        = cardHTML(c, topicData);
+        el.addEventListener('click', function () {
+          var sig = (function() {
+            var n   = topicData.cards.length;
+            var off = ((i - activeCard) % n + n) % n;
+            return off <= Math.floor(n / 2) ? off : off - n;
+          })();
+          if (sig === 0) {
+            openModal(i);           /* centre card → open modal */
+          } else {
+            navigate(sig);          /* side card → slide to it  */
+          }
+        });
+        stage.appendChild(el);
+      });
+      applyFan();
+    }
+
+    /* ── Navigate ─────────────────────────────────────────────── */
+    function navigate(dir) {
+      var n = topicData.cards.length;
+      activeCard = ((activeCard + dir) % n + n) % n;
+      applyFan();
+    }
+
+    /* ── Modal ────────────────────────────────────────────────── */
+    function openModal(idx) {
+      var c     = topicData.cards[idx];
+      var t     = topicData;
+      var color = CARD_COLORS[idx % CARD_COLORS.length];
+      var tags  = c.tags.map(function (tag) {
+        return '<span class="ec-tag">' + tag + '</span>';
+      }).join('');
+      /* Modal uses same image-panel + content-panel layout, larger */
+      var modalImgPanel = c.image
+        ? '<div class="ec-image-panel" style="width:38%; border-radius:22px 0 0 22px; position:relative; overflow:hidden;"><img src="' + c.image + '" alt="' + c.heading + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="lazy"/></div>'
+        : '<div class="ec-image-panel" style="width:38%; border-radius:22px 0 0 22px; font-size:72px;">' + t.emoji + '</div>';
+      modalCard.innerHTML =
+        '<div class="ec-layout" style="background:' + color + '; border-radius:22px; min-height:300px;">' +
+          modalImgPanel +
+          '<div class="ec-content-panel" style="padding:32px 36px;">' +
+            '<h3 class="ec-heading" style="font-size:44px; margin-bottom:8px;">' + c.heading + '</h3>' +
+            '<div class="ec-tags" style="margin-bottom:10px;">' + tags + '</div>' +
+            '<p class="ec-text" style="-webkit-line-clamp:6; font-size:14.5px;">' + c.text + '</p>' +
+            '<a class="ec-address" href="https://maps.google.com/?q=' + encodeURIComponent(c.address) + '" target="_blank" rel="noopener" style="margin-top:auto; padding-top:14px; font-size:13px;">📍 ' + c.address + '</a>' +
+          '</div>' +
+        '</div>';
+      overlay.classList.add('open');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ── Event listeners ──────────────────────────────────────── */
+    if (prevBtn)   prevBtn.addEventListener('click',   function () { navigate(-1); });
+    if (nextBtn)   nextBtn.addEventListener('click',   function () { navigate(1);  });
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (overlay)   overlay.addEventListener('click',   closeModal);
+
+    /* Close on Escape */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    tabsEl.querySelectorAll('.etab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabsEl.querySelectorAll('.etab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        currentTopic = parseInt(tab.dataset.topic);
+        renderTopic(currentTopic);
+      });
+    });
+
+    renderTopic(0);
+    window.addEventListener('resize', applyFan);
+
+    /* ── Swipe & trackpad drag on the stage ────────────────── */
+    var stageEl   = stage;
+    var swipeX    = 0;
+    var dragging  = false;
+    var dragX     = 0;
+    var THRESH    = 45; /* min px to count as swipe */
+
+    /* Touch */
+    stageEl.addEventListener('touchstart', function(e) {
+      swipeX = e.touches[0].clientX;
+    }, { passive: true });
+    stageEl.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].clientX - swipeX;
+      if (Math.abs(dx) > THRESH) navigate(dx > 0 ? -1 : 1);
+    }, { passive: true });
+
+    /* Mouse drag (trackpad two-finger swipe on desktop) */
+    stageEl.style.cursor = 'grab';
+    stageEl.addEventListener('mousedown', function(e) {
+      dragging = true; dragX = e.clientX;
+      stageEl.style.cursor = 'grabbing';
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', function(e) {
+      if (!dragging) return;
+    });
+    window.addEventListener('mouseup', function(e) {
+      if (!dragging) return;
+      dragging = false;
+      stageEl.style.cursor = 'grab';
+      var dx = e.clientX - dragX;
+      if (Math.abs(dx) > THRESH) navigate(dx > 0 ? -1 : 1);
+    });
+
+  })();
+  </script>
+
+    <!-- ── STORIES PLAYER ─────────────────────────────────────── -->
+  <script>
+  (function () {
+    var videos = [
+      { id: '7541025818387057943', user: '@travelmusediary' },
+      { id: '7105016242968317189', user: '@terplanet' },
+      { id: '7392298348553817376', user: '@simonaaffinito' },
+      { id: '7372197384362773792', user: '@kat_cf' },
+      { id: '7245203304651803930', user: '@lene_gouws' },
+      { id: '7619059691812883734', user: '@travelexperiencewithbi' },
+      { id: '7532886944917769494', user: '@crushonthego' }
+    ];
+
+    var DURATION   = 30000;
+    var current    = 0;
+    var isMuted    = true;
+    var isPlaying  = false; /* tracks whether user has started playback */
+    var timer      = null;
+
+    var iframe   = document.getElementById('stories-iframe');
+    var progress = document.getElementById('stories-progress');
+    var attr     = document.getElementById('stories-attr');
+    var btnPrev  = document.getElementById('stories-btn-prev');
+    var btnNext  = document.getElementById('stories-btn-next');
+    var muteBtn  = document.getElementById('stories-mute');
+    var muteIcon = document.getElementById('stories-mute-icon');
+
+    if (!iframe) return;
+
+    /* Build progress bars */
+    videos.forEach(function () {
+      var bar = document.createElement('div');
+      bar.className = 'sp-bar';
+      progress.appendChild(bar);
+    });
+
+    function bars() { return progress.querySelectorAll('.sp-bar'); }
+
+    /* autoplay=1 only if user has already started watching */
+    function buildSrc(id) {
+      var src = 'https://www.tiktok.com/player/v1/' + id + '?loop=1';
+      if (isPlaying) src += '&autoplay=1';
+      if (isMuted)   src += '&muted=1';
+      return src;
+    }
+
+    function startTimer() {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        if (isPlaying && current < videos.length - 1) goTo(current + 1);
+      }, DURATION);
+    }
+
+    function stopTimer() {
+      clearTimeout(timer);
+    }
+
+    function loadVideo(id) {
+      var phone = document.querySelector('.stories-phone');
+      var old   = document.getElementById('stories-iframe');
+      if (old) old.remove();
+
+      var f = document.createElement('iframe');
+      f.id          = 'stories-iframe';
+      f.src         = buildSrc(id);
+      f.allow       = 'autoplay; fullscreen';
+      f.allowFullscreen = true;
+      f.frameBorder = '0';
+      f.scrolling   = 'no';
+      f.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+      phone.insertBefore(f, phone.firstChild);
+      iframe = f;
+    }
+
+    function updateBars() {
+      bars().forEach(function (b, i) {
+        b.style.setProperty('--sp-dur', DURATION + 'ms');
+        b.className = 'sp-bar' + (i < current ? ' done' : i === current ? ' active' : '');
+      });
+    }
+
+    function goTo(index) {
+      stopTimer();
+      current = (index + videos.length) % videos.length;
+      loadVideo(videos[current].id);
+      if (attr) attr.textContent = videos[current].user + ' · TikTok';
+      updateBars();
+      if (btnPrev) btnPrev.disabled = current === 0;
+      if (btnNext) btnNext.disabled = current === videos.length - 1;
+      /* Only start timer if user is actively watching */
+      if (isPlaying) startTimer();
+    }
+
+    /* Listen for TikTok player events via postMessage */
+    window.addEventListener('message', function (e) {
+      if (!e.data) return;
+      var data = (typeof e.data === 'string') ? (function(){ try { return JSON.parse(e.data); } catch(e){ return {}; } })() : e.data;
+      var ev   = data.event || data.type || '';
+
+      if (ev === 'onPlay' || ev === 'play') {
+        isPlaying = true;
+        startTimer();
+        /* Pause the progress bar animation — let it run only when playing */
+        bars().forEach(function(b){ b.style.animationPlayState = 'running'; });
+      }
+      if (ev === 'onPause' || ev === 'pause') {
+        isPlaying = false;
+        stopTimer();
+        bars().forEach(function(b){ b.style.animationPlayState = 'paused'; });
+      }
+    });
+
+    /* Mute toggle */
+    if (muteBtn) {
+      muteBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        isMuted = !isMuted;
+        if (muteIcon) muteIcon.textContent = isMuted ? '🔇' : '🔊';
+        loadVideo(videos[current].id);
+      });
+    }
+
+    /* Navigation — clicking next/prev counts as intent to play */
+    if (btnPrev) btnPrev.addEventListener('click', function () { isPlaying = true; goTo(current - 1); });
+    if (btnNext) btnNext.addEventListener('click', function () { isPlaying = true; goTo(current + 1); });
+
+    /* Load first video without autoplay when section enters view */
+    var sectionLoaded = false;
+    var startObserver = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !sectionLoaded) {
+        sectionLoaded = true;
+        loadVideo(videos[0].id);
+        if (attr) attr.textContent = videos[0].user + ' · TikTok';
+        updateBars();
+        if (btnPrev) btnPrev.disabled = true;
+      }
+    }, { threshold: 0.3 });
+    var storiesSection = document.getElementById('inspiration');
+    if (storiesSection) startObserver.observe(storiesSection);
+
+  })();
+  </script>
+
+  <!-- ── EXPLORE CARD STACK ─────────────────────────────────── -->
+  <script>
+  (function () {
+    var PEEK = 68; /* visible strip width of a non-active card */
+
+    var topics = [
+      {
+        name: 'Swim Spots', emoji: '🏊',
+        grad: ['#0A9396','#005F73'],
+        cards: [
+          { heading:'Heading', tags:['Crystal Clear','Free Entry'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Rocky Shore','Snorkelling'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sandy Beach','Facilities'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Secluded','Boat Access'],    text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Natural Pool','Caves'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Street Food', emoji: '🥙',
+        grad: ['#E9C46A','#D4A373'],
+        cards: [
+          { heading:'Heading', tags:['Arancini','Local Favourite'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Granita','Morning'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Panino','Open Late'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Pastry','Breakfast'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cannolo','Dessert'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Fish','Market'],              text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Restaurants', emoji: '🍝',
+        grad: ['#9B6E3A','#D4A373'],
+        cards: [
+          { heading:'Heading', tags:['Seafood','Book Ahead'],    text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sicilian','Romantic'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Terrace','Sunset View'],   text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Pasta','Family Run'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Tasting Menu','Upscale'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Bars', emoji: '🍹',
+        grad: ['#264653','#2A9D8F'],
+        cards: [
+          { heading:'Heading', tags:['Aperitivo','Waterfront'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cocktails','Rooftop'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Wine Bar','Natural Wine'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['LGBTQ+','Friendly'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Live Music','Late Night'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Tourist Attractions', emoji: '🏛',
+        grad: ['#457B9D','#1D3557'],
+        cards: [
+          { heading:'Heading', tags:['Greek Theatre','UNESCO'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Archaeological','Museum'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cathedral','Baroque'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Ortygia','Island'],        text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Fountain','Mythology'],    text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Walking Exploration', emoji: '🚶',
+        grad: ['#2D6A4F','#52B788'],
+        cards: [
+          { heading:'Heading', tags:['Morning Walk','Seafront'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Market','Local Life'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Old Town','Cobblestones'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sunset','Promenade'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Hidden Lanes','Discovery'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      }
+    ];
+
+    var stack    = document.getElementById('explore-stack');
+    var tabsEl   = document.getElementById('explore-tabs');
+    if (!stack || !tabsEl) return;
+
+    var activeCard = 0;
+
+    function mapsUrl(address) {
+      return 'https://maps.google.com/?q=' + encodeURIComponent(address);
+    }
+
+    function renderTopic(topicIdx) {
+      var t = topics[topicIdx];
+      stack.innerHTML = '';
+      activeCard = 0;
+
+      t.cards.forEach(function (c, i) {
+        var el = document.createElement('div');
+        el.className = 'ec' + (i === 0 ? ' ec-active' : '');
+        el.dataset.index = i;
+
+        var tagsHtml = c.tags.map(function (tag) {
+          return '<span class="ec-tag">' + tag + '</span>';
+        }).join('');
+
+        el.innerHTML =
+          '<div class="ec-img" style="background:linear-gradient(140deg,' + t.grad[0] + ',' + t.grad[1] + ')">' +
+            '<div class="ec-img-inner">' + t.emoji + '</div>' +
+          '</div>' +
+          '<span class="ec-peek-hint">›</span>' +
+          '<div class="ec-body">' +
+            '<div class="ec-heading">' + c.heading + '</div>' +
+            '<div class="ec-tags">' + tagsHtml + '</div>' +
+            '<p class="ec-text">' + c.text + '</p>' +
+            '<a class="ec-address" href="' + mapsUrl(c.address) + '" target="_blank" rel="noopener">📍 ' + c.address + '</a>' +
+          '</div>';
+
+        el.addEventListener('click', function (e) {
+          /* Don't steal the address link click */
+          if (e.target.closest('.ec-address')) return;
+          var idx = parseInt(el.dataset.index);
+          if (idx !== activeCard) {
+            activeCard = idx;
+            applyLayout();
+          }
+        });
+
+        stack.appendChild(el);
+      });
+
+      applyLayout();
+    }
+
+    function applyLayout() {
+      var cards = stack.querySelectorAll('.ec');
+      var W     = stack.offsetWidth;
+      /* Card fills available width minus right breathing room for the fan */
+      var cardW = Math.max(300, W - 60);
+
+      cards.forEach(function (card, i) {
+        var rel = i - activeCard;
+        card.classList.toggle('ec-active', i === activeCard);
+        card.style.width = cardW + 'px';
+
+        if (rel < 0) {
+          /* Cards before active: swept off to the left, invisible */
+          card.style.transform = 'translateX(-' + (cardW + 40) + 'px) rotate(-6deg)';
+          card.style.opacity   = '0';
+          card.style.zIndex    = '0';
+          card.style.pointerEvents = 'none';
+        } else if (rel === 0) {
+          /* Active card: flat, front */
+          card.style.transform = 'rotate(0deg) translateX(0) translateY(0)';
+          card.style.opacity   = '1';
+          card.style.zIndex    = '10';
+          card.style.pointerEvents = 'auto';
+        } else {
+          /* Behind cards: fan clockwise from bottom-left pivot */
+          var deg     = rel * 7;
+          var fade    = Math.max(0.4, 1 - rel * 0.18);
+          card.style.transform = 'rotate(' + deg + 'deg)';
+          card.style.opacity   = String(fade);
+          card.style.zIndex    = String(10 - rel);
+          /* Only the first 2 behind cards are clickable */
+          card.style.pointerEvents = rel <= 2 ? 'auto' : 'none';
+        }
+      });
+    }
+
+    /* Tab switching */
+    tabsEl.querySelectorAll('.etab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabsEl.querySelectorAll('.etab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        renderTopic(parseInt(tab.dataset.topic));
+      });
+    });
+
+    renderTopic(0);
+    window.addEventListener('resize', applyLayout);
+  })();
+  </script>
+
+  <!-- ── ITINERARY CARDS ────────────────────────────────────── -->
+  <script>
+  (function () {
+    var days = [
+      { num:'30', month:'July', weekday:'Wednesday', title:'Stefan Arrives — Ortygia at Dusk',
+        items:['Check in at B&B L'Infiorescenza New, Piazza Santa Lucia','Explore Ortygia on foot — Fontana di Aretusa, Piazza del Duomo','Find the best aperitivo on the waterfront'] },
+      { num:'31', month:'July', weekday:'Friday', title:'The Gang's All Here',
+        items:['Nimrod arrives · reunite at the B&B','Breakfast at the B&B (included)','Add daytime activities here…','🎂 <strong>Bartek's 40th Birthday Party</strong> · <a href="https://maps.google.com/?q=Viale+dei+Lidi+533+Syracuse+Italy+96100" target="_blank" style="color:var(--terra);">Viale dei Lidi 533, Fontane Bianche</a> · <a href="https://www.instagram.com/macara_2025/" target="_blank" style="color:var(--terra);">@macara_2025 ↗</a>'] },
+      { num:'1', month:'Aug', weekday:'Saturday', title:'Ancient Greece &amp; the Sea',
+        items:['Breakfast at the B&B (included)','<em>Add activities here…</em>'] },
+      { num:'2', month:'Aug', weekday:'Sunday', title:'Noto &amp; Last Sunsets',
+        items:['Breakfast at the B&B (included)','<em>Add activities here…</em>'] },
+      { num:'3', month:'Aug', weekday:'Monday', title:'Check-out &amp; Arrivederci',
+        items:['Check out by 10:00','Last granita al caffè before the drive to Catania','🚗 <strong>Leave for airport at 15:30</strong> — ~1 hour drive to Catania (CTA)','Arrive airport by 17:00 · Boarding 18:00','✈️ EJU5078 departs 18:45 · arrives Berlin 21:35'] }
+    ];
+    var cardsRow=document.getElementById('itin-cards-row');
+    var expandedWrap=document.getElementById('itin-expanded-wrap');
+    var expContent=document.getElementById('itin-exp-content');
+    var expClose=document.getElementById('itin-exp-close');
+    var navPrev=document.getElementById('itin-nav-prev');
+    var navNext=document.getElementById('itin-nav-next');
+    var navCounter=document.getElementById('itin-nav-counter');
+    var currentDay=0;
+    if (!cardsRow) return;
+    days.forEach(function(d,i){
+      var card=document.createElement('div');
+      card.className='itin-day-card';
+      card.innerHTML='<div class="idc-num">'+d.num+'</div><div class="idc-month">'+d.month+'</div><div class="idc-title">'+d.weekday+'</div>';
+      card.addEventListener('click',function(){ openDay(i); });
+      cardsRow.appendChild(card);
+    });
+    function openDay(i){ currentDay=i; renderExpanded(); expandedWrap.classList.add('open'); }
+    function renderExpanded(){
+      var d=days[currentDay];
+      var items=d.items.map(function(x){ return '<li>'+x+'</li>'; }).join('');
+      expContent.innerHTML='<div class="itin-exp-header"><div class="itin-exp-num">'+d.num+'</div><div class="itin-exp-meta"><div class="itin-exp-month">'+d.weekday+' · '+d.month+'</div></div></div><div class="itin-exp-title">'+d.title+'</div><ul class="itin-exp-items">'+items+'</ul>';
+      navPrev.disabled=currentDay===0;
+      navNext.disabled=currentDay===days.length-1;
+      navCounter.textContent='Day '+(currentDay+1)+' of '+days.length;
+    }
+    expClose.addEventListener('click',function(){ expandedWrap.classList.remove('open'); });
+    navPrev.addEventListener('click',function(){ if(currentDay>0){ currentDay--; renderExpanded(); } });
+    navNext.addEventListener('click',function(){ if(currentDay<days.length-1){ currentDay++; renderExpanded(); } });
+    expandedWrap.addEventListener('click',function(e){ if(e.target===expandedWrap) expandedWrap.classList.remove('open'); });
+  })();
+  </script>
+
+  <!-- ── SCROLL ANIMATIONS + PARALLAX ───────────────────────── -->
+  <script>
+  (function () {
+
+    /* ── 1. Tag every element we want to animate ───────────── */
+    function tag(selector, animClass, stagger) {
+      document.querySelectorAll(selector).forEach(function (el, i) {
+        el.classList.add('anim', animClass);
+        if (stagger) el.dataset.delay = Math.min(i + 1, 8);
+      });
+    }
+
+    /* Labels */
+    tag('.t-label',                                      'anim-up-sm', false);
+    /* Headings */
+    tag('.t-h2',                                         'anim-up',    false);
+    tag('.t-italic',                                     'anim-up-sm', false);
+    /* Hero chips */
+    tag('.hero-chip',                                    'anim-up',    true);
+    /* Traveller circles */
+    tag('.traveller-oval-wrap',                          'anim-scale', true);
+    tag('.tp-label',                                     'anim-up-sm', true);
+    /* Date blocks */
+    tag('.date-block',                                   'anim-scale', true);
+    tag('.stefan-note',                                  'anim-up',    false);
+    /* Stay card */
+    tag('.stay-card',                                    'anim-scale', false);
+    /* Flight cards */
+    tag('.flight-card, .placeholder-box',                'anim-up',    true);
+    /* Itinerary rows — alternate left/right */
+    document.querySelectorAll('.day-row').forEach(function (el, i) {
+      el.classList.add('anim', i % 2 === 0 ? 'anim-left' : 'anim-right');
+      el.dataset.delay = Math.min((i % 3) + 1, 4);
+    });
+    /* Food pills */
+    tag('.must-eat-pill',                                'anim-pop',   true);
+    /* Resto cards */
+    tag('.resto-card',                                   'anim-scale', true);
+    /* Packing groups */
+    tag('.pack-group',                                   'anim-up',    true);
+    /* Section dividers */
+    tag('.section-divider',                              'anim-up-sm', false);
+    /* Footer quote */
+    tag('.ft-quote',                                     'anim-up',    false);
+
+    /* ── 2. Intersection Observer ───────────────────────────── */
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+
+    document.querySelectorAll('.anim').forEach(function (el) {
+      io.observe(el);
+    });
+
+    /* ── 3. Hero elements fade in on load ───────────────────── */
+    var heroEls = document.querySelectorAll('.hero-eyebrow, .hero-title, .hero-ornament, .hero-chips, .hero-scroll');
+    heroEls.forEach(function (el, i) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(32px)';
+      el.style.transition = 'opacity 1s cubic-bezier(0.22,1,0.36,1), transform 1s cubic-bezier(0.22,1,0.36,1)';
+      el.style.transitionDelay = (0.3 + i * 0.15) + 's';
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+      });
+    });
+
+    /* ── 4. Parallax — hero background shifts on scroll ─────── */
+    var heroBg = document.querySelector('.hero-bg');
+    var heroEl = document.querySelector('.hero');
+    var ticking = false;
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }
+
+    function updateParallax() {
+      var scrollY = window.scrollY;
+      var heroH   = heroEl ? heroEl.offsetHeight : window.innerHeight;
+
+      /* Slow the hero background — moves at 35% of scroll speed */
+      if (heroBg && scrollY < heroH * 1.5) {
+        var shift = scrollY * 0.35;
+        /* Preserve the existing pan animation by adding translateY via a CSS var */
+        heroBg.style.setProperty('--parallax-y', shift + 'px');
+        heroBg.style.transform = 'translateY(var(--parallax-y, 0px))';
+        /* Re-apply the pan animation on top via wrapper trick doesn't work cleanly;
+           instead just move the background-position */
+        heroBg.style.backgroundPositionY = 'calc(center + ' + (scrollY * 0.25) + 'px)';
+      }
+
+      /* Floating section cards — subtle lift on scroll (desktop only) */
+      if (window.innerWidth > 600) {
+        document.querySelectorAll(
+          '.travellers-section, .trip-section, .stay-section, .flights-section, .itinerary-section, .food-section, .packing-section'
+        ).forEach(function (sec) {
+          var rect  = sec.getBoundingClientRect();
+          var center = rect.top + rect.height / 2 - window.innerHeight / 2;
+          var nudge  = center * 0.03;
+          sec.style.transform = 'translateY(' + nudge + 'px)';
+        });
+      }
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* Disable pan CSS animation on hero-bg since we're driving it via scroll */
+    if (heroBg) {
+      heroBg.style.animation = 'panRightToLeft 20s linear infinite alternate';
+    }
+
+  })();
+  </script>
+
+</body>
+
+</html>
