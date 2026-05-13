@@ -2057,30 +2057,54 @@
 
   <!-- ── ITINERARY ────────────────────────────────────────────── -->
   <section class="itinerary-section" id="itinerary">
-    <!-- Background video -->
     <video class="itin-video-bg" autoplay muted loop playsinline>
       <source src="images/Itinirary.mp4" type="video/mp4">
     </video>
     <div class="itin-overlay"></div>
 
-    <!-- Section label -->
     <div class="itin-label-wrap">
       <span class="t-label">Day by Day</span>
       <h2 class="t-h2">Itinerary</h2>
     </div>
 
-    <!-- 5 small day cards -->
-    <div class="itin-cards-row" id="itin-cards-row"></div>
+    <!-- 5 static day cards -->
+    <div class="itin-cards-row">
+      <div class="itin-day-card" data-day="0">
+        <div class="idc-num">30</div>
+        <div class="idc-month">July</div>
+        <div class="idc-title">Wed</div>
+      </div>
+      <div class="itin-day-card" data-day="1">
+        <div class="idc-num">31</div>
+        <div class="idc-month">July</div>
+        <div class="idc-title">Fri</div>
+      </div>
+      <div class="itin-day-card" data-day="2">
+        <div class="idc-num">1</div>
+        <div class="idc-month">Aug</div>
+        <div class="idc-title">Sat</div>
+      </div>
+      <div class="itin-day-card" data-day="3">
+        <div class="idc-num">2</div>
+        <div class="idc-month">Aug</div>
+        <div class="idc-title">Sun</div>
+      </div>
+      <div class="itin-day-card" data-day="4">
+        <div class="idc-num">3</div>
+        <div class="idc-month">Aug</div>
+        <div class="idc-title">Mon</div>
+      </div>
+    </div>
 
-    <!-- Expanded detail overlay -->
+    <!-- Expanded detail overlay (hidden by default) -->
     <div class="itin-expanded-wrap" id="itin-expanded-wrap">
-      <div class="itin-exp-card" id="itin-exp-card">
-        <button class="itin-exp-close" id="itin-exp-close" aria-label="Close">×</button>
+      <div class="itin-exp-card">
+        <button class="itin-exp-close" id="itin-exp-close">×</button>
         <div id="itin-exp-content"></div>
         <div class="itin-exp-nav">
-          <button class="itin-nav-btn" id="itin-nav-prev">‹ Prev day</button>
+          <button class="itin-nav-btn" id="itin-nav-prev">‹ Prev</button>
           <span class="itin-nav-counter" id="itin-nav-counter"></span>
-          <button class="itin-nav-btn" id="itin-nav-next">Next day ›</button>
+          <button class="itin-nav-btn" id="itin-nav-next">Next ›</button>
         </div>
       </div>
     </div>
@@ -2994,10 +3018,10 @@
   <!-- ── ITINERARY CARDS ────────────────────────────────────── -->
   <script>
   (function () {
-    var days = [
+    var dayData = [
       {
         num: "30", month: "July", weekday: "Wednesday",
-        title: "Stefan Arrives — Ortygia at Dusk",
+        title: "Stefan Arrives",
         items: [
           "Check in at B&B L’Infiorescenza New, Piazza Santa Lucia",
           "Explore Ortygia on foot — Fontana di Aretusa, Piazza del Duomo",
@@ -3011,7 +3035,7 @@
           "Nimrod arrives · reunite at the B&B",
           "Breakfast at the B&B (included)",
           "Add daytime activities here…",
-          "🎂 <strong>Bartek’s 40th Birthday Party<\/strong> · <a href=\"https://maps.google.com/?q=Viale+dei+Lidi+533+Syracuse\" target=\"_blank\" style=\"color:var(--terra)\">Viale dei Lidi 533, Fontane Bianche<\/a>"
+          "🎂 <b>Bartek’s 40th Birthday Party</b> · Viale dei Lidi 533, Fontane Bianche"
         ]
       },
       {
@@ -3019,7 +3043,7 @@
         title: "Ancient Greece & the Sea",
         items: [
           "Breakfast at the B&B (included)",
-          "<em>Add activities here…<\/em>"
+          "Add activities here…"
         ]
       },
       {
@@ -3027,7 +3051,7 @@
         title: "Noto & Last Sunsets",
         items: [
           "Breakfast at the B&B (included)",
-          "<em>Add activities here…<\/em>"
+          "Add activities here…"
         ]
       },
       {
@@ -3036,63 +3060,52 @@
         items: [
           "Check out by 10:00",
           "Last granita al caffè before the drive to Catania",
-          "🚗 <strong>Leave for airport at 15:30<\/strong> — ~1 hour drive to Catania (CTA)",
-          "Arrive airport by 17:00 · Boarding 18:00",
+          "🚗 <b>Leave for airport at 15:30</b> — ~1 hour drive to Catania (CTA)",
+          "Arrive airport 17:00 · Boarding 18:00",
           "✈️ EJU5078 departs 18:45 · arrives Berlin 21:35"
         ]
       }
     ];
 
-    var cardsRow     = document.getElementById("itin-cards-row");
-    var expandedWrap = document.getElementById("itin-expanded-wrap");
-    var expContent   = document.getElementById("itin-exp-content");
-    var expClose     = document.getElementById("itin-exp-close");
-    var navPrev      = document.getElementById("itin-nav-prev");
-    var navNext      = document.getElementById("itin-nav-next");
-    var navCounter   = document.getElementById("itin-nav-counter");
-    var currentDay   = 0;
+    var wrap    = document.getElementById("itin-expanded-wrap");
+    var content = document.getElementById("itin-exp-content");
+    var closeBtn= document.getElementById("itin-exp-close");
+    var prevBtn = document.getElementById("itin-nav-prev");
+    var nextBtn = document.getElementById("itin-nav-next");
+    var counter = document.getElementById("itin-nav-counter");
+    var current = 0;
 
-    if (!cardsRow || !expandedWrap) return;
+    function show(i) {
+      current = i;
+      var d = dayData[i];
+      var li = d.items.map(function(x){ return "<li>" + x + "</li>"; }).join("");
+      content.innerHTML =
+        "<div class='itin-exp-header'>" +
+          "<div class='itin-exp-num'>" + d.num + "</div>" +
+          "<div class='itin-exp-meta'>" +
+            "<div class='itin-exp-month'>" + d.weekday + " · " + d.month + "</div>" +
+          "</div>" +
+        "</div>" +
+        "<div class='itin-exp-title'>" + d.title + "</div>" +
+        "<ul class='itin-exp-items'>" + li + "</ul>";
+      prevBtn.disabled = (i === 0);
+      nextBtn.disabled = (i === dayData.length - 1);
+      counter.textContent = "Day " + (i + 1) + " of " + dayData.length;
+      wrap.classList.add("open");
+    }
 
-    days.forEach(function (d, i) {
-      var card = document.createElement("div");
-      card.className = "itin-day-card";
-      card.innerHTML =
-        "<div class=\"idc-num\">" + d.num + "<\/div>" +
-        "<div class=\"idc-month\">" + d.month + "<\/div>" +
-        "<div class=\"idc-title\">" + d.weekday + "<\/div>";
-      card.addEventListener("click", function () { openDay(i); });
-      cardsRow.appendChild(card);
+    function close() { wrap.classList.remove("open"); }
+
+    document.querySelectorAll(".itin-day-card").forEach(function(card) {
+      card.addEventListener("click", function() {
+        show(parseInt(card.getAttribute("data-day"), 10));
+      });
     });
 
-    function openDay(i) {
-      currentDay = i;
-      renderExpanded();
-      expandedWrap.classList.add("open");
-    }
-
-    function renderExpanded() {
-      var d = days[currentDay];
-      var items = d.items.map(function (x) { return "<li>" + x + "<\/li>"; }).join("");
-      expContent.innerHTML =
-        "<div class=\"itin-exp-header\">" +
-          "<div class=\"itin-exp-num\">" + d.num + "<\/div>" +
-          "<div class=\"itin-exp-meta\">" +
-            "<div class=\"itin-exp-month\">" + d.weekday + " · " + d.month + "<\/div>" +
-          "<\/div>" +
-        "<\/div>" +
-        "<div class=\"itin-exp-title\">" + d.title + "<\/div>" +
-        "<ul class=\"itin-exp-items\">" + items + "<\/ul>";
-      navPrev.disabled = (currentDay === 0);
-      navNext.disabled = (currentDay === days.length - 1);
-      navCounter.textContent = "Day " + (currentDay + 1) + " of " + days.length;
-    }
-
-    expClose.addEventListener("click", function () { expandedWrap.classList.remove("open"); });
-    navPrev.addEventListener("click", function () { if (currentDay > 0) { currentDay--; renderExpanded(); } });
-    navNext.addEventListener("click", function () { if (currentDay < days.length - 1) { currentDay++; renderExpanded(); } });
-    expandedWrap.addEventListener("click", function (e) { if (e.target === expandedWrap) expandedWrap.classList.remove("open"); });
-
+    if (closeBtn) closeBtn.addEventListener("click", close);
+    if (prevBtn)  prevBtn.addEventListener("click",  function(){ if(current>0) show(current-1); });
+    if (nextBtn)  nextBtn.addEventListener("click",  function(){ if(current<dayData.length-1) show(current+1); });
+    if (wrap)     wrap.addEventListener("click",     function(e){ if(e.target===wrap) close(); });
   })();
   </script>
 
