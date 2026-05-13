@@ -875,6 +875,171 @@
       .stories-progress { width: 240px; }
     }
 
+    /* ─── EXPLORE ───────────────────────────────────────────── */
+    .explore-section {
+      background: var(--teal-dark);
+      padding: 80px 0 90px;
+      border-bottom: 1px solid rgba(247,231,206,0.08);
+    }
+    .explore-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .explore-header { text-align: center; margin-bottom: 36px; }
+    .explore-header .t-label  { color: var(--terra); display: block; margin-bottom: 8px; }
+    .explore-header .t-h2     { color: var(--stone); margin-bottom: 8px; }
+    .explore-header .t-italic { color: rgba(247,231,206,0.5); }
+
+    /* Topic tabs */
+    .explore-tabs-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 28px;
+      scrollbar-width: none;
+    }
+    .explore-tabs-wrap::-webkit-scrollbar { display: none; }
+    .explore-tabs { display: flex; gap: 8px; white-space: nowrap; }
+    .etab {
+      padding: 8px 18px;
+      border-radius: 100px;
+      border: 1.5px solid rgba(247,231,206,0.25);
+      background: transparent;
+      color: rgba(247,231,206,0.65);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .etab:hover { background: rgba(247,231,206,0.08); color: var(--stone); }
+    .etab.active {
+      background: var(--terra);
+      color: var(--stone);
+      border-color: var(--terra);
+    }
+
+    /* Stack wrapper clips right-sliding cards */
+    .explore-stack-wrap { overflow: hidden; border-radius: 16px; }
+    .explore-stack {
+      position: relative;
+      height: 160px;
+    }
+
+    /* Each card */
+    .ec {
+      position: absolute;
+      top: 0;
+      height: 158px;
+      background: var(--white-glass);
+      border: 1px solid rgba(247,231,206,0.18);
+      border-radius: 16px;
+      display: flex;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      transition: left 0.5s cubic-bezier(0.22,1,0.36,1),
+                  width 0.5s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.2s;
+      will-change: left, width;
+      background: rgba(255,255,255,0.08);
+    }
+    .ec:hover:not(.ec-active) { box-shadow: 0 6px 28px rgba(0,0,0,0.28); }
+    .ec.ec-active { cursor: default; }
+
+    /* Image panel */
+    .ec-img {
+      width: 180px;
+      min-width: 180px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .ec-img-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+    }
+
+    /* Content panel */
+    .ec-body {
+      flex: 1;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .ec-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--stone);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ec-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .ec-tag {
+      background: rgba(212,163,115,0.18);
+      border: 1px solid rgba(212,163,115,0.35);
+      border-radius: 100px;
+      padding: 2px 9px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--terra);
+      white-space: nowrap;
+    }
+    .ec-text {
+      font-size: 12.5px;
+      color: rgba(247,231,206,0.65);
+      line-height: 1.55;
+      flex: 1;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .ec-address {
+      font-size: 11px;
+      color: rgba(247,231,206,0.4);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.15s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ec-address:hover { color: var(--terra); }
+
+    /* Peek hint — small chevron on collapsed cards */
+    .ec-peek-hint {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(247,231,206,0.35);
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      .explore-stack { height: 190px; }
+      .ec { height: 188px; }
+      .ec-img { width: 110px; min-width: 110px; }
+      .ec-img-inner { font-size: 30px; }
+      .explore-inner { padding: 0 16px; }
+    }
+
     /* ─── PACKING — dark teal ────────────────────────────────── */
     .packing-section {
       background: var(--teal-dark);
@@ -1100,6 +1265,7 @@
       <li><a href="#flights">Flights</a></li>
       <li><a href="#itinerary">Itinerary</a></li>
       <li><a href="#food">Food</a></li>
+      <li><a href="#explore">Explore</a></li>
       <li><a href="#inspiration">Inspo</a></li>
       <li><a href="#packing">Packing</a></li>
     </ul>
@@ -1433,6 +1599,33 @@
     </div>
   </section>
 
+  <!-- ── EXPLORE ────────────────────────────────────────────── -->
+  <section class="explore-section" id="explore">
+    <div class="explore-inner">
+      <div class="explore-header">
+        <div class="section-divider section-divider-teal"><span class="sd-diamond sd-teal">✦</span></div>
+        <span class="t-label">Siracusa</span>
+        <h2 class="t-h2">Explore</h2>
+        <p class="t-italic">the best of what the island has to offer</p>
+      </div>
+
+      <div class="explore-tabs-wrap">
+        <div class="explore-tabs" id="explore-tabs">
+          <button class="etab active" data-topic="0">🏊 Swim Spots</button>
+          <button class="etab" data-topic="1">🥙 Street Food</button>
+          <button class="etab" data-topic="2">🍝 Restaurants</button>
+          <button class="etab" data-topic="3">🍹 Bars</button>
+          <button class="etab" data-topic="4">🏛 Tourist Attractions</button>
+          <button class="etab" data-topic="5">🚶 Walking Exploration</button>
+        </div>
+      </div>
+
+      <div class="explore-stack-wrap">
+        <div class="explore-stack" id="explore-stack"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── INSPIRATION STORIES ────────────────────────────────── -->
   <section class="stories-section" id="inspiration">
     <div class="stories-container">
@@ -1719,6 +1912,180 @@
     var storiesSection = document.getElementById('inspiration');
     if (storiesSection) startObserver.observe(storiesSection);
 
+  })();
+  </script>
+
+  <!-- ── EXPLORE CARD STACK ─────────────────────────────────── -->
+  <script>
+  (function () {
+    var PEEK = 68; /* visible strip width of a non-active card */
+
+    var topics = [
+      {
+        name: 'Swim Spots', emoji: '🏊',
+        grad: ['#0A9396','#005F73'],
+        cards: [
+          { heading:'Heading', tags:['Crystal Clear','Free Entry'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Rocky Shore','Snorkelling'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sandy Beach','Facilities'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Secluded','Boat Access'],    text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Natural Pool','Caves'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Street Food', emoji: '🥙',
+        grad: ['#E9C46A','#D4A373'],
+        cards: [
+          { heading:'Heading', tags:['Arancini','Local Favourite'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Granita','Morning'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Panino','Open Late'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Pastry','Breakfast'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cannolo','Dessert'],          text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Fish','Market'],              text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Restaurants', emoji: '🍝',
+        grad: ['#9B6E3A','#D4A373'],
+        cards: [
+          { heading:'Heading', tags:['Seafood','Book Ahead'],    text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sicilian','Romantic'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Terrace','Sunset View'],   text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Pasta','Family Run'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Tasting Menu','Upscale'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Bars', emoji: '🍹',
+        grad: ['#264653','#2A9D8F'],
+        cards: [
+          { heading:'Heading', tags:['Aperitivo','Waterfront'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cocktails','Rooftop'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Wine Bar','Natural Wine'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['LGBTQ+','Friendly'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Live Music','Late Night'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Tourist Attractions', emoji: '🏛',
+        grad: ['#457B9D','#1D3557'],
+        cards: [
+          { heading:'Heading', tags:['Greek Theatre','UNESCO'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Archaeological','Museum'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Cathedral','Baroque'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Ortygia','Island'],        text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Fountain','Mythology'],    text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      },
+      {
+        name: 'Walking Exploration', emoji: '🚶',
+        grad: ['#2D6A4F','#52B788'],
+        cards: [
+          { heading:'Heading', tags:['Morning Walk','Seafront'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Market','Local Life'],      text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Old Town','Cobblestones'],  text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Sunset','Promenade'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
+          { heading:'Heading', tags:['Hidden Lanes','Discovery'], text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+        ]
+      }
+    ];
+
+    var stack    = document.getElementById('explore-stack');
+    var tabsEl   = document.getElementById('explore-tabs');
+    if (!stack || !tabsEl) return;
+
+    var activeCard = 0;
+
+    function mapsUrl(address) {
+      return 'https://maps.google.com/?q=' + encodeURIComponent(address);
+    }
+
+    function renderTopic(topicIdx) {
+      var t = topics[topicIdx];
+      stack.innerHTML = '';
+      activeCard = 0;
+
+      t.cards.forEach(function (c, i) {
+        var el = document.createElement('div');
+        el.className = 'ec' + (i === 0 ? ' ec-active' : '');
+        el.dataset.index = i;
+
+        var tagsHtml = c.tags.map(function (tag) {
+          return '<span class="ec-tag">' + tag + '</span>';
+        }).join('');
+
+        el.innerHTML =
+          '<div class="ec-img" style="background:linear-gradient(140deg,' + t.grad[0] + ',' + t.grad[1] + ')">' +
+            '<div class="ec-img-inner">' + t.emoji + '</div>' +
+          '</div>' +
+          '<span class="ec-peek-hint">›</span>' +
+          '<div class="ec-body">' +
+            '<div class="ec-heading">' + c.heading + '</div>' +
+            '<div class="ec-tags">' + tagsHtml + '</div>' +
+            '<p class="ec-text">' + c.text + '</p>' +
+            '<a class="ec-address" href="' + mapsUrl(c.address) + '" target="_blank" rel="noopener">📍 ' + c.address + '</a>' +
+          '</div>';
+
+        el.addEventListener('click', function (e) {
+          /* Don't steal the address link click */
+          if (e.target.closest('.ec-address')) return;
+          var idx = parseInt(el.dataset.index);
+          if (idx !== activeCard) {
+            activeCard = idx;
+            applyLayout();
+          }
+        });
+
+        stack.appendChild(el);
+      });
+
+      applyLayout();
+    }
+
+    function applyLayout() {
+      var cards    = stack.querySelectorAll('.ec');
+      var W        = stack.offsetWidth;
+      var n        = cards.length;
+
+      cards.forEach(function (card, i) {
+        card.classList.toggle('ec-active', i === activeCard);
+
+        /* Peek hint only on left cards */
+        var hint = card.querySelector('.ec-peek-hint');
+
+        if (i < activeCard) {
+          /* Left cards — only their left PEEK strip visible */
+          card.style.left    = (i * PEEK) + 'px';
+          card.style.width   = (W - activeCard * PEEK) + 'px';
+          card.style.zIndex  = i + 1;
+          if (hint) hint.style.display = 'block';
+        } else if (i === activeCard) {
+          /* Active card — full width from left strips onward */
+          card.style.left    = (activeCard * PEEK) + 'px';
+          card.style.width   = (W - activeCard * PEEK) + 'px';
+          card.style.zIndex  = 20;
+          if (hint) hint.style.display = 'none';
+        } else {
+          /* Right cards — slide off screen */
+          card.style.left    = (W + (i - activeCard - 1) * 16) + 'px';
+          card.style.width   = (W - activeCard * PEEK) + 'px';
+          card.style.zIndex  = n - i;
+          if (hint) hint.style.display = 'none';
+        }
+      });
+    }
+
+    /* Tab switching */
+    tabsEl.querySelectorAll('.etab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabsEl.querySelectorAll('.etab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        renderTopic(parseInt(tab.dataset.topic));
+      });
+    });
+
+    renderTopic(0);
+    window.addEventListener('resize', applyLayout);
   })();
   </script>
 
