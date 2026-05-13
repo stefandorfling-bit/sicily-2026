@@ -584,11 +584,8 @@
     .logistics-hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url('images/best-beaches-sicily-syracuse-min.jpg');
-      background-size: cover;
-      background-position: center;
-      animation: panRightToLeft 20s linear infinite alternate;
-      will-change: transform;
+      width: 100%; height: 100%;
+      object-fit: cover;
     }
     .logistics-hero-overlay {
       position: absolute;
@@ -1546,7 +1543,10 @@
 
   <!-- ── HERO + TRIP DATES ─────────────────────────────────────── -->
   <div class="logistics-hero">
-    <div class="logistics-hero-bg" role="img" aria-label="Syracuse beach"></div>
+    <video class="logistics-hero-bg" autoplay muted loop playsinline
+      aria-label="Sicily hero video">
+      <source src="images/HeroBAF.mp4" type="video/mp4">
+    </video>
     <div class="logistics-hero-overlay"></div>
 
     <section class="trip-section-on-hero" id="trip">
