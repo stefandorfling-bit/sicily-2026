@@ -1885,7 +1885,7 @@
   <!-- ── HERO ────────────────────────────────────────────────── -->
   <section class="hero">
     <!-- Hero background video (ping-pong loop via JS) -->
-    <video id="hero-video" class="hero-bg" autoplay muted playsinline
+    <video id="hero-video" class="hero-bg" autoplay muted loop playsinline
       aria-label="Sicily hero video"
       style="object-fit:cover;width:100%;height:100%;position:absolute;inset:0;">
       <source src="images/hero-fwd.mp4" type="video/mp4">
@@ -2185,24 +2185,6 @@
 
   <!-- ── SCRIPTS ─────────────────────────────────────────────── -->
   <script>
-    /* Hero video ping-pong */
-    (function () {
-      var v = document.getElementById('hero-video');
-      if (!v) return;
-      v.addEventListener('ended', function () {
-        v.playbackRate = v.playbackRate === 1 ? -1 : 1;
-        /* For reverse: seek to end and play backward */
-        if (v.playbackRate < 0) {
-          v.currentTime = v.duration - 0.1;
-        } else {
-          v.currentTime = 0.1;
-        }
-        v.play();
-      });
-      /* Some browsers don't support negative playbackRate — fall back to loop */
-      v.addEventListener('error', function () { v.loop = true; });
-    })();
-
     /* Countdown */
     (function () {
       const dep = new Date('2026-07-31T00:00:00');
