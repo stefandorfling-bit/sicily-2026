@@ -608,7 +608,7 @@
       padding: 100px 0 80px;
     }
     .dates-glass-card {
-      background: rgba(247, 231, 206, 0.88);
+      background: rgba(247, 231, 206, 0.66);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(247, 231, 206, 0.5);
@@ -1551,10 +1551,18 @@
 
     <section class="trip-section-on-hero" id="trip">
       <div class="dates-glass-card">
-        <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
         <span class="t-label">The Trip</span>
         <h2 class="t-h2">Dates &amp; Overview</h2>
         <span class="t-italic">four days on the oldest island in the Mediterranean</span>
+
+        <!-- Countdown inside the card -->
+        <div style="display:flex;align-items:baseline;gap:10px;margin:8px 0 4px;padding:14px 0;border-top:1px solid rgba(0,95,115,0.1);border-bottom:1px solid rgba(0,95,115,0.1);">
+          <span id="js-countdown" style="font-family:'Italiana',serif;font-size:52px;color:var(--teal);line-height:1;">…</span>
+          <div>
+            <div style="font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--terra);">Days until Sicily</div>
+            <div id="js-countdown-sub" style="font-size:10px;color:rgba(0,95,115,0.5);letter-spacing:0.08em;"></div>
+          </div>
+        </div>
 
         <div class="dates-row">
           <div class="date-block">
@@ -1577,17 +1585,6 @@
     </section>
   </div>
 
-
-  <!-- ── IMAGE BREAK — Sicily / Ortygia placeholder ────────── -->
-  <div class="image-break">
-    <div class="image-break-placeholder">🌊</div>
-    <div class="image-break-overlay">
-      <div class="image-break-text">
-        <span class="t-label">Ortygia · Siracusa</span>
-        <h2 class="t-h2">The Ancient Island</h2>
-      </div>
-    </div>
-  </div>
 
 
   <!-- ── ACCOMMODATION ───────────────────────────────────────── -->
