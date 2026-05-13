@@ -2995,50 +2995,108 @@
   <script>
   (function () {
     var days = [
-      { num:'30', month:'July', weekday:'Wednesday', title:'Stefan Arrives — Ortygia at Dusk',
-        items:['Check in at B&B L'Infiorescenza New, Piazza Santa Lucia','Explore Ortygia on foot — Fontana di Aretusa, Piazza del Duomo','Find the best aperitivo on the waterfront'] },
-      { num:'31', month:'July', weekday:'Friday', title:'The Gang's All Here',
-        items:['Nimrod arrives · reunite at the B&B','Breakfast at the B&B (included)','Add daytime activities here…','🎂 <strong>Bartek's 40th Birthday Party</strong> · <a href="https://maps.google.com/?q=Viale+dei+Lidi+533+Syracuse+Italy+96100" target="_blank" style="color:var(--terra);">Viale dei Lidi 533, Fontane Bianche</a> · <a href="https://www.instagram.com/macara_2025/" target="_blank" style="color:var(--terra);">@macara_2025 ↗</a>'] },
-      { num:'1', month:'Aug', weekday:'Saturday', title:'Ancient Greece &amp; the Sea',
-        items:['Breakfast at the B&B (included)','<em>Add activities here…</em>'] },
-      { num:'2', month:'Aug', weekday:'Sunday', title:'Noto &amp; Last Sunsets',
-        items:['Breakfast at the B&B (included)','<em>Add activities here…</em>'] },
-      { num:'3', month:'Aug', weekday:'Monday', title:'Check-out &amp; Arrivederci',
-        items:['Check out by 10:00','Last granita al caffè before the drive to Catania','🚗 <strong>Leave for airport at 15:30</strong> — ~1 hour drive to Catania (CTA)','Arrive airport by 17:00 · Boarding 18:00','✈️ EJU5078 departs 18:45 · arrives Berlin 21:35'] }
+      {
+        num: "30", month: "July", weekday: "Wednesday",
+        title: "Stefan Arrives — Ortygia at Dusk",
+        items: [
+          "Check in at B&B L’Infiorescenza New, Piazza Santa Lucia",
+          "Explore Ortygia on foot — Fontana di Aretusa, Piazza del Duomo",
+          "Find the best aperitivo on the waterfront"
+        ]
+      },
+      {
+        num: "31", month: "July", weekday: "Friday",
+        title: "The Gang’s All Here",
+        items: [
+          "Nimrod arrives · reunite at the B&B",
+          "Breakfast at the B&B (included)",
+          "Add daytime activities here…",
+          "🎂 <strong>Bartek’s 40th Birthday Party<\/strong> · <a href=\"https://maps.google.com/?q=Viale+dei+Lidi+533+Syracuse\" target=\"_blank\" style=\"color:var(--terra)\">Viale dei Lidi 533, Fontane Bianche<\/a>"
+        ]
+      },
+      {
+        num: "1", month: "Aug", weekday: "Saturday",
+        title: "Ancient Greece & the Sea",
+        items: [
+          "Breakfast at the B&B (included)",
+          "<em>Add activities here…<\/em>"
+        ]
+      },
+      {
+        num: "2", month: "Aug", weekday: "Sunday",
+        title: "Noto & Last Sunsets",
+        items: [
+          "Breakfast at the B&B (included)",
+          "<em>Add activities here…<\/em>"
+        ]
+      },
+      {
+        num: "3", month: "Aug", weekday: "Monday",
+        title: "Check-out & Arrivederci",
+        items: [
+          "Check out by 10:00",
+          "Last granita al caffè before the drive to Catania",
+          "🚗 <strong>Leave for airport at 15:30<\/strong> — ~1 hour drive to Catania (CTA)",
+          "Arrive airport by 17:00 · Boarding 18:00",
+          "✈️ EJU5078 departs 18:45 · arrives Berlin 21:35"
+        ]
+      }
     ];
-    var cardsRow=document.getElementById('itin-cards-row');
-    var expandedWrap=document.getElementById('itin-expanded-wrap');
-    var expContent=document.getElementById('itin-exp-content');
-    var expClose=document.getElementById('itin-exp-close');
-    var navPrev=document.getElementById('itin-nav-prev');
-    var navNext=document.getElementById('itin-nav-next');
-    var navCounter=document.getElementById('itin-nav-counter');
-    var currentDay=0;
-    if (!cardsRow) return;
-    days.forEach(function(d,i){
-      var card=document.createElement('div');
-      card.className='itin-day-card';
-      card.innerHTML='<div class="idc-num">'+d.num+'</div><div class="idc-month">'+d.month+'</div><div class="idc-title">'+d.weekday+'</div>';
-      card.addEventListener('click',function(){ openDay(i); });
+
+    var cardsRow     = document.getElementById("itin-cards-row");
+    var expandedWrap = document.getElementById("itin-expanded-wrap");
+    var expContent   = document.getElementById("itin-exp-content");
+    var expClose     = document.getElementById("itin-exp-close");
+    var navPrev      = document.getElementById("itin-nav-prev");
+    var navNext      = document.getElementById("itin-nav-next");
+    var navCounter   = document.getElementById("itin-nav-counter");
+    var currentDay   = 0;
+
+    if (!cardsRow || !expandedWrap) return;
+
+    days.forEach(function (d, i) {
+      var card = document.createElement("div");
+      card.className = "itin-day-card";
+      card.innerHTML =
+        "<div class=\"idc-num\">" + d.num + "<\/div>" +
+        "<div class=\"idc-month\">" + d.month + "<\/div>" +
+        "<div class=\"idc-title\">" + d.weekday + "<\/div>";
+      card.addEventListener("click", function () { openDay(i); });
       cardsRow.appendChild(card);
     });
-    function openDay(i){ currentDay=i; renderExpanded(); expandedWrap.classList.add('open'); }
-    function renderExpanded(){
-      var d=days[currentDay];
-      var items=d.items.map(function(x){ return '<li>'+x+'</li>'; }).join('');
-      expContent.innerHTML='<div class="itin-exp-header"><div class="itin-exp-num">'+d.num+'</div><div class="itin-exp-meta"><div class="itin-exp-month">'+d.weekday+' · '+d.month+'</div></div></div><div class="itin-exp-title">'+d.title+'</div><ul class="itin-exp-items">'+items+'</ul>';
-      navPrev.disabled=currentDay===0;
-      navNext.disabled=currentDay===days.length-1;
-      navCounter.textContent='Day '+(currentDay+1)+' of '+days.length;
+
+    function openDay(i) {
+      currentDay = i;
+      renderExpanded();
+      expandedWrap.classList.add("open");
     }
-    expClose.addEventListener('click',function(){ expandedWrap.classList.remove('open'); });
-    navPrev.addEventListener('click',function(){ if(currentDay>0){ currentDay--; renderExpanded(); } });
-    navNext.addEventListener('click',function(){ if(currentDay<days.length-1){ currentDay++; renderExpanded(); } });
-    expandedWrap.addEventListener('click',function(e){ if(e.target===expandedWrap) expandedWrap.classList.remove('open'); });
+
+    function renderExpanded() {
+      var d = days[currentDay];
+      var items = d.items.map(function (x) { return "<li>" + x + "<\/li>"; }).join("");
+      expContent.innerHTML =
+        "<div class=\"itin-exp-header\">" +
+          "<div class=\"itin-exp-num\">" + d.num + "<\/div>" +
+          "<div class=\"itin-exp-meta\">" +
+            "<div class=\"itin-exp-month\">" + d.weekday + " · " + d.month + "<\/div>" +
+          "<\/div>" +
+        "<\/div>" +
+        "<div class=\"itin-exp-title\">" + d.title + "<\/div>" +
+        "<ul class=\"itin-exp-items\">" + items + "<\/ul>";
+      navPrev.disabled = (currentDay === 0);
+      navNext.disabled = (currentDay === days.length - 1);
+      navCounter.textContent = "Day " + (currentDay + 1) + " of " + days.length;
+    }
+
+    expClose.addEventListener("click", function () { expandedWrap.classList.remove("open"); });
+    navPrev.addEventListener("click", function () { if (currentDay > 0) { currentDay--; renderExpanded(); } });
+    navNext.addEventListener("click", function () { if (currentDay < days.length - 1) { currentDay++; renderExpanded(); } });
+    expandedWrap.addEventListener("click", function (e) { if (e.target === expandedWrap) expandedWrap.classList.remove("open"); });
+
   })();
   </script>
 
-  <!-- ── SCROLL ANIMATIONS + PARALLAX ───────────────────────── -->
+  <!-- ── SCROLL ANIMATIONS  <!-- ── SCROLL ANIMATIONS + PARALLAX ───────────────────────── -->
   <script>
   (function () {
 
