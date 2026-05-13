@@ -670,6 +670,8 @@
     }
     .tp-back-face .traveller-oval-wrap img {
       width: 100%; height: 100%; object-fit: cover; display: block;
+      /* Neutralise any global scale/transform-origin classes */
+      transform: none !important;
     }
     .tp-back-face .tp-placeholder {
       width: 100%; height: 100%; display: flex; align-items: center;
@@ -1855,7 +1857,8 @@
               <div class="tp-tilt-inner-back" style="background:linear-gradient(145deg,#C06030 0%,#7A3A18 100%);">
                 <div class="tp-layer-photo">
                   <div class="traveller-oval-wrap">
-                    <img src="images/Stefan3.jpg" alt="Stefan" class="stefan-zoom"
+                    <img src="images/Stefan3.jpg" alt="Stefan"
+                      style="object-position:center 20%;"
                       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
                     <div class="tp-placeholder" style="display:none;">🏖</div>
                   </div>
@@ -1904,7 +1907,8 @@
               <div class="tp-tilt-inner-back" style="background:linear-gradient(145deg,#1A7A9E 0%,#0A3A50 100%);">
                 <div class="tp-layer-photo">
                   <div class="traveller-oval-wrap">
-                    <img src="images/nimrod.jpeg" alt="Nimrod" class="nimrod-img"
+                    <img src="images/nimrod.jpeg" alt="Nimrod"
+                      style="object-position:center 15%;"
                       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
                     <div class="tp-placeholder" style="display:none;">🕶</div>
                   </div>
