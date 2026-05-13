@@ -78,9 +78,10 @@
       height: 56px;
       display: flex;
       align-items: center;
-      background: rgba(0, 64, 80, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
     }
     .nav-inner {
       display: flex; align-items: center; justify-content: space-between; width: 100%;
@@ -109,6 +110,12 @@
     .nav-links a:hover {
       color: var(--stone);
       background: rgba(247,231,206,0.1);
+    }
+
+    nav.nav-solid {
+      background: rgba(0, 64, 80, 0.85) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
     }
 
     /* ─── HERO — full bleed + text overlay ──────────────────── */
@@ -1804,6 +1811,23 @@
       }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
       document.querySelectorAll('.anim').forEach(function (el) { io.observe(el); });
     })();
+  </script>
+
+  <script>
+  (function () {
+    var nav = document.querySelector('nav');
+    if (!nav) return;
+    function updateNav() {
+      var scrollY = window.scrollY || window.pageYOffset;
+      if (scrollY > window.innerHeight * 0.6) {
+        nav.classList.add('nav-solid');
+      } else {
+        nav.classList.remove('nav-solid');
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+  })();
   </script>
 
   <!-- ── HERO FADE ON SCROLL ─────────────────────────────────── -->
