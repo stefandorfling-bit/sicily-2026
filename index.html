@@ -2376,11 +2376,15 @@
       {
         name: 'Swim Spots', emoji: '🏊',
         cards: [
-          { heading:'Heading', tags:['Crystal Clear','Free Entry'],   text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
-          { heading:'Heading', tags:['Rocky Shore','Snorkelling'],    text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
-          { heading:'Heading', tags:['Sandy Beach','Facilities'],     text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
-          { heading:'Heading', tags:['Secluded','Boat Access'],       text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' },
-          { heading:'Heading', tags:['Natural Pool','Caves'],         text:'Lorem ipsum, lorem ipsum. Lorem Ipsum.', address:'Pfalzburger Straße 9, 10719, Berlin' }
+          { heading:'Minaret Beach', tags:['Sandy Beach','Between the Rocks'], image:'images/Swimspot1.jpg',
+            text:'Small sandy beach tucked between the rocks. A quiet local favourite.',
+            address:'Traversa Sant\'Agostino, 96100 Siracusa SR, Italy' },
+          { heading:'Fontane Bianche', tags:['Big Beach','Sun Beds','Umbrellas'], image:'images/Swimspot2.jpg',
+            text:'Big beach with gentle slopes and plenty of beach chairs and umbrellas for hire.',
+            address:'Viale dei Lidi, 96100 Fontane Bianche, Siracusa SR, Italy' },
+          { heading:'Cave of Pillirina', tags:['Hidden Gem','Wild Swimming','Wear Good Shoes'], image:'images/Swimspot3.jpg',
+            text:'A hidden gem with gorgeous, untouched water. Wear outdoor shoes — it is quite a walk to get there.',
+            address:'28C8+PX Syracuse, Free Municipal Consortium of Syracuse, Italy' }
         ]
       },
       {
@@ -2493,10 +2497,11 @@
       var tags = c.tags.map(function (tag) {
         return '<span class="ec-tag">' + tag + '</span>';
       }).join('');
+      var imgPanel = c.image
+        ? '<div class="ec-image-panel"><img src="' + c.image + '" alt="' + c.heading + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="lazy"/></div>'
+        : '<div class="ec-image-panel">' + t.emoji + '</div>';
       return '<div class="ec-layout">' +
-        /* Panel 1: image (placeholder = emoji on gradient) */
-        '<div class="ec-image-panel">' + t.emoji + '</div>' +
-        /* Panels 2+3: content */
+        imgPanel +
         '<div class="ec-content-panel">' +
           '<h3 class="ec-heading">' + c.heading + '</h3>' +
           '<div class="ec-tags">' + tags + '</div>' +
@@ -2550,9 +2555,12 @@
         return '<span class="ec-tag">' + tag + '</span>';
       }).join('');
       /* Modal uses same image-panel + content-panel layout, larger */
+      var modalImgPanel = c.image
+        ? '<div class="ec-image-panel" style="width:38%; border-radius:22px 0 0 22px; position:relative; overflow:hidden;"><img src="' + c.image + '" alt="' + c.heading + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="lazy"/></div>'
+        : '<div class="ec-image-panel" style="width:38%; border-radius:22px 0 0 22px; font-size:72px;">' + t.emoji + '</div>';
       modalCard.innerHTML =
         '<div class="ec-layout" style="background:' + color + '; border-radius:22px; min-height:300px;">' +
-          '<div class="ec-image-panel" style="width:38%; border-radius:22px 0 0 22px; font-size:72px;">' + t.emoji + '</div>' +
+          modalImgPanel +
           '<div class="ec-content-panel" style="padding:32px 36px;">' +
             '<h3 class="ec-heading" style="font-size:44px; margin-bottom:8px;">' + c.heading + '</h3>' +
             '<div class="ec-tags" style="margin-bottom:10px;">' + tags + '</div>' +
