@@ -333,51 +333,57 @@
       border-radius: 22px;
     }
 
-    /* ── FRONT: plain oval photo ─────────────────────────────── */
+    /* ── FRONT: full-bleed photo card ───────────────────────── */
     .tp-front-face {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      background: transparent;
+      overflow: hidden;  /* clips the photo to rounded corners */
     }
-    .tp-front-face .traveller-oval-wrap {
-      width: 210px; height: 210px;
-      border-radius: 50%;
-      overflow: hidden;
-      flex-shrink: 0;
-      border: 3px solid rgba(247,231,206,0.15);
-    }
-    .tp-front-face .traveller-oval-wrap img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-    }
-    .tp-front-face .tp-placeholder {
-      width: 100%; height: 100%;
-      border-radius: 50%; background: rgba(0,95,115,0.3);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 48px;
-    }
-    .tp-face-label { text-align: center; }
-    .tp-face-label .tp-name {
-      font-family: 'Italiana', serif; font-size: 30px;
-      color: var(--stone); line-height: 1; margin-bottom: 4px;
-    }
-    .tp-face-label .tp-role {
-      font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--terra);
-    }
-    /* subtle flip hint on front face */
-    .tp-front-face::after {
-      content: '↩';
+    .tp-front-face img.front-photo {
       position: absolute;
-      bottom: 10px; right: 14px;
-      font-size: 13px;
-      color: rgba(247,231,206,0.25);
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+      display: block;
+    }
+    /* Stefan zoom override for front */
+    .tp-front-face img.stefan-zoom {
+      transform: scale(1.9);
+      transform-origin: center 72%;
+    }
+    /* Nimrod crop for front */
+    .tp-front-face img.nimrod-img {
+      transform: scale(1.8);
+      transform-origin: center 42%;
+    }
+    /* gradient overlay so name/role is readable */
+    .tp-face-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 48px 22px 18px;
+      background: linear-gradient(to top, rgba(0,10,20,0.78) 0%, transparent 100%);
+      z-index: 2;
+    }
+    .tp-face-overlay .tp-name {
+      font-family: 'Italiana', serif; font-size: 34px;
+      color: #fff; line-height: 1; margin-bottom: 4px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .tp-face-overlay .tp-role {
+      font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.6);
+    }
+    /* tap-to-flip hint */
+    .tp-front-face::after {
+      content: 'tap to flip';
+      position: absolute;
+      top: 12px; right: 14px;
+      font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      z-index: 3;
       transition: color 0.2s;
     }
-    .tp-flipper-outer:hover .tp-front-face::after { color: rgba(247,231,206,0.55); }
+    .tp-flipper-outer:hover .tp-front-face::after { color: rgba(255,255,255,0.6); }
 
     /* ── BACK: tilt card ─────────────────────────────────────── */
     .tp-back-face {
@@ -437,6 +443,17 @@
       font-size: 46px; line-height: 1;
       transform: translateZ(52px) rotate(10deg);
       filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35)); z-index: 5;
+    }
+    /* Aperol image — floats half off card top-right, tilted */
+    .tp-aperol-img {
+      position: absolute;
+      top: -40px; right: -20px;
+      width: 160px; height: 160px;
+      object-fit: contain;
+      transform: translateZ(56px) rotate(15deg);
+      filter: drop-shadow(0 12px 28px rgba(0,0,0,0.4));
+      z-index: 6;
+      pointer-events: none;
     }
     .tp-pill {
       position: absolute; top: 26px; left: 18px;
@@ -1540,14 +1557,11 @@
         <div class="tp-flipper-outer" id="tp-flipper-stefan">
           <div class="tp-flipper-inner">
 
-            <!-- FRONT: oval photo (default) -->
+            <!-- FRONT: full-bleed photo card (default) -->
             <div class="tp-front-face">
-              <div class="traveller-oval-wrap">
-                <img src="images/stefan.jpeg" alt="Stefan" class="stefan-zoom"
-                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
-                <div class="tp-placeholder" style="display:none;">🏖</div>
-              </div>
-              <div class="tp-face-label">
+              <img src="images/stefan.jpeg" alt="Stefan" class="front-photo stefan-zoom"
+                onerror="this.style.opacity='0';"/>
+              <div class="tp-face-overlay">
                 <div class="tp-name">Stefan</div>
                 <div class="tp-role">Arriving 30 July &bull; The Pioneer</div>
               </div>
@@ -1565,7 +1579,9 @@
                 </div>
                 <div class="tp-layer-name">Stefan</div>
                 <div class="tp-layer-role">The Pioneer · 30 July</div>
-                <div class="tp-big-emoji">🍹</div>
+                <!-- Aperol Spritz — floating half off top-right -->
+                <img src="images/aperol.png" alt="Aperol Spritz" class="tp-aperol-img"
+                  onerror="this.style.display='none'"/>
                 <div class="tp-pill"><span class="tp-pill-icon">✈️</span><span class="tp-pill-text">Arriving early</span></div>
                 <div class="tp-map-card">
                   <div class="tp-map-card-img">🗺️<div class="tp-map-card-dot"></div></div>
@@ -1590,14 +1606,11 @@
         <div class="tp-flipper-outer" id="tp-flipper-nimrod">
           <div class="tp-flipper-inner">
 
-            <!-- FRONT: oval photo (default) -->
+            <!-- FRONT: full-bleed photo card (default) -->
             <div class="tp-front-face">
-              <div class="traveller-oval-wrap">
-                <img src="images/nimrod.jpeg" alt="Nimrod" class="nimrod-img"
-                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
-                <div class="tp-placeholder" style="display:none;">🕶</div>
-              </div>
-              <div class="tp-face-label">
+              <img src="images/nimrod.jpeg" alt="Nimrod" class="front-photo nimrod-img"
+                onerror="this.style.opacity='0';"/>
+              <div class="tp-face-overlay">
                 <div class="tp-name">Nimrod</div>
                 <div class="tp-role">Arriving 31 July &bull; The Co-Conspirator</div>
               </div>
