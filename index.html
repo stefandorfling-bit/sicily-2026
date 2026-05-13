@@ -829,9 +829,9 @@
     .fc-table td { padding: 10px 22px; font-size: 13.5px; color: var(--teal); }
     .fc-table .fcl { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terra); width: 120px; padding-top: 12px; }
 
-    /* ─── ITINERARY — dark teal ──────────────────────────────── */
+    /* ─── ITINERARY — stone (matches Inspiration section) ────── */
     .itinerary-section {
-      background: var(--teal-dark);
+      background: var(--stone);
       padding: 90px 0;
     }
     .itinerary-inner {
@@ -844,14 +844,14 @@
       margin-bottom: 56px;
     }
     .itinerary-header .t-label { color: var(--terra); margin-bottom: 12px; display: block; }
-    .itinerary-header .t-h2 { color: var(--stone); margin-bottom: 8px; }
-    .itinerary-header .t-italic { color: rgba(247,231,206,0.5); }
+    .itinerary-header .t-h2 { color: var(--teal); margin-bottom: 8px; }
+    .itinerary-header .t-italic { color: rgba(0,95,115,0.5); }
     .day-row {
       display: grid;
       grid-template-columns: 80px 1fr;
       gap: 0 28px;
       padding: 28px 0;
-      border-bottom: 1px solid rgba(247,231,206,0.08);
+      border-bottom: 1px solid rgba(0,95,115,0.1);
       align-items: start;
     }
     .day-row:last-child { border-bottom: none; }
@@ -859,7 +859,7 @@
     .dr-date .dr-num {
       font-family: 'Italiana', serif;
       font-size: 48px;
-      color: var(--stone);
+      color: var(--teal);
       line-height: 1;
     }
     .dr-date .dr-month {
@@ -882,13 +882,13 @@
     .dr-content ul { list-style: none; }
     .dr-content ul li {
       font-size: 14px;
-      color: rgba(247,231,206,0.75);
+      color: rgba(0,95,115,0.8);
       padding: 3px 0 3px 16px;
       position: relative;
       line-height: 1.6;
     }
     .dr-content ul li::before { content: '–'; position: absolute; left: 0; color: var(--terra); opacity: 0.7; }
-    .dr-content ul li em { color: rgba(247,231,206,0.3); font-style: italic; }
+    .dr-content ul li em { color: rgba(0,95,115,0.35); font-style: italic; }
 
     /* ─── FOOD — light stone ─────────────────────────────────── */
     .food-section {
@@ -1464,7 +1464,7 @@
       .trip-section       { background: rgba(247,231,206, 0.93); }
       .stay-section       { background: rgba(0,  40,  50, 0.93); }
       .flights-section    { background: rgba(247,231,206, 0.93); }
-      .itinerary-section  { background: rgba(0,  40,  50, 0.93); }
+      .itinerary-section  { background: rgba(247,231,206, 0.93); }
       .food-section       { background: rgba(247,231,206, 0.93); }
       .packing-section    { background: rgba(0,  40,  50, 0.93); }
       footer              { background: rgba(0,  40,  50, 0.93); }
@@ -1564,10 +1564,8 @@
           <div class="tp-flipper-inner">
 
             <!-- FRONT: full-bleed photo card (default) -->
-            <div class="tp-front-face">
-              <img src="images/stefan.jpeg" alt="Stefan" class="front-photo"
-                style="object-position: center 55%;"
-                onerror="this.style.display='none';"/>
+            <div class="tp-front-face"
+              style="background-image:url('images/stefan.jpeg');background-size:cover;background-position:center 55%;">
               <div class="tp-face-overlay">
                 <div class="tp-name">Stefan</div>
                 <div class="tp-role">Arriving 30 July &bull; The Pioneer</div>
@@ -1614,10 +1612,8 @@
           <div class="tp-flipper-inner">
 
             <!-- FRONT: full-bleed photo card (default) -->
-            <div class="tp-front-face">
-              <img src="images/nimrod.jpeg" alt="Nimrod" class="front-photo"
-                style="object-position: center 18%;"
-                onerror="this.style.display='none';"/>
+            <div class="tp-front-face"
+              style="background-image:url('images/nimrod.jpeg');background-size:cover;background-position:center 18%;">
               <div class="tp-face-overlay">
                 <div class="tp-name">Nimrod</div>
                 <div class="tp-role">Arriving 31 July &bull; The Co-Conspirator</div>
@@ -1664,7 +1660,7 @@
   <section class="itinerary-section" id="itinerary">
     <div class="itinerary-inner">
       <div class="itinerary-header">
-        <div class="section-divider section-divider-teal"><span class="sd-diamond sd-teal">✦</span></div>
+        <div class="section-divider section-divider-stone"><span class="sd-diamond sd-stone">✦</span></div>
         <span class="t-label">Day by Day</span>
         <h2 class="t-h2">Itinerary</h2>
         <p class="t-italic">four days in the oldest continuously inhabited city in the world</p>
