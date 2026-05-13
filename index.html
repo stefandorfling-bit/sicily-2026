@@ -127,6 +127,8 @@
       justify-content: center;
       text-align: center;
       overflow: hidden;
+      transition: opacity 0.1s ease-out;
+      will-change: opacity;
     }
     .hero-video-overlay {
       position: absolute;
@@ -3142,7 +3144,25 @@
   })();
   </script>
 
-  <!-- ── SCROLL ANIMATIONS  <!-- ── SCROLL ANIMATIONS + PARALLAX ───────────────────────── -->
+  <!-- ── SCROLL ANIMATIONS  <!-- ── HERO FADE ON SCROLL ─────────────────────────────────── -->
+  <script>
+  (function () {
+    var hero = document.querySelector('.hero');
+    if (!hero) return;
+    function update() {
+      var scrollY = window.scrollY || window.pageYOffset;
+      var vh = window.innerHeight;
+      /* Fully visible until 25% scroll, fully gone by 65% scroll */
+      var opacity = 1 - Math.min(1, Math.max(0, (scrollY - vh * 0.25) / (vh * 0.4)));
+      hero.style.opacity = opacity;
+      hero.style.pointerEvents = opacity < 0.05 ? 'none' : 'auto';
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+  </script>
+
+  <!-- ── SCROLL ANIMATIONS + PARALLAX ───────────────────────── -->
   <script>
   (function () {
 
