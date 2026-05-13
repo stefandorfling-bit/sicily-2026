@@ -116,7 +116,9 @@
 
     /* ─── HERO — full bleed + text overlay ──────────────────── */
     .hero {
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 0;
       height: 100vh;
       min-height: 600px;
       display: flex;
@@ -246,6 +248,18 @@
     }
 
     /* ─── Countdown strip ────────────────────────────────────── */
+    /* Sections stack above the sticky hero */
+    .countdown-strip,
+    .ancient-island-section,
+    .travellers-section,
+    .itinerary-section,
+    .explore-section,
+    .stories-section,
+    footer {
+      position: relative;
+      z-index: 2;
+    }
+
     .countdown-strip {
       background: var(--teal);
       color: var(--stone);
